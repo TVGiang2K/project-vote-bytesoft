@@ -3,6 +3,7 @@ import { userService } from './user.service';
 import { createUserDto } from './dto/createUser.dto';
 import { updateUserDto } from './dto/updateUser.dto';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 export class UserController {
@@ -12,16 +13,13 @@ export class UserController {
         return this.userService.findAll();
     }
 
-    @Get('/:id')
-    getByUsers(@Param('id') id: number) {
-        return this.userService.findOne(+id);
-    }
-
     @Post('/')
     @HttpCode(200)
     @UsePipes(ValidationPipe)
     async createUser(@Body() UserCreate: createUserDto){
-        return await this.userService.create(UserCreate);
+        const saltOrRounds = 10;
+        UserCreate.password =  await bcrypt.hash(UserCreate.password, saltOrRounds);
+        return this.userService.create(UserCreate)
     }
 
     @Delete(':id')
@@ -33,7 +31,7 @@ export class UserController {
     updateUser(@Param('id') id:number, @Body() updateUserDto:updateUserDto){
         return this.userService.update(+id, updateUserDto);
     }
-
+    //lấy theo id 
     @Get(':id')
     findOne(@Param('id') id:number ){
         const user = new User();
