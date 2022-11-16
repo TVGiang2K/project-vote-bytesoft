@@ -4,12 +4,11 @@ import { AppService } from './app.service';
 import { UserModule } from './module/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm.config';
-import { ProductModule } from './product/product.module';
-import { YModule } from './y/y.module';
 import { AdminModule } from './module/admin/admin.module';
+import { ContestModule } from './module/contest/contest.module';
 
 @Module({
-  imports: [UserModule, AdminModule, TypeOrmModule.forRoot(typeormConfig), ProductModule, YModule],
+  imports: [UserModule, AdminModule, ContestModule, TypeOrmModule.forRoot(typeormConfig)],
   controllers: [AppController],
   providers: [AppService],
 })
