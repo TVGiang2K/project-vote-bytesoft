@@ -1,6 +1,6 @@
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { Length, IsEmail ,IsNotEmpty } from "class-validator";
 
-export class createAdminDto{
+export class updateAdminDto  {
 
     @IsNotEmpty({ message: 'Tên không được để trống' })
     @Length(2,255)
@@ -8,12 +8,12 @@ export class createAdminDto{
 
     @IsNotEmpty({ message: 'Email không được để trống' })
     @Length(11,255)
-    @IsEmail({message: 'Email không đúng định dạng' })
+    @IsEmail({ message: 'email không đúng định dạng' })
     email:string;
 
     @Length(8,100)
     @IsNotEmpty({ message: 'password không được để trống' })
     password: string
 
-   
+
 }

@@ -8,6 +8,7 @@ export class createUserDto{
 
     @IsNotEmpty({ message: 'Email không được để trống' })
     @Length(11,255)
+    @IsEmail({message: 'Email không đúng định dạng' })
     email:string;
 
     @Length(8,100)

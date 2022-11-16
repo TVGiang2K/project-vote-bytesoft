@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe } from '@nestjs/common';
-import { createUserDto } from './dto/createUser.dto';
 import { userService } from './user.service';
-import { User } from './user.entity';
+import { createUserDto } from './dto/createUser.dto';
 import { updateUserDto } from './dto/updateUser.dto';
 
 @Controller('user')
@@ -12,6 +11,11 @@ export class UserController {
         return this.userService.findAll();
     }
 
+    @Get('/:id')
+    getByUsers(@Param('id') id: number) {
+        return this.userService.findOne(+id);
+    }
+
     @Post('/')
     @HttpCode(200)
     @UsePipes(ValidationPipe)
@@ -20,12 +24,12 @@ export class UserController {
     }
 
     @Delete(':id')
-    remove(@Param('id') id: number){
+    removeUser(@Param('id') id: number){
         return this.userService.remove(+id);
     }
 
     @Patch(':id')
-    update(@Param('id') id:string, @Body() updateUserDto:updateUserDto){
+    updateUser(@Param('id') id:number, @Body() updateUserDto:updateUserDto){
         return this.userService.update(+id, updateUserDto);
     }
 }
