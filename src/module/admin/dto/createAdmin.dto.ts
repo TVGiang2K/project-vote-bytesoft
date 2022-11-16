@@ -1,5 +1,4 @@
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
-
+import { IsEmail, IsNotEmpty, Length,  } from 'class-validator';
 export class createAdminDto{
 
     @IsNotEmpty({ message: 'Tên không được để trống' })

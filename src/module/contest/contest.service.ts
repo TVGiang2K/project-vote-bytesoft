@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateResult,DeleteResult } from 'typeorm';
 
-@Injectable()
+@Injectable()  // map các bảng trong csdl
 export class ContestService {
   constructor(
     @InjectRepository(Contest) // tự động cập nhật khi có thay đổi về dữ liệu

@@ -6,9 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm.config';
 import { AdminModule } from './module/admin/admin.module';
 import { ContestModule } from './module/contest/contest.module';
+import { CandidatesModule } from './module/candidates/candidates.module';
 
 @Module({
-  imports: [UserModule, AdminModule, ContestModule, TypeOrmModule.forRoot(typeormConfig)],
+  imports: [UserModule, AdminModule, ContestModule, TypeOrmModule.forRoot(typeormConfig), CandidatesModule,],
   controllers: [AppController],
   providers: [AppService],
 })
