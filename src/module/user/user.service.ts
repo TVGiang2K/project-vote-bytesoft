@@ -18,7 +18,7 @@ export class userService {
 
   findOne(id: number): Promise<User> {
     return this.UserRepo.findOneBy({ id });
-  }
+  }git 
 
   async create(data: createUserDto){
     return await this.UserRepo.save(data)
