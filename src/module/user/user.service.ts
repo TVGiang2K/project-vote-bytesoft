@@ -18,4 +18,10 @@ export class userService {
   async create(data: createUserDto){
     return await this.UserRepo.save(data)
   }
+
+  remove(id: number){
+    return this.UserRepo.delete(id)
+  }
+
+  update(id: number){}
 }
