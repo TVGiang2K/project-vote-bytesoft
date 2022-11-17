@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column} from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm"
+import { Candidate } from '../../candidates/entities/candidate.entity'
 
 @Entity('contest')
 export class Contest {
@@ -10,7 +11,7 @@ export class Contest {
 
   @Column({ type: 'datetime'})
   start_date: Date;
-
+  
   @Column({ type: 'datetime'})
   last_date: Date; 
 
@@ -25,4 +26,7 @@ export class Contest {
 
   @Column({ type: 'datetime', nullable: true })
   deleteAt: Date;
+
+  @OneToMany(()=> Candidate, (candidate) => candidate.id)
+  candidate: Candidate[];
 }

@@ -1,6 +1,7 @@
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
 import { Contest } from 'src/module/contest/entities/contest.entity'
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm'
-
+import { Vote } from 'src/module/vote/entities/vote.entity'
+ 
 @Entity()
 export class Candidate {
     @PrimaryGeneratedColumn()
@@ -29,11 +30,13 @@ export class Candidate {
 
     @Column({ type: 'tinyint'})
     status: number
+
+ 
+    @ManyToOne(()=>  Contest, (contest) => contest.id)
+    contest: Contest;
     
-    @ManyToMany(()=> Contest)
-    // Candidate_id: number
-    @JoinTable()
-    contests: Contest[]
+    @OneToMany(()=> Vote, (vote) => vote.id)
+  vote: Vote[];
     
   @Column({ type: 'datetime',   default: () => 'NOW()' })
   createdAt: Date; 

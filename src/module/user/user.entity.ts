@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BaseEntity,
+  ManyToOne,
 } from 'typeorm';
+import { Vote } from '../vote/entities/vote.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -32,6 +34,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar' })
   money: string;
 
+  @OneToMany(()=> Vote, (vote) => vote.id)
+  vote: Vote[];
+
   @Column({ type: 'datetime',   default: () => 'NOW()' })
   createdAt: Date; 
 
@@ -40,4 +45,5 @@ export class User extends BaseEntity {
 
   @Column({ type: 'datetime', nullable: true })
   deleteAt: Date;
+
 }
