@@ -1,10 +1,15 @@
 import { Body, Controller, Get, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, Patch } from '@nestjs/common';
 import { createUserDto } from './dto/createUser.dto';
 import { updateUserDto } from './dto/updateUser.dto';
+<<<<<<< Updated upstream
 import { userService } from './user.service';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { loginUserDto } from './dto/loginUser.dto';
+=======
+import { User } from './user.entity';
+
+>>>>>>> Stashed changes
 
 @Controller('User')
 export class UserController {
@@ -14,6 +19,21 @@ export class UserController {
         return this.userService.findAll();
     }
 
+<<<<<<< Updated upstream
+=======
+    @Get('/:id')
+    getByUsers(@Param('id') id: number) {
+        const user = new User();
+        if(id == user.id){
+
+            return this.userService.findOne(+id);
+        } else{
+            return 'Không có sp này';
+
+        }
+    }
+
+>>>>>>> Stashed changes
     @Post('/')
     @HttpCode(200)
     @UsePipes(ValidationPipe)

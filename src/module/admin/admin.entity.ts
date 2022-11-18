@@ -4,8 +4,11 @@ import {
     PrimaryGeneratedColumn,
     OneToMany,
     BaseEntity,
+    BeforeInsert,
   } from 'typeorm';
-  
+ import * as bcrypt from 'bcryptjs';
+
+
   @Entity('admin')
   export class Admin extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -16,17 +19,26 @@ import {
   
     @Column({ type: 'varchar' })
     email: string;
-  
-    @Column({ type: 'varchar' })
+
+    @Column()
     password: string;
-  
+    
     @Column({ type: 'datetime',   default: () => 'NOW()' })
     createdAt: Date; 
   
     @Column({ type: 'datetime', nullable: true })
     updateAt: Date;
-  
+    
     @Column({ type: 'datetime', nullable: true })
     deleteAt: Date;
+
+    @BeforeInsert()
+    async hashPassword(){
+      this.password = await bcrypt.hash(this.password, 8); 
+    }
+    
+    async validatePassword(passport: string): Promise<boolean>{
+      return bcrypt.compare(passport, this.password )
+    }
   }
   
