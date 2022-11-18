@@ -2,8 +2,6 @@ import { Body, Controller, Get, HttpCode, Post, Delete, UsePipes, Param, Validat
 import { createUserDto } from './dto/createUser.dto';
 import { updateUserDto } from './dto/updateUser.dto';
 import { userService } from './user.service';
-import { User } from './user.entity';
-import * as bcrypt from 'bcrypt';
 import { loginUserDto } from './dto/loginUser.dto';
 
 @Controller('User')
@@ -26,13 +24,14 @@ export class UserController {
         return this.userService.remove(+id);
     }
 
+    @UsePipes(ValidationPipe)
     @Patch(':id')
     updateUser(@Param('id') id:number, @Body() updateUserDto:updateUserDto){
         return this.userService.update(+id, updateUserDto);
     }
     //lấy theo id 
     @Get(':id')
-    findOne(@Param('id') id:object ){
+    findOne(@Param('id') id:string ){
         const searchById = this.userService.findOne(id);
         if(searchById) {
             return searchById;

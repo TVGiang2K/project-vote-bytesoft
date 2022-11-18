@@ -7,9 +7,11 @@ import { updateUserDto } from './dto/updateUser.dto';
 import { loginUserDto } from './dto/loginUser.dto';
 import * as bcrypt from 'bcrypt';
 
-
+export type user_info = any;
 @Injectable()
 export class userService {
+
+  private readonly users = this.UserRepo.find();
   constructor(
     @InjectRepository(User)
     private readonly UserRepo: Repository<User>,
@@ -19,9 +21,8 @@ export class userService {
     return await this.UserRepo.find();
   } 
 
-  async findOne(id?: object): Promise<loginUserDto> {
-    const userDto = await this.UserRepo.findOne(id)
-    return userDto;
+  async findOne(email: string): Promise<user_info | undefined> {
+    return (await this.users).find(user => user.email === email);
   }
 
   async create(data: createUserDto){

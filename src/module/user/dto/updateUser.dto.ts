@@ -1,5 +1,6 @@
 import { Length, IsEmail ,IsNotEmpty } from "class-validator";
-
+import { Entity } from "typeorm";
+@Entity()
 export class updateUserDto  {
 
     @IsNotEmpty({ message: 'Tên không được để trống' })
