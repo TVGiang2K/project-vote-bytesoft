@@ -18,13 +18,13 @@ export class AppController {
     return this.appService.getHello();
   }
   
-  @UseGuards(jwtAuthGuard)
+  // @UseGuards(jwtAuthGuard)
   @Get('auth/profile')
   getProfile(@Request() req) {
-    return req.admin;
+    return req;
   }
   
-  @UseGuards(localAuthGuard)
+  // @UseGuards(localAuthGuard)
   @Post('auth')
     async login(@Body() authLoginDto: AuthLoginDto){
       return this.authService.login(authLoginDto);

@@ -17,7 +17,7 @@ export class AdminController {
     }
 
     @Get('/:id') 
-    show(@Param(':id') id: string){ 
+    show(@Param('id') id: string){ 
         return this.adminService.showById(+id);
     }
 

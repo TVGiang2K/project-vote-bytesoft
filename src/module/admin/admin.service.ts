@@ -20,19 +20,17 @@ export class AdminService {
     return admin
   }
   
-  async findId(id: number){ 
-      return await this.AdminRp.findOneBy({id});
-  }
+
   
   async showById(id: number): Promise<Admin> {
-    const admin = await this.findId(id);
+    const admin = await this.AdminRp.findOne({where : {id: id}});
     delete admin.password;
     return admin;
   }
 
 
 
-  async findEmail(email: string){ 
+  async findEmail(email: string): Promise<Admin>{ 
     return await this.AdminRp.findOne({
       where:{
         email:email

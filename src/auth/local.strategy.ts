@@ -13,7 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(data: AuthLoginDto): Promise<any> {
     const admin = await this.authService.validateAdmin(data);
     if (!admin) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('không thể đăng nhập');
     }
     return admin;
   }
