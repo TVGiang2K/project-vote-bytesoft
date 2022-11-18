@@ -4,8 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BaseEntity,
-  ManyToOne,
-} from 'typeorm';
+  } from 'typeorm';
 import { Vote } from '../vote/entities/vote.entity';
 
 @Entity('users')
