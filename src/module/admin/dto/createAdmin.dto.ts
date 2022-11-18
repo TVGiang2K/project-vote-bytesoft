@@ -13,6 +13,4 @@ export class createAdminDto{
     @Length(8,100)
     @IsNotEmpty({ message: 'password không được để trống' })
     password: string
-
-   
 }

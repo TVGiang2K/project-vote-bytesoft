@@ -5,31 +5,40 @@ import { Repository } from 'typeorm';
 import { createAdminDto } from './dto/createAdmin.dto';
 import { updateAdminDto } from './dto/updateAdmin.dto';
 
-
 @Injectable()
 export class AdminService {
   constructor(
     @InjectRepository(Admin)
-    private readonly AdminRp: Repository<Admin>,
+    private readonly AdminRp: Repository<Admin>
   ) {}
-
-  async findAll(): Promise<Admin[]> {
-    return await this.AdminRp.find();
-  } 
-
-  findOne(id: number): Promise<Admin> {
-    return this.AdminRp.findOneBy({ id });
-  }
-
+  
   async create(data: createAdminDto){
-    return await this.AdminRp.save(data)
+    const admin = this.AdminRp.create(data);
+    await admin.save();
+    delete admin.password;
+
+    return admin
+  }
+  
+  async findId(id: number){ 
+      return await this.AdminRp.findOneBy({id});
+  }
+  
+  async showById(id: number): Promise<Admin> {
+    const admin = await this.findId(id);
+    delete admin.password;
+    return admin;
   }
 
-  remove(id: number){
-    return this.AdminRp.delete(id)
-  }
 
-  update(id: number, AdminUpdateDto:updateAdminDto){
-    return this.AdminRp.update(+id, AdminUpdateDto);
-  }
+
+  async findEmail(email: string){ 
+    return await this.AdminRp.findOne({
+      where:{
+        email:email
+      }
+    });
+}
+
+
 }
