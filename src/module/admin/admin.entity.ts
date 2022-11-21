@@ -37,8 +37,8 @@ import {
       this.password = await bcrypt.hash(this.password, 8); 
     }
     
-    async validatePassword(passport: string): Promise<boolean>{
-      return bcrypt.compare(passport, this.password )
-    }
+    // async validatePassword(passport: string): Promise<boolean>{
+    //   return bcrypt.compare(passport, this.password )
+    // }
   }
   

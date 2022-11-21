@@ -1,7 +1,10 @@
 import { AdminService } from "src/module/admin/admin.service";
-import { Injectable, UnauthorizedException} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthLoginDto } from "./auth-login.dto";
+import { Admin } from "src/module/admin/admin.entity";
+import { loginUserDto } from "src/module/user/dto/loginUser.dto";
+import { createAdminDto } from "src/module/admin/dto/createAdmin.dto";
 
 
 
@@ -12,22 +15,44 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
-    async login(authLogindto: AuthLoginDto) {
-        const admin = await this.validateAdmin(authLogindto);
-        const payload = {
-            adminId: admin.id
-        };
+
+    async register (userDto: createAdminDto){
+        const user = await this.adminService.create(userDto);
+        const token = this._createToken(user);
         return {
-            access_token: this.jwtService.sign(payload)
-        };
+            email:user.email,
+            ...token,
+        }
     }
-    async validateAdmin(authLoginDto: AuthLoginDto){
-        const {email, password} = authLoginDto;
+
+    async login(user: loginUserDto){
+        // console.log(user)
+        const admin = await this.adminService.findByLogin(user);
+        const token = this._createToken(admin)
+        return {
+            email: user.email,
+            ...token
+        }
+        // if (!(await admin.validatePassword(user.password))){
+        //     throw new UnauthorizedException();
+        // }
+        // return {
+        //     accesstoken: this.jwtService.sign(payload),
+        // };
+    }
+    async validateAdmin(email): Promise<Admin>{
         const admin = await this.adminService.findEmail(email);
-        if (!(await admin.validatePassword(password))){
-            throw new UnauthorizedException();
+        if (!admin){
+            throw new HttpException('Invalid email address',HttpStatus.UNAUTHORIZED);
         }
         return admin;
+    }
+
+    private _createToken({email}):any {
+        const accesstoken = this.jwtService.sign({email})
+        return {
+            accesstoken
+        };
     }
 
  }
