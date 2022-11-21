@@ -26,7 +26,7 @@ export class Candidate {
     other: string
 
     @Column({unique: true})
-    phone: number
+    phone: string
 
     @Column({ type: 'tinyint'})
     status: number

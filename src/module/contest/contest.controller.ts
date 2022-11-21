@@ -14,7 +14,7 @@ export class ContestController {
     return this.contestService.create(createContestDto);
   }
 
-  @Get('/list')
+  @Get()
   findAll() {
     return this.contestService.findAll();
   }
@@ -25,6 +25,7 @@ export class ContestController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(@Param('id') id: string, @Body() updateContestDto: UpdateContestDto) {
     return this.contestService.update(+id, updateContestDto);
   }

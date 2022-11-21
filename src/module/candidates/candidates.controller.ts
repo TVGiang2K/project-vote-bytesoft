@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
 import { CandidatesService } from './candidates.service';
 import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
@@ -8,6 +8,7 @@ export class CandidatesController {
   constructor(private readonly candidatesService: CandidatesService) {}
 
   @Post()
+  @UsePipes(ValidationPipe)
   create(@Body() createCandidateDto: CreateCandidateDto) {
     return this.candidatesService.create(createCandidateDto);
   }
@@ -23,6 +24,7 @@ export class CandidatesController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(@Param('id') id: string, @Body() updateCandidateDto: UpdateCandidateDto) {
     return this.candidatesService.update(+id, updateCandidateDto);
   }

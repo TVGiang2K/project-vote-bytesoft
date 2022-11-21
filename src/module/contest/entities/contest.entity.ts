@@ -3,7 +3,7 @@ import { Candidate } from '../../candidates/entities/candidate.entity'
 
 @Entity('contest')
 export class Contest {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn() 
   id: number;
 
   @Column({ type: 'varchar' })
@@ -28,5 +28,5 @@ export class Contest {
   deleteAt: Date;
 
   @OneToMany(()=> Candidate, (candidate) => candidate.id)
-  candidate: Candidate[];
+  candidate: Candidate[]
 }
