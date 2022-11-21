@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, UseGuards} from '@nestjs/common';
+import { Body, Controller, Get,Request, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, UseGuards} from '@nestjs/common';
+import { get } from 'http';
 import { jwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AdminService } from './admin.service';
 import { createAdminDto } from './dto/createAdmin.dto';
@@ -8,6 +9,13 @@ import { updateAdminDto } from './dto/updateAdmin.dto';
 @Controller('admin')
 export class AdminController {
     constructor(private adminService: AdminService){}
+
+
+    @UseGuards(jwtAuthGuard)
+    @Get('profile')
+    async getProfile(@Request() req:any) {
+      return req.user;
+    }
 
     @Post('/')
     @HttpCode(200)
@@ -21,5 +29,9 @@ export class AdminController {
         return this.adminService.showById(+id);
     }
 
+    @Get()
+    showAll(){
+        return this.adminService.showAll()
+    }
 
 }

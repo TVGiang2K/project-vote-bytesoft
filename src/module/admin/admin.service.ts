@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,HttpStatus, HttpException } from '@nestjs/common';
 import { Admin } from './admin.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createAdminDto } from './dto/createAdmin.dto';
 import { updateAdminDto } from './dto/updateAdmin.dto';
+import * as bcrypt from 'bcrypt';
+import { loginUserDto } from '../user/dto/loginUser.dto';
+import { info } from 'console';
 
 @Injectable()
 export class AdminService {
@@ -21,11 +24,29 @@ export class AdminService {
   }
   
 
+  async findByLogin({email, password}:loginUserDto){
+    const admin = await this.AdminRp.findOne({
+        where: { email: email}
+    });
+
+    if(!admin){
+      throw new HttpException("Admin Not Found", HttpStatus.UNAUTHORIZED);
+    }
+    const compare_pass = await bcrypt.compare(password,admin.password)
+    if(!compare_pass){
+      throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED);
+    }
+    return admin;
+  }
   
   async showById(id: number): Promise<Admin> {
     const admin = await this.AdminRp.findOne({where : {id: id}});
     delete admin.password;
     return admin;
+  }
+
+  async showAll(): Promise<Admin[]>{
+    return await this.AdminRp.find();
   }
 
 

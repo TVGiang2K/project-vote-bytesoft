@@ -8,6 +8,8 @@ import { AdminModule } from './module/admin/admin.module';
 import { ContestModule } from './module/contest/contest.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { JwtStrategy } from './auth/jwt.strategy';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [UserModule, ContestModule, TypeOrmModule.forRoot(typeormConfig),
