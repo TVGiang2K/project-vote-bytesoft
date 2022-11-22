@@ -1,6 +1,7 @@
 import { Body, Controller, Get,Request, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, UseGuards} from '@nestjs/common';
 import { get } from 'http';
 import { jwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { GetUser } from './admin.decorator';
 import { AdminService } from './admin.service';
 import { createAdminDto } from './dto/createAdmin.dto';
 import { updateAdminDto } from './dto/updateAdmin.dto';
@@ -11,9 +12,9 @@ export class AdminController {
     constructor(private adminService: AdminService){}
 
 
+    @Post('profile')
     @UseGuards(jwtAuthGuard)
-    @Get('profile')
-    async getProfile(@Request() req:any) {
+    async getProfile(@Request() req:any,  @GetUser() user,) {
       return req.user;
     }
 

@@ -33,4 +33,9 @@ export class CandidatesController {
   remove(@Param('id') id: string) {
     return this.candidatesService.remove(+id);
   }
-}
+
+  @Patch('voted/:id')
+  update_Vote(@Param('id') id: number){
+  //  return this.candidatesService.voting(id)
+  }
+} 

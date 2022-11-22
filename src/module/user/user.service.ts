@@ -64,4 +64,12 @@ export class userService {
     return user;
     // tìm kiếm user theo password
   }
+
+  check_money(){
+    // return this.UserRepo.findOne({
+    //   where:{
+    //     money
+    //   }
+    // })
+  }
 }

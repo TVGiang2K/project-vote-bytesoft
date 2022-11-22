@@ -44,4 +44,8 @@ export class UserController {
     login(@Body() info:loginUserDto){
         return this.userService.login(info)
     }
+    @Get('abc')
+     findOnea() {
+    //   console.log(`Hello ${firstName}`);
+    }
 }

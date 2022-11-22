@@ -13,6 +13,8 @@ import { AuthService } from './auth/auth.service';
 import { AuthLoginDto } from './auth/auth-login.dto';
 import { localAuthGuard } from './auth/local-auth.guard';
 import { createAdminDto } from './module/admin/dto/createAdmin.dto';
+import { Auth } from './auth/auth.decorator';
+import { userGet } from './module/user/users.decorator';
 
 @Controller()
 export class AppController {
@@ -22,7 +24,9 @@ export class AppController {
   ) {}
 
   // @UseGuards(localAuthGuard)
+
   @Post('auth/register')
+  
   register(@Body() createAdminDto:createAdminDto) {
     return this.authService.register(createAdminDto)
   }
@@ -32,11 +36,11 @@ export class AppController {
     return this.authService.login(loginAdminDto)
   }
 
-  @UseGuards(jwtAuthGuard)
+  @Auth()
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello() {
   }
+
 
   // @Post('auth')
   //   async login(@Body() authLoginDto: AuthLoginDto){

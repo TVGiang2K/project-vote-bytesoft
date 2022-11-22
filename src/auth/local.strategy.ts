@@ -10,11 +10,5 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super();
   }
 
-  // async validate({email}) {
-  //   const admin = await this.authService.validateAdmin(email);
-  //   if (!admin) {
-  //     throw new UnauthorizedException('không thể đăng nhập');
-  //   }
-  //   return admin;
-  // }
+  
 }

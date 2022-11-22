@@ -8,6 +8,7 @@ import { AdminModule } from './module/admin/admin.module';
 import { ContestModule } from './module/contest/contest.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { CandidatesModule } from './module/candidates/candidates.module';
 
 @Module({
   imports: [UserModule, ContestModule, TypeOrmModule.forRoot(typeormConfig),
@@ -15,7 +16,7 @@ import { AuthModule } from './auth/auth.module';
       isGlobal:true
     }),
     AdminModule,
-    AuthModule
+    AuthModule,CandidatesModule
   ],
   controllers: [AppController],
   providers: [AppService],  
