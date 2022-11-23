@@ -16,7 +16,7 @@ import { RolesGuard } from './roles/roles.guard';
     imports: [ConfigModule],
     useFactory: async () => ({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60s'}
+      signOptions: { expiresIn: '1 hours'}
     })
  })
   ],

@@ -44,5 +44,6 @@ export class User extends BaseEntity {
 
   @Column({ type: 'datetime', nullable: true })
   deleteAt: Date;
+  role: any;
 
 }

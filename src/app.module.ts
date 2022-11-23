@@ -8,7 +8,6 @@ import { AdminModule } from './module/admin/admin.module';
 import { ContestModule } from './module/contest/contest.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { CandidatesModule } from './module/candidates/candidates.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles/roles.guard';
 
@@ -18,7 +17,7 @@ import { RolesGuard } from './auth/roles/roles.guard';
       isGlobal:true
     }),
     AdminModule,
-    AuthModule,CandidatesModule
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService,

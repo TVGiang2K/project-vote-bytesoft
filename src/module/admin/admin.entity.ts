@@ -8,8 +8,6 @@ import {
   } from 'typeorm';
  import * as bcrypt from 'bcrypt';
 import { Role } from 'src/auth/roles/roles.enum';
-import { Vote } from '../vote/entities/vote.entity';
-
 
 
   @Entity('admin')
@@ -42,7 +40,6 @@ import { Vote } from '../vote/entities/vote.entity';
     async hashPassword(){
       this.password = await bcrypt.hash(this.password, 8); 
     }
-    
     
     // async validatePassword(passport: string): Promise<boolean>{
     //   return bcrypt.compare(passport, this.password )

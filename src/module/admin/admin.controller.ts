@@ -3,7 +3,6 @@ import { jwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { RolesGuard } from 'src/auth/roles/roles.guard';
-import { GetUser } from './admin.decorator';
 import { AdminService } from './admin.service';
 import { createAdminDto } from './dto/createAdmin.dto';
 import { updateAdminDto } from './dto/updateAdmin.dto';
@@ -17,15 +16,10 @@ export class AdminController {
         ){}
 
 
-    @Post('profile')
-    @UseGuards(jwtAuthGuard)
-    async getProfile(@Request() req:any,  @GetUser() user,) {
-      return req.user;
+    @Get('profile')
+    async getProfile(@Request() req:any) {
+        return req.user;
     }
-    // @Get('profile')
-    // async getProfile(@Request() req:any) {
-    //     return req.user;
-    // }
         
     @Roles(Role.ADMIN)
     @UseGuards(jwtAuthGuard, RolesGuard)
