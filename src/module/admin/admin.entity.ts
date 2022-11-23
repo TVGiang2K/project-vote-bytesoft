@@ -8,6 +8,7 @@ import {
   } from 'typeorm';
  import * as bcrypt from 'bcrypt';
 import { Role } from 'src/auth/roles/roles.enum';
+import { Vote } from '../vote/entities/vote.entity';
 
 
   @Entity('admin')
@@ -26,6 +27,18 @@ import { Role } from 'src/auth/roles/roles.enum';
 
     @Column({ type: 'enum', enum: Role, default: Role.USER})
     role: Role;
+
+    @Column({ type: 'varchar' })
+    avatar: string;
+  
+    @Column({ type: 'varchar', unique: true  })
+    phone: string;
+  
+    @Column({ type: 'varchar' })
+    money: string;
+  
+    @OneToMany(()=> Vote, (vote) => vote.id)
+    vote: Vote[];
     
     @Column({ type: 'datetime',   default: () => 'NOW()' })
     createdAt: Date; 
@@ -41,8 +54,5 @@ import { Role } from 'src/auth/roles/roles.enum';
       this.password = await bcrypt.hash(this.password, 8); 
     }
     
-    // async validatePassword(passport: string): Promise<boolean>{
-    //   return bcrypt.compare(passport, this.password )
-    // }
   }
   

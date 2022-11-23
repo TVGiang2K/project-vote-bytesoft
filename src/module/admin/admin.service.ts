@@ -5,8 +5,8 @@ import { Repository } from 'typeorm';
 import { createAdminDto } from './dto/createAdmin.dto';
 import { updateAdminDto } from './dto/updateAdmin.dto';
 import * as bcrypt from 'bcrypt';
-import { loginUserDto } from '../user/dto/loginUser.dto';
 import { info } from 'console';
+import { AuthLoginDto } from './dto/loginAdmin.dto';
 
 @Injectable()
 export class AdminService {
@@ -24,7 +24,7 @@ export class AdminService {
   }
   
 
-  async findByLogin({email, password}:loginUserDto){
+  async findByLogin({email, password}: AuthLoginDto){
     const admin = await this.AdminRp.findOne({
         where: { email: email}
     });

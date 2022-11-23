@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './module/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm.config';
 import { AdminModule } from './module/admin/admin.module';
@@ -12,7 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles/roles.guard';
 
 @Module({
-  imports: [UserModule, ContestModule, TypeOrmModule.forRoot(typeormConfig),
+  imports: [ ContestModule, TypeOrmModule.forRoot(typeormConfig),
     ConfigModule.forRoot({
       isGlobal:true
     }),

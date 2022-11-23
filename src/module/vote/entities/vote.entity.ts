@@ -1,5 +1,5 @@
+import { Admin } from "src/module/admin/admin.entity";
 import { Candidate } from "src/module/candidates/entities/candidate.entity";
-import { User } from "src/module/user/user.entity";
 import { Column, ManyToOne, PrimaryGeneratedColumn, Entity } from "typeorm";
 @Entity('vote')
 export class Vote {
@@ -10,6 +10,6 @@ export class Vote {
 
     @ManyToOne(()=>  Candidate, (candidate) => candidate.id)
     candidate: Candidate;
-    @ManyToOne(()=>  User , (user ) => user.id)
-    user: User;
+    @ManyToOne(()=>  Admin , (user ) => user.id)
+    user: Admin;
 }

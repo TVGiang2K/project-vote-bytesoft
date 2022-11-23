@@ -2,8 +2,8 @@ import { AdminService } from "src/module/admin/admin.service";
 import { HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Admin } from "src/module/admin/admin.entity";
-import { loginUserDto } from "src/module/user/dto/loginUser.dto";
 import { createAdminDto } from "src/module/admin/dto/createAdmin.dto";
+import { AuthLoginDto } from "./auth-login.dto";
 
 
 
@@ -24,20 +24,13 @@ export class AuthService {
         }
     }
 
-    async login(user: loginUserDto){
-        // console.log(user)
+    async login(user: AuthLoginDto){
         const admin = await this.adminService.findByLogin(user);
         const token = this._createToken(admin)
         return {
             email: user.email,
             ...token
         }
-        // if (!(await admin.validatePassword(user.password))){
-        //     throw new UnauthorizedException();
-        // }
-        // return {
-        //     accesstoken: this.jwtService.sign(payload),
-        // };
     }
     async validateAdmin(email): Promise<Admin>{
         const admin = await this.adminService.findEmail(email);
