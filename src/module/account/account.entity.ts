@@ -11,8 +11,8 @@ import { Role } from 'src/auth/roles/roles.enum';
 import { Vote } from '../vote/entities/vote.entity';
 
 
-  @Entity('admin')
-  export class Admin extends BaseEntity {
+  @Entity('account')
+  export class Account extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
   

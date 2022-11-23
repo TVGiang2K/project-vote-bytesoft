@@ -1,8 +1,8 @@
-import { AdminService } from "src/module/admin/admin.service";
 import { HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Admin } from "src/module/admin/admin.entity";
-import { createAdminDto } from "src/module/admin/dto/createAdmin.dto";
+import { Account } from 'src/module/account/account.entity';
+import { AccountService } from 'src/module/account/account.service';
+import { createAccountDto } from 'src/module/account/dto/createAccount.dto';
 import { AuthLoginDto } from "./auth-login.dto";
 
 
@@ -10,13 +10,13 @@ import { AuthLoginDto } from "./auth-login.dto";
 @Injectable()
 export class AuthService {
     constructor(
-        private adminService: AdminService,
+        private accountService: AccountService,
         private jwtService: JwtService
     ) { }
 
 
-    async register (userDto: createAdminDto){
-        const user = await this.adminService.create(userDto);
+    async register (userDto: createAccountDto){
+        const user = await this.accountService.create(userDto);
         const token = this._createToken(user);
         return {
             email:user.email,
@@ -25,19 +25,19 @@ export class AuthService {
     }
 
     async login(user: AuthLoginDto){
-        const admin = await this.adminService.findByLogin(user);
-        const token = this._createToken(admin)
+        const account = await this.accountService.findByLogin(user);
+        const token = this._createToken(account)
         return {
             email: user.email,
             ...token
         }
     }
-    async validateAdmin(email): Promise<Admin>{
-        const admin = await this.adminService.findEmail(email);
-        if (!admin){
+    async validateAccount(email): Promise<Account>{
+        const account = await this.accountService.findEmail(email);
+        if (!account){
             throw new HttpException('Invalid email address',HttpStatus.UNAUTHORIZED);
         }
-        return admin;
+        return account;
     }
 
     private _createToken({email}):any {

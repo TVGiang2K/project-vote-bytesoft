@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate({email}) {
-        const admin = await this.authService.validateAdmin(email)
+        const admin = await this.authService.validateAccount(email)
         if(!admin){
             throw new HttpException("Invalid token", HttpStatus.UNAUTHORIZED)
         }
