@@ -1,12 +1,17 @@
-import { Body, Controller, Get, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, Patch } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, Patch, UseGuards } from '@nestjs/common';
 import { createUserDto } from './dto/createUser.dto';
 import { updateUserDto } from './dto/updateUser.dto';
 import { userService } from './user.service';
 import { loginUserDto } from './dto/loginUser.dto';
 
+
 @Controller('User')
 export class UserController {
     constructor(private userService: userService){}
+
+
+
+    
     @Get('/')
     getUsers(){
         return this.userService.findAll();
@@ -29,6 +34,7 @@ export class UserController {
     updateUser(@Param('id') id:number, @Body() updateUserDto:updateUserDto){
         return this.userService.update(+id, updateUserDto);
     }
+
     //lấy theo id 
     @Get(':id')
     findOne(@Param('id') id:string ){

@@ -48,8 +48,12 @@ export class AdminService {
   async showAll(): Promise<Admin[]>{
     return await this.AdminRp.find();
   }
-
-
+  remove(id: number){
+    return this.AdminRp.delete(id)
+  }
+  async update(id: number, userUpdateDto:updateAdminDto){
+    return await this.AdminRp.update(+id, userUpdateDto);
+  }
 
   async findEmail(email: string): Promise<Admin>{ 
     return await this.AdminRp.findOne({

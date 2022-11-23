@@ -7,6 +7,9 @@ import {
     BeforeInsert,
   } from 'typeorm';
  import * as bcrypt from 'bcrypt';
+import { Role } from 'src/auth/roles/roles.enum';
+import { Vote } from '../vote/entities/vote.entity';
+
 
 
   @Entity('admin')
@@ -22,6 +25,9 @@ import {
 
     @Column()
     password: string;
+
+    @Column({ type: 'enum', enum: Role, default: Role.USER})
+    role: Role;
     
     @Column({ type: 'datetime',   default: () => 'NOW()' })
     createdAt: Date; 
@@ -36,6 +42,7 @@ import {
     async hashPassword(){
       this.password = await bcrypt.hash(this.password, 8); 
     }
+    
     
     // async validatePassword(passport: string): Promise<boolean>{
     //   return bcrypt.compare(passport, this.password )

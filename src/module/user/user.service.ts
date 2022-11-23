@@ -45,7 +45,6 @@ export class userService {
   }
 
   async login(Dto: loginUserDto){
-    // tìm kiếm user theo email
     const user = await this.UserRepo.findOne({
       where : {
         email: Dto.email,

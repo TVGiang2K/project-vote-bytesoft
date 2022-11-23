@@ -9,6 +9,8 @@ import { ContestModule } from './module/contest/contest.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './module/candidates/candidates.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './auth/roles/roles.guard';
 
 @Module({
   imports: [UserModule, ContestModule, TypeOrmModule.forRoot(typeormConfig),
@@ -19,6 +21,11 @@ import { CandidatesModule } from './module/candidates/candidates.module';
     AuthModule,CandidatesModule
   ],
   controllers: [AppController],
-  providers: [AppService],  
+  providers: [AppService,
+  // {
+  //       provide: APP_GUARD,
+  //       useClass: RolesGuard,
+  //     },
+  ],  
 })
-export class AppModule {}
+export class AppModule {}  

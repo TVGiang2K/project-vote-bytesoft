@@ -30,7 +30,7 @@ export class AppController {
   register(@Body() createAdminDto:createAdminDto) {
     return this.authService.register(createAdminDto)
   }
-
+ 
   @Post('auth/login')
   login(@Body() loginAdminDto:AuthLoginDto) {
     return this.authService.login(loginAdminDto)

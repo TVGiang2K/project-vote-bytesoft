@@ -1,7 +1,6 @@
 import { AdminService } from "src/module/admin/admin.service";
 import { HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AuthLoginDto } from "./auth-login.dto";
 import { Admin } from "src/module/admin/admin.entity";
 import { loginUserDto } from "src/module/user/dto/loginUser.dto";
 import { createAdminDto } from "src/module/admin/dto/createAdmin.dto";
