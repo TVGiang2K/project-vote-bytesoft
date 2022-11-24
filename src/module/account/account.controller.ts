@@ -1,4 +1,5 @@
 import { Body, Controller, Get,Request, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, UseGuards, SetMetadata} from '@nestjs/common';
+import { Auth } from 'src/auth/auth.decorator';
 import { jwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
@@ -15,8 +16,9 @@ export class AccountController {
           
         ){}
 
-    @Roles(Role.ADMIN)
-    @UseGuards(jwtAuthGuard, RolesGuard)
+    // @Roles(Role.ADMIN)
+    // @UseGuards(jwtAuthGuard, RolesGuard)
+    @Auth(Role.ADMIN)
     @Get()
     showAll(){
         return this.accountService.showAll()
@@ -26,8 +28,7 @@ export class AccountController {
 
 
 
-    @Roles(Role.ADMIN)
-    @UseGuards(jwtAuthGuard, RolesGuard)
+    @Auth(Role.ADMIN)
     @Get('/:id') 
     show(@Param('id') id: string){
         return this.accountService.showById(+id);

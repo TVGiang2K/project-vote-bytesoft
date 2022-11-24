@@ -9,6 +9,8 @@ import { AuthLoginDto } from "./auth-login.dto";
 
 @Injectable()
 export class AuthService {
+    token: any;
+    accesstoken:any;
     constructor(
         private accountService: AccountService,
         private jwtService: JwtService
@@ -26,12 +28,18 @@ export class AuthService {
 
     async login(user: AuthLoginDto){
         const account = await this.accountService.findByLogin(user);
-        const token = this._createToken(account)
+         this.token = this._createToken(account)
         return {
             email: user.email,
-            ...token
+            token: this.token
         }
     }
+
+    async logout(){
+        await this._DeleteToken()
+        console.log(this.accesstoken)
+    }
+
     async validateAccount(email): Promise<Account>{
         const account = await this.accountService.findEmail(email);
         if (!account){
@@ -41,9 +49,15 @@ export class AuthService {
     }
 
     private _createToken({email}):any {
-        const accesstoken = this.jwtService.sign({email})
+        this.accesstoken = this.jwtService.sign({email})
         return {
-            accesstoken
+            accesstoken:this.accesstoken
+        };
+    }
+    private _DeleteToken():any {
+        this.accesstoken = null;
+        return {
+            accesstoken:this.accesstoken
         };
     }
 

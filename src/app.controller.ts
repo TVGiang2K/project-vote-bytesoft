@@ -16,6 +16,10 @@ import { AuthService } from './auth/auth.service';
 import { AuthLoginDto } from './auth/auth-login.dto';
 import { createAccountDto } from './module/account/dto/createAccount.dto';
 import { AccountService } from './module/account/account.service';
+import { Roles } from './auth/roles/roles.decorator';
+import { Role } from './auth/roles/roles.enum';
+import { RolesGuard } from './auth/roles/roles.guard';
+import { Auth } from './auth/auth.decorator';
 
 @Controller()
 export class AppController {
@@ -37,6 +41,12 @@ export class AppController {
   @UsePipes(ValidationPipe)
   async createAdmin(@Body() AdminCreate: createAccountDto){
       return await this.accountService.create(AdminCreate);
+  }
+
+  @Auth(Role.USER)
+  @Get('logout')
+  async logout(){
+    return this.authService.logout()
   }
 
   // @UseGuards(jwtAuthGuard)
