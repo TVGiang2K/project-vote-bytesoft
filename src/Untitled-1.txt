@@ -1,0 +1,9 @@
+có 3 cách xử lí bất đồng bộ: callback, promise, async await
+
+đối với bất đồng bộ có 2 loại chính: 
+    + browser/ wed api: setTimeout(), setInterval(),..., click, scroll,..., events...
+    + Promise: các đối tượng js để thực hiện các tác vụ bất đồng bộ
+
+* callback: 
+
+* Promise: 

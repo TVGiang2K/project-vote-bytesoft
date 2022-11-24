@@ -7,4 +7,5 @@ export class CreateContestDto {
     start_date: Date
     @IsNotEmpty({ message: 'chọn ngày kết thúc' })
     last_date: Date
+  static start_date: string | number | Date;
 }
