@@ -20,6 +20,8 @@ import { Roles } from './auth/roles/roles.decorator';
 import { Role } from './auth/roles/roles.enum';
 import { RolesGuard } from './auth/roles/roles.guard';
 import { Auth } from './auth/auth.decorator';
+import { Query } from '@nestjs/graphql';
+import { CandidatesService } from './module/candidates/candidates.service';
 
 @Controller()
 export class AppController {
@@ -50,13 +52,13 @@ export class AppController {
   }
 
   // @UseGuards(jwtAuthGuard)
-  @Auth(Role.USER)
+  @Auth(Role.USER, Role.ADMIN)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
   }
 
-  @Auth(Role.USER)
+  @Auth(Role.USER, Role.ADMIN)
   @Post('logout')
   async logout(@Request() req:any){
     await this.authService.logout(req.user);
@@ -64,5 +66,7 @@ export class AppController {
       status:200,
     }
   }
+
+ 
 
 }

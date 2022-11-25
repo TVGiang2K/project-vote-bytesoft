@@ -17,7 +17,7 @@ export class CreateCandidateDto {
     @IsNotEmpty({ message: 'Hãy chọn ảnh của bạn'})
     avatar: string;
     @IsNotEmpty({ message: 'Hãy nhập địa chỉ của bạn'})
-    adress: string;
+    address: string;
     @IsNotEmpty({ message: 'Hãy nhập chọn cuộc thi của bạn'})
     contestId: number;
 }

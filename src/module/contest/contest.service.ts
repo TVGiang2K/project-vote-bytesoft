@@ -52,6 +52,7 @@ export class ContestService {
         }
         this.logger.log(`job: ${key} -> next: ${next}`);
       });
+      console.log(createContestDto)
     return this.contestsRepository.save(createContestDto);
   }
  

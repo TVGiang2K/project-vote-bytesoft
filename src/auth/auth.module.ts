@@ -16,13 +16,14 @@ import { AccountModule } from 'src/module/account/account.module';
     imports: [ConfigModule],
     useFactory: async () => ({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1 hours'}
+      signOptions: { expiresIn: '60s' },
     })
  })
   ],
   providers: [AuthService, JwtStrategy, jwtAuthGuard, RolesGuard],
   exports: [AuthService]
 })
+
 export class AuthModule {}
 
 

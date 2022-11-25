@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,HttpCode,UsePipes,ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,HttpCode,UsePipes,ValidationPipe, Request, Response } from '@nestjs/common';
 import { Auth } from 'src/auth/auth.decorator';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
@@ -14,11 +14,11 @@ export class ContestController {
   @Post()
   @HttpCode(200) 
   @UsePipes(ValidationPipe)
-  create(@Body() createContestDto: CreateContestDto) {
-    return this.contestService.create(createContestDto);
+  create(@Request() req) {
+    return this.contestService.create(req.body);
   }
 
-  @Auth(Role.ADMIN, Role.USER)
+  @Auth(Role.ADMIN)
   @Get()
   findAll() {
     return this.contestService.findAll();
@@ -30,11 +30,12 @@ export class ContestController {
     return this.contestService.findOne(+id);
   }
 
-  @Auth(Role.ADMIN)
+  @Auth(Role.ADMIN, Role.USER)
   @Patch(':id')
   @UsePipes(ValidationPipe)
-  update(@Param('id') id: string, @Body() updateContestDto: UpdateContestDto) {
-    return this.contestService.update(+id, updateContestDto);
+  update(@Param('id') id: string, @Request() req) {
+    console.log(req.body)
+    return this.contestService.update(+id, req.body);
   }
 
   @Auth(Role.ADMIN)

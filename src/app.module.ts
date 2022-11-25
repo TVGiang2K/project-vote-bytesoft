@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,6 +8,7 @@ import { ContestModule } from './module/contest/contest.module';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './module/candidates/candidates.module';
 import { ConfigModule } from '@nestjs/config';
+import { PagerMiddleware } from './middleware/page.middleware';
 
 @Module({
   imports: [ ContestModule, TypeOrmModule.forRoot(typeormConfig),CandidatesModule,
@@ -21,4 +22,6 @@ import { ConfigModule } from '@nestjs/config';
   providers: [AppService
   ],  
 })
-export class AppModule {}  
+export class AppModule {
+  
+}  

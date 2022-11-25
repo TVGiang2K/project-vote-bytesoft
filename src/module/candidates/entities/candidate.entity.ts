@@ -20,7 +20,7 @@ export class Candidate {
     content: string
 
     @Column({ type: 'varchar'})
-    adress: string
+    address: string
 
     @Column({ type: 'text', nullable: true})
     other: string

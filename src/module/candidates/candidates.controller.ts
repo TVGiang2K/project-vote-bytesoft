@@ -1,21 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes, Request, Query } from '@nestjs/common';
 import { CandidatesService } from './candidates.service';
 import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
 
 @Controller('candidates')
 export class CandidatesController {
-  constructor(private readonly candidatesService: CandidatesService) {}
+  constructor(
+    private readonly candidatesService: CandidatesService,
+  ) {}
 
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createCandidateDto: CreateCandidateDto) {
     return this.candidatesService.create(createCandidateDto);
   }
-
-  @Get()
-  findAll() {
-    return this.candidatesService.findAll();
+  
+  @Get('paged')
+  findAll(@Query() {take,skip}){
+    return this.candidatesService.showAll(take,skip)
   }
 
   @Get(':id')

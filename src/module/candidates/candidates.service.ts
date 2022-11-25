@@ -16,8 +16,12 @@ export class CandidatesService {
     return this.candidateRepository.save(createCandidateDto);
   }
 
-  findAll() : Promise<Candidate[]> {
-    return this.candidateRepository.find();
+  async showAll(take: number = 12,skip:number = 1) {
+    const [data, total] = await this.candidateRepository.findAndCount({
+      take,
+      skip,
+    })
+    return {  data: data, total: total  }
   }
 
   findOne(id: number) : Promise<Candidate> {
