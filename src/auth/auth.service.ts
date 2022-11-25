@@ -4,22 +4,21 @@ import { Account } from 'src/module/account/account.entity';
 import { AccountService } from 'src/module/account/account.service';
 import { createAccountDto } from 'src/module/account/dto/createAccount.dto';
 import { AuthLoginDto } from "./auth-login.dto";
+ import * as bcrypt from 'bcrypt';
 
 
 
 @Injectable()
 export class AuthService {
-    token: any;
-    accesstoken:any;
     constructor(
         private accountService: AccountService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
     ) { }
 
 
     async register (userDto: createAccountDto){
         const user = await this.accountService.create(userDto);
-        const token = this._createToken(user);
+        const token = await this._createToken(user);
         return {
             email:user.email,
             ...token,
@@ -28,16 +27,11 @@ export class AuthService {
 
     async login(user: AuthLoginDto){
         const account = await this.accountService.findByLogin(user);
-         this.token = this._createToken(account)
+         const token = await this._createToken(account)
         return {
             email: user.email,
-            token: this.token
+            ...token,
         }
-    }
-
-    async logout(){
-        await this._DeleteToken()
-        console.log(this.accesstoken)
     }
 
     async validateAccount(email): Promise<Account>{
@@ -48,17 +42,53 @@ export class AuthService {
         return account;
     }
 
-    private _createToken({email}):any {
-        this.accesstoken = this.jwtService.sign({email})
-        return {
-            accesstoken:this.accesstoken
-        };
+    async _createToken({email},refresh:boolean=true) {
+        const accesstoken = this.jwtService.sign({email});
+        if(refresh){
+            const refreshToken = this.jwtService.sign(
+                {email},
+                {
+                    secret: process.env.SECRETKEY_REFRESH,
+                    expiresIn: '20h' 
+                });
+            await this.accountService.updateToken(
+                {email : email},
+                {
+                    refreshToken: refreshToken
+                }
+            );
+            return {
+                expiresIn: process.env.EXPRIRESIN,
+                accesstoken,
+                refreshToken,
+                expriresInRefreshToken: process.env.EXPRIRESIN_REFRESH
+            };
+        }else{
+            return{
+                expiresIn: process.env.EXPRIRESIN,
+                accesstoken,
+            }
+        }
     }
-    private _DeleteToken():any {
-        this.accesstoken = null;
-        return {
-            accesstoken:this.accesstoken
-        };
+
+    async refresh(refreshToken){
+        try {
+            const payload = await this.jwtService.verify(refreshToken,{
+                secret: process.env.SECRETKEY_REFRESH,
+            });
+            const user = await this.accountService.getUserByRefreshToken(refreshToken,payload.email);
+            const token = await this._createToken(user,false)
+            return {
+                email: user.email,
+                ...token,
+            }
+        }catch(error){
+            throw new HttpException('Invalid token',HttpStatus.UNAUTHORIZED)
+        }
+    }
+
+    async logout(user: Account){
+        await this.accountService.updateToken({ email:user.email }, {refreshToken:null})
     }
 
  }

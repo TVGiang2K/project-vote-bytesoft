@@ -40,19 +40,29 @@ export class AppController {
   @HttpCode(200)
   @UsePipes(ValidationPipe)
   async createAdmin(@Body() AdminCreate: createAccountDto){
-      return await this.accountService.create(AdminCreate);
+      return await this.authService.register(AdminCreate)
   }
 
-  @Auth(Role.USER)
-  @Get('logout')
-  async logout(){
-    return this.authService.logout()
+
+  @Post('/Refresh')
+  async refresh(@Body() body){
+    return await this.authService.refresh(body.refreshToken);
   }
 
   // @UseGuards(jwtAuthGuard)
-  // @Get()
-  // getHello(): string {
-  //   return this.appService.getHello();
-  // }
+  @Auth(Role.USER)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
+
+  @Auth(Role.USER)
+  @Post('logout')
+  async logout(@Request() req:any){
+    await this.authService.logout(req.user);
+    return{
+      status:200,
+    }
+  }
 
 }

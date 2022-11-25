@@ -10,7 +10,7 @@ import { UpdateContestDto } from './dto/update-contest.dto';
 export class ContestController {
   constructor(private readonly contestService: ContestService) {}
   
-  @Auth(Role.USER)
+  @Auth(Role.ADMIN)
   @Post()
   @HttpCode(200) 
   @UsePipes(ValidationPipe)

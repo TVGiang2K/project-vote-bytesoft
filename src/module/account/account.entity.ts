@@ -28,6 +28,9 @@ import { Vote } from '../vote/entities/vote.entity';
     @Column({ type: 'enum', enum: Role, default: Role.USER})
     role: Role;
 
+    @Column({ type: 'text', nullable: true })
+    refreshToken: string;
+
     @Column({ type: 'varchar' })
     avatar: string;
   
