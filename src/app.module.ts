@@ -16,7 +16,8 @@ import { PagerMiddleware } from './middleware/page.middleware';
       isGlobal:true
     }),
     AccountModule,
-    AuthModule
+    AuthModule,
+    
   ],
   controllers: [AppController],
   providers: [AppService

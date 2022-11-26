@@ -5,9 +5,9 @@ import { Contest } from '../contest/entities/contest.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateResult,DeleteResult } from 'typeorm';
-import { Cron, SchedulerRegistry } from '@nestjs/schedule';
+import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
-import { async } from 'rxjs';
+// import { async } from 'rxjs';
 
 @Injectable()  // map các bảng trong csdl
 export class ContestService {
@@ -16,8 +16,9 @@ export class ContestService {
     private contestsRepository: Repository<Contest>,
     private schedulerRegistry: SchedulerRegistry
     ) {}
-    private readonly logger = new Logger(ContestService.name);
-    async create(createContestDto: CreateContestDto): Promise<Contest> {
+    private readonly logger = new Logger(ContestService.name)
+
+   async create(createContestDto: CreateContestDto): Promise<Contest> {
     const job = new CronJob(new Date(createContestDto.start_date), () => {
       this.logger.warn(`time (${new Date(createContestDto.start_date)}) for job ${createContestDto.name} to run!`);
     });  
@@ -36,7 +37,6 @@ export class ContestService {
     });
     // await this.schedulerRegistry.addCronJob(createContestDto.name, job1);
     await job1.start();
-  
     await this.logger.warn(
       `job ${createContestDto.name} stoped for each minute at ${new Date(createContestDto.last_date)} seconds!`,
      
