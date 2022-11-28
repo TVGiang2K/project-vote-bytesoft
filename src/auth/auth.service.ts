@@ -42,53 +42,16 @@ export class AuthService {
         return account;
     }
 
-    async _createToken({email},refresh:boolean=true) {
+    async _createToken({email}) {
         const accesstoken = this.jwtService.sign({email});
-        if(refresh){
-            const refreshToken = this.jwtService.sign(
-                {email},
-                {
-                    secret: process.env.SECRETKEY_REFRESH,
-                    expiresIn: '20h' 
-                });
-            await this.accountService.updateToken(
-                {email : email},
-                {
-                    refreshToken: refreshToken
-                }
-            );
+        
             return {
-                expiresIn: process.env.EXPRIRESIN,
                 accesstoken,
-                refreshToken,
-                expriresInRefreshToken: process.env.EXPRIRESIN_REFRESH
             };
-        }else{
-            return{
-                expiresIn: process.env.EXPRIRESIN,
-                accesstoken,
-            }
-        }
     }
 
-    async refresh(refreshToken){
-        try {
-            const payload = await this.jwtService.verify(refreshToken,{
-                secret: process.env.SECRETKEY_REFRESH,
-            });
-            const user = await this.accountService.getUserByRefreshToken(refreshToken,payload.email);
-            const token = await this._createToken(user,false)
-            return {
-                email: user.email,
-                ...token,
-            }
-        }catch(error){
-            throw new HttpException('Invalid token',HttpStatus.UNAUTHORIZED)
-        }
-    }
+    
 
-    async logout(user: Account){
-        await this.accountService.updateToken({ email:user.email }, {refreshToken:null})
-    }
+    
 
  }

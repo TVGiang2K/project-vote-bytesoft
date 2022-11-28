@@ -16,16 +16,15 @@ export class ContestService {
     private contestsRepository: Repository<Contest>,
     private schedulerRegistry: SchedulerRegistry
     ) {}
-    private readonly logger = new Logger(ContestService.name)
-
-   async create(createContestDto: CreateContestDto): Promise<Contest> {
+    private readonly logger = new Logger(ContestService.name);
+    async create(createContestDto: CreateContestDto): Promise<Contest> {
     const job = new CronJob(new Date(createContestDto.start_date), () => {
       this.logger.warn(`time (${new Date(createContestDto.start_date)}) for job ${createContestDto.name} to run!`);
     });  
 
     await this.schedulerRegistry.addCronJob(createContestDto.name, job);
     await job.start();
-  
+
     await this.logger.warn(
       `job ${createContestDto.name} added for each minute at ${new Date(createContestDto.start_date)} seconds!`,
     );
@@ -37,9 +36,10 @@ export class ContestService {
     });
     // await this.schedulerRegistry.addCronJob(createContestDto.name, job1);
     await job1.start();
+
     await this.logger.warn(
       `job ${createContestDto.name} stoped for each minute at ${new Date(createContestDto.last_date)} seconds!`,
-     
+
     );
 
     const jobs = this.schedulerRegistry.getCronJobs();
@@ -52,7 +52,6 @@ export class ContestService {
         }
         this.logger.log(`job: ${key} -> next: ${next}`);
       });
-      console.log(createContestDto)
     return this.contestsRepository.save(createContestDto);
   }
  

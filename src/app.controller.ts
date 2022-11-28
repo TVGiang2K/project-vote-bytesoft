@@ -9,19 +9,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { jwtAuthGuard } from './auth/jwt-auth.guard';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { AuthLoginDto } from './auth/auth-login.dto';
 import { createAccountDto } from './module/account/dto/createAccount.dto';
 import { AccountService } from './module/account/account.service';
-import { Roles } from './auth/roles/roles.decorator';
 import { Role } from './auth/roles/roles.enum';
-import { RolesGuard } from './auth/roles/roles.guard';
 import { Auth } from './auth/auth.decorator';
-import { Query } from '@nestjs/graphql';
-import { CandidatesService } from './module/candidates/candidates.service';
 
 @Controller()
 export class AppController {
@@ -46,11 +40,6 @@ export class AppController {
   }
 
 
-  @Post('/Refresh')
-  async refresh(@Body() body){
-    return await this.authService.refresh(body.refreshToken);
-  }
-
   // @UseGuards(jwtAuthGuard)
   @Auth(Role.USER, Role.ADMIN)
   @Get('profile')
@@ -61,10 +50,7 @@ export class AppController {
   @Auth(Role.USER, Role.ADMIN)
   @Post('logout')
   async logout(@Request() req:any){
-    await this.authService.logout(req.user);
-    return{
-      status:200,
-    }
+   
   }
 
  

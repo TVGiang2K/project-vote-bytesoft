@@ -14,8 +14,8 @@ export class ContestController {
   @Post()
   @HttpCode(200) 
   @UsePipes(ValidationPipe)
-  create(@Request() req) {
-    return this.contestService.create(req.body);
+  create(@Body() createContestDto: CreateContestDto) {
+    return this.contestService.create(createContestDto);
   }
 
   @Auth(Role.ADMIN)
