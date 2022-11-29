@@ -12,19 +12,3 @@ export function Auth(...roles: Role[]){
     UseGuards(jwtAuthGuard,RolesGuard),
   );
 }
-export function Session(){
-  return applyDecorators(
-    // CacheModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   inject: [ConfigService],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     isGlobal: true,
-    //     store: redisStore,
-    //     host: configService.get<string>('REDIS_HOST'),
-    //     port: configService.get<string>('REDIS_PORT'),
-    //     username: configService.get<string>('REDIS_USERNAME'),
-    //     password: configService.get<string>('REDIS_PASSWORD'),
-    //   })
-    // }),
-  );
-}

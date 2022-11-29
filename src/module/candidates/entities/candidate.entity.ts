@@ -39,16 +39,16 @@ export class Candidate {
     contest: Contest;
     
     @OneToMany(()=> Vote, (vote) => vote.id)
-  vote: Vote[];
-    
-  @Column({ type: 'datetime',   default: () => 'NOW()' })
-  createdAt: Date; 
+    vote: Vote[];
+      
+    @Column({ type: 'datetime',   default: () => 'NOW()' })
+    createdAt: Date; 
 
-  @Column({ type: 'datetime', nullable: true })
-  updateAt: Date;
+    @Column({ type: 'datetime', nullable: true })
+    updateAt: Date;
 
-  @Column({ type: 'datetime', nullable: true })
-  deleteAt: Date;
+    @Column({ type: 'datetime', nullable: true })
+    deleteAt: Date;
 
 }
  
