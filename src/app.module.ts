@@ -8,7 +8,7 @@ import { ContestModule } from './module/contest/contest.module';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './module/candidates/candidates.module';
 import { ConfigModule } from '@nestjs/config';
-import { PagerMiddleware } from './middleware/page.middleware';
+import { RechargeHistoryModule } from './module/recharge_history/recharge_history.module';
 
 @Module({
   imports: [ ContestModule, TypeOrmModule.forRoot(typeormConfig),CandidatesModule,
@@ -17,11 +17,11 @@ import { PagerMiddleware } from './middleware/page.middleware';
     }),
     AccountModule,
     AuthModule,
+    RechargeHistoryModule,
     
   ],
   controllers: [AppController],
-  providers: [AppService
-  ],  
+  providers: [AppService],  
 })
 export class AppModule {
   

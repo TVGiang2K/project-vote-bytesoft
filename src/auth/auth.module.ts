@@ -16,7 +16,7 @@ import { AccountModule } from 'src/module/account/account.module';
     imports: [ConfigModule],
     useFactory: async () => ({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '60d' },
     })
  })
   ],

@@ -1,11 +1,7 @@
 import { Body, Controller, Get,Request, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, UseGuards, SetMetadata} from '@nestjs/common';
 import { Auth } from 'src/auth/auth.decorator';
-import { jwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
-import { RolesGuard } from 'src/auth/roles/roles.guard';
 import { AccountService } from './account.service';
-import { createAccountDto } from './dto/createAccount.dto';
 import { updateAccountDto } from './dto/updateAccount.dto';
 
 
@@ -16,17 +12,11 @@ export class AccountController {
           
         ){}
 
-    // @Roles(Role.ADMIN)
-    // @UseGuards(jwtAuthGuard, RolesGuard)
     @Auth(Role.ADMIN)
     @Get()
     showAll(){
         return this.accountService.showAll()
     }
-
-
-
-
 
     @Auth(Role.ADMIN)
     @Get('/:id') 
@@ -34,18 +24,25 @@ export class AccountController {
         return this.accountService.showById(+id);
     }
 
-
+    @Auth(Role.ADMIN)
     @UsePipes(ValidationPipe)
     @Patch(':id')
     updateUser(@Param('id') id:number, @Body() updateUserDto:updateAccountDto){
         return this.accountService.update(+id, updateUserDto);
     }
 
-    @Roles(Role.ADMIN)
-    @UseGuards(jwtAuthGuard, RolesGuard)
+    @Auth(Role.ADMIN)
     @Delete(':id')
     remove(@Param('id') id: number){
         return this.accountService.remove(+id);
     }
+
+    // @Auth(Role.USER)
+    @Get('recharge/:money')
+    recharge(@Param('money') body){
+        return this.accountService.User_recharge(body)
+    }
+
+    
 
 }

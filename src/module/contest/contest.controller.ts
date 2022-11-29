@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete,HttpCode,UsePipes,ValidationPipe, Request, Response } from '@nestjs/common';
 import { Auth } from 'src/auth/auth.decorator';
-import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { ContestService } from './contest.service';
 import { CreateContestDto } from './dto/create-contest.dto';
