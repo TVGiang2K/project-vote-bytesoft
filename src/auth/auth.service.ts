@@ -38,11 +38,12 @@ export class AuthService {
     async login(user: AuthLoginDto){
         const account = await this.accountService.findByLogin(user);
         const refreshToken = this._createToken(account);
-        this.cacheManager.set('login', refreshToken);
+        this.cacheManager.set('login', (await refreshToken).accesstoken);
+        console.log(refreshToken);
         
         return {
             username: account.name,
-            access_token:refreshToken,
+            access_token: (await refreshToken).accesstoken,
         }
     }
 

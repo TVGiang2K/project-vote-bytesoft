@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Account } from 'src/module/account/account.entity';
 
-@Entity('RechargeHistory')
+// @Entity('RechargeHistory')
 export class RechargeHistory{
     @PrimaryGeneratedColumn()
     id:number;

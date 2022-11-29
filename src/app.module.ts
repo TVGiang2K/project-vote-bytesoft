@@ -7,8 +7,9 @@ import { AccountModule} from './module/account/account.module';
 import { ContestModule } from './module/contest/contest.module';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './module/candidates/candidates.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PagerMiddleware } from './middleware/page.middleware';
+import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [ ContestModule, TypeOrmModule.forRoot(typeormConfig),
@@ -18,7 +19,18 @@ import { PagerMiddleware } from './middleware/page.middleware';
     }),
     AccountModule,
     AuthModule,
-    
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        isGlobal: true,
+        store: redisStore,
+        host: configService.get<string>('REDIS_HOST'),
+        port: configService.get<string>('REDIS_PORT'),
+        username: configService.get<string>('REDIS_USERNAME'),
+        password: configService.get<string>('REDIS_PASSWORD'),
+      })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],  

@@ -5,9 +5,9 @@ export const typeormConfig: TypeOrmModuleOptions = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
-    username: 'admin',
-    password: 'Loc27112003#',
-    database: 'project-vote',
+    username: 'root',
+    password: '',
+    database: 'prject-voting',
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: true, // đồng bộ với database
 };

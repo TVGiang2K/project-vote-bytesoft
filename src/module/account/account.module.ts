@@ -23,7 +23,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         })
       }),],
     controllers: [ AccountController],
-    providers: [AccountService, JwtStrategy,AuthService,JwtService],
+    providers: [AccountService],
     exports: [AccountService],
 })
 export class AccountModule {
