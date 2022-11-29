@@ -8,6 +8,8 @@ import {
   HttpCode,
   UsePipes,
   ValidationPipe,
+  CACHE_MANAGER,
+  Inject,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
@@ -16,19 +18,25 @@ import { createAccountDto } from './module/account/dto/createAccount.dto';
 import { AccountService } from './module/account/account.service';
 import { Role } from './auth/roles/roles.enum';
 import { Auth } from './auth/auth.decorator';
-
+import {Cache} from 'cache-manager';
+// import { OnGlobalQueueActive } from '@nestjs/bull';
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService: AuthService,
     private readonly  accountService: AccountService,
-
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
+
+  @Get('show')
+  showss(){
+    return this.cacheManager.get('login');
+  }
 
 
   @Post('login')
-  login(@Body() loginAdminDto:AuthLoginDto) {
+  login(@Body() loginAdminDto:AuthLoginDto) {        
     return this.authService.login(loginAdminDto)
   }
 
@@ -48,11 +56,11 @@ export class AppController {
   }
 
   @Auth(Role.USER, Role.ADMIN)
-  @Post('logout')
-  async logout(@Request() req:any){
-   
+  @Get('logout')
+  async logout(){
+    await this.authService.logout();
+    return{
+      status:200,
+    }
   }
-
- 
-
 }

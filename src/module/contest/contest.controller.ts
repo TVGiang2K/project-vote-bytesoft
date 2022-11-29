@@ -18,19 +18,19 @@ export class ContestController {
     return this.contestService.create(createContestDto);
   }
 
-  @Auth(Role.ADMIN)
+  // @Auth(Role.ADMIN)
   @Get()
   findAll() {
     return this.contestService.findAll();
   }
   
-  @Auth(Role.ADMIN, Role.USER)
+  // @Auth(Role.ADMIN, Role.USER)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.contestService.findOne(+id);
   }
 
-  @Auth(Role.ADMIN, Role.USER)
+  // @Auth(Role.ADMIN, Role.USER)
   @Patch(':id')
   @UsePipes(ValidationPipe)
   update(@Param('id') id: string, @Request() req) {
@@ -38,7 +38,7 @@ export class ContestController {
     return this.contestService.update(+id, req.body);
   }
 
-  @Auth(Role.ADMIN)
+  // @Auth(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.contestService.remove(+id);

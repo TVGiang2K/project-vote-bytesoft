@@ -5,7 +5,6 @@ import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { RolesGuard } from 'src/auth/roles/roles.guard';
 import { AccountService } from './account.service';
-import { createAccountDto } from './dto/createAccount.dto';
 import { updateAccountDto } from './dto/updateAccount.dto';
 
 
@@ -16,16 +15,13 @@ export class AccountController {
           
         ){}
 
-    // @Roles(Role.ADMIN)
-    // @UseGuards(jwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN)
+    @UseGuards(jwtAuthGuard, RolesGuard)
     @Auth(Role.ADMIN)
     @Get()
     showAll(){
         return this.accountService.showAll()
     }
-
-
-
 
 
     @Auth(Role.ADMIN)

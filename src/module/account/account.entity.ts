@@ -19,7 +19,7 @@ import { Vote } from '../vote/entities/vote.entity';
     @Column({ type: 'varchar' })
     name: string;
   
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', unique: true   })
     email: string;
 
     @Column()
@@ -55,6 +55,11 @@ import { Vote } from '../vote/entities/vote.entity';
     @BeforeInsert()
     async hashPassword(){
       this.password = await bcrypt.hash(this.password, 8); 
+    }
+
+    @BeforeInsert()
+    async hashPhone(){
+      this.phone = await bcrypt.hash(this.phone, 8); 
     }
     
   }

@@ -19,7 +19,7 @@ export class ContestService {
     private readonly logger = new Logger(ContestService.name);
     async create(createContestDto: CreateContestDto): Promise<Contest> {
     const job = new CronJob(new Date(createContestDto.start_date), () => {
-      this.logger.warn(`time (${new Date(createContestDto.start_date)}) for job ${createContestDto.name} to run!`);
+      this.logger.warn(`time (${new Date(createContestDto.start_date)}) for job ${createContestDto.name} to run!`);      
     });  
 
     await this.schedulerRegistry.addCronJob(createContestDto.name, job);

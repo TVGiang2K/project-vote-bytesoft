@@ -1,10 +1,12 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
+import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Account } from 'src/module/account/account.entity';
 import { AccountService } from 'src/module/account/account.service';
 import { createAccountDto } from 'src/module/account/dto/createAccount.dto';
 import { AuthLoginDto } from "./auth-login.dto";
  import * as bcrypt from 'bcrypt';
+import {Cache} from 'cache-manager';
+
 
 
 
@@ -13,25 +15,16 @@ export class AuthService {
     constructor(
         private accountService: AccountService,
         private jwtService: JwtService,
-    ) { }
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
 
+    ) { }
 
     async register (userDto: createAccountDto){
         const user = await this.accountService.create(userDto);
-        const token = await this._createToken(user);
         return {
-            email:user.email,
-            ...token,
-        }
-    }
-
-    async login(user: AuthLoginDto){
-        const account = await this.accountService.findByLogin(user);
-         const token = await this._createToken(account)
-        return {
-            email: user.email,
-            ...token,
-        }
+            username: user.name,
+            email: user.email
+        };
     }
 
     async validateAccount(email): Promise<Account>{
@@ -40,6 +33,17 @@ export class AuthService {
             throw new HttpException('Invalid email address',HttpStatus.UNAUTHORIZED);
         }
         return account;
+    }
+    
+    async login(user: AuthLoginDto){
+        const account = await this.accountService.findByLogin(user);
+        const refreshToken = this._createToken(account);
+        this.cacheManager.set('login', refreshToken);
+        
+        return {
+            username: account.name,
+            access_token:refreshToken,
+        }
     }
 
     async _createToken({email}) {
@@ -50,8 +54,8 @@ export class AuthService {
             };
     }
 
-    
-
-    
+    async logout(){
+        return this.cacheManager.del('login');
+    }
 
  }

@@ -62,36 +62,4 @@ export class AccountService {
     });
 }
 
-  async updateToken(filter, update){
-    if(update.refreshToken){
-        update.refreshToken = await bcrypt.hash(
-            this.reverse(update.refreshToken),
-            10
-        );
-    }
-    return await this.AccountRp.update(filter, update);
-  }
-
-  async getUserByRefreshToken(refreshToken,email){
-    const user = await this.findEmail(email);
-    if(!user){
-        throw new HttpException('Invalid token',HttpStatus.UNAUTHORIZED)
-    }
-    const is_equal = await bcrypt.compare(
-        this.reverse(refreshToken),
-        user.refreshToken,
-    );
-
-    if(!is_equal){
-      throw new HttpException('Invalid creadentials',HttpStatus.UNAUTHORIZED)
-    }
-
-    return user;
-}
-
-private reverse(s){
-    return s.split('').reverse().join('')
-}
-
-
 }
