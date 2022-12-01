@@ -16,11 +16,12 @@ export class CandidatesService {
     return this.candidateRepository.save(createCandidateDto);
   }
 
-  async showAll(take: number = 12,skip:number = 1) {
+  async showAll(take: number = 12,skip:number = 0) {
     const [data, total] = await this.candidateRepository.findAndCount({
       take,
       skip,
     })
+    console.log(data)
     return {  data: data, total: total  }
   }
 
@@ -47,5 +48,12 @@ export class CandidatesService {
     }
   }
 
-  
+  async updateVote(quantityVote:any,idCandidate:number){
+    const quantityVoteOld = await this.findOne(idCandidate)
+
+    const quantityVoteNew = quantityVoteOld.quantityVote + parseInt(quantityVote)
+    return await this.candidateRepository.update(idCandidate,{
+      quantityVote: quantityVoteNew
+    })
+  }
 }

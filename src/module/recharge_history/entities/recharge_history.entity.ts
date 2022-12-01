@@ -1,7 +1,6 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Account } from 'src/module/account/account.entity';
-
-// @Entity('RechargeHistory')
+@Entity()
 export class RechargeHistory{
     @PrimaryGeneratedColumn()
     id:number;
@@ -9,7 +8,11 @@ export class RechargeHistory{
     @ManyToOne(()=>  Account, (Account) => Account.id)
     Account: Account;
 
-    @Column({ type: 'tinyint'})
+    // @Column()
+    // @JoinColumn({name: 'accountId'})
+    // accountId:Account;
+
+    @Column({ type: 'tinyint', default: () => 0 })
     status:number;
 
     @Column({  type: 'bigint' })

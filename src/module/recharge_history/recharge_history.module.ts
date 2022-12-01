@@ -7,6 +7,7 @@ import { RechargeHistory } from './entities/recharge_history.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([RechargeHistory])],
   controllers: [RechargeHistoryController],
-  providers: [RechargeHistoryService]
+  providers: [RechargeHistoryService],
+  exports: [RechargeHistoryService]
 })
 export class RechargeHistoryModule {}

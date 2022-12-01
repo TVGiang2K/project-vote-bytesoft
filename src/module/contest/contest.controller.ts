@@ -17,7 +17,7 @@ export class ContestController {
     return this.contestService.create(createContestDto);
   }
 
-  // @Auth(Role.ADMIN)
+  @Auth(Role.ADMIN)
   @Get()
   findAll() {
     return this.contestService.findAll();

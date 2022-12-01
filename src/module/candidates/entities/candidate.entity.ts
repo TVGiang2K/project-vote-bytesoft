@@ -31,12 +31,12 @@ export class Candidate {
     @Column({ type: 'tinyint'})
     status: number
 
-    @Column({ type: 'bigint', default: 0 })
+    @Column({default: () => 0 })
     quantityVote: number
 
  
-    @ManyToOne(()=>  Contest, (contest) => contest.id)
-    contest: Contest;
+    @ManyToOne(()=>  Contest, (contest) => contest.id,{})
+    contest!: Contest;
     
     @OneToMany(()=> Vote, (vote) => vote.id)
     vote: Vote[];

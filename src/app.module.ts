@@ -10,10 +10,12 @@ import { CandidatesModule } from './module/candidates/candidates.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PagerMiddleware } from './middleware/page.middleware';
 import * as redisStore from 'cache-manager-redis-store';
+import { RechargeHistoryModule } from './module/recharge_history/recharge_history.module';
 
 @Module({
   imports: [ ContestModule, TypeOrmModule.forRoot(typeormConfig),
     CandidatesModule,
+    RechargeHistoryModule,
     ConfigModule.forRoot({
       isGlobal:true
     }),

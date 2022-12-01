@@ -40,6 +40,11 @@ export class AppController {
     return this.authService.login(loginAdminDto)
   }
 
+  @Get('show')
+  show(){
+    return this.cacheManager.get('login')
+  }
+
 
   @Post('register')
   @HttpCode(200)
@@ -59,9 +64,9 @@ export class AppController {
 
 
   @Auth(Role.USER, Role.ADMIN)
-  @Post('logout')
-  async logout(@Request() req:any){
-   
+  @Get('logout')
+  async logout(){
+    return await this.authService.logout()
   }
 
  

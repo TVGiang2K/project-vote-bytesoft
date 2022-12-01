@@ -5,7 +5,7 @@ import { AccountService } from 'src/module/account/account.service';
 import { createAccountDto } from 'src/module/account/dto/createAccount.dto';
 import { AuthLoginDto } from "./auth-login.dto";
  import * as bcrypt from 'bcrypt';
-import {Cache} from 'cache-manager';
+import { Cache } from 'cache-manager';
 
 
 
@@ -39,11 +39,10 @@ export class AuthService {
         const account = await this.accountService.findByLogin(user);
         const refreshToken = this._createToken(account);
         this.cacheManager.set('login', (await refreshToken).accesstoken);
-        console.log(refreshToken);
         
         return {
             username: account.name,
-            access_token: (await refreshToken).accesstoken,
+            access_token:(await refreshToken).accesstoken,
         }
     }
 

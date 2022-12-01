@@ -2,15 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RechargeHistoryService } from './recharge_history.service';
 import { CreateRechargeHistoryDto } from './dto/create-recharge_history.dto';
 import { UpdateRechargeHistoryDto } from './dto/update-recharge_history.dto';
+import { Auth } from 'src/auth/auth.decorator';
+import { Role } from 'src/auth/roles/roles.enum';
+import { User } from '../account/user.decorator';
 
 @Controller('recharge-history')
 export class RechargeHistoryController {
   constructor(private readonly rechargeHistoryService: RechargeHistoryService) {}
 
-  @Post()
-  create(@Body() createRechargeHistoryDto: CreateRechargeHistoryDto) {
-    return this.rechargeHistoryService.create(createRechargeHistoryDto);
-  }
 
   @Get()
   findAll() {
@@ -22,13 +21,10 @@ export class RechargeHistoryController {
     return this.rechargeHistoryService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRechargeHistoryDto: UpdateRechargeHistoryDto) {
-    return this.rechargeHistoryService.update(+id, updateRechargeHistoryDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.rechargeHistoryService.remove(+id);
+  delete(@Param('id') id: number) {
+    this.rechargeHistoryService.remove(id)
   }
+ 
+
 }

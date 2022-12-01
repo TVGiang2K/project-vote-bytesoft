@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Entity, Repository } from 'typeorm';
+import { Account } from '../account/account.entity';
+import { User } from '../account/user.decorator';
 import { CreateRechargeHistoryDto } from './dto/create-recharge_history.dto';
 import { UpdateRechargeHistoryDto } from './dto/update-recharge_history.dto';
 import { RechargeHistory } from './entities/recharge_history.entity';
@@ -15,12 +17,12 @@ export class RechargeHistoryService {
     return 'This action adds a new rechargeHistory';
   }
 
-  findAll() {
-    return `This action returns all rechargeHistory`;
+  async findAll(): Promise<RechargeHistory[]>{
+    return await this.historyRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rechargeHistory`;
+  async findOne(id: number): Promise<RechargeHistory> {
+    return await this.historyRepository.findOne({where: {id:id}, relations: ['Account']})
   }
 
   update(id: number, updateRechargeHistoryDto: UpdateRechargeHistoryDto) {
@@ -28,6 +30,23 @@ export class RechargeHistoryService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} rechargeHistory`;
+    return this.historyRepository.delete(id)
+  }
+
+  async User_recharge(body:number,@User() userReq): Promise<RechargeHistory>{
+    const data = new RechargeHistory()
+    data.Account = userReq.id;
+    data.wait_money = body;
+    return await this.historyRepository.save(data)
+  }
+
+  async cancel_recharge(req){
+    return this.historyRepository.delete(req)
+  }
+
+  updateStatus(id:number){
+    return this.historyRepository.update(id,{
+      status: 1
+    })
   }
 }

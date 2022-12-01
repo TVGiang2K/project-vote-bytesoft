@@ -9,6 +9,7 @@ import {
  import * as bcrypt from 'bcrypt';
 import { Role } from 'src/auth/roles/roles.enum';
 import { Vote } from '../vote/entities/vote.entity';
+import { RechargeHistory } from '../recharge_history/entities/recharge_history.entity';
 
 
   @Entity('account')
@@ -19,7 +20,7 @@ import { Vote } from '../vote/entities/vote.entity';
     @Column({ type: 'varchar' })
     name: string;
   
-    @Column({ type: 'varchar', unique: true   })
+    @Column({ type: 'varchar', unique: true })
     email: string;
 
     @Column()
@@ -28,14 +29,14 @@ import { Vote } from '../vote/entities/vote.entity';
     @Column({ type: 'enum', enum: Role, default: Role.USER})
     role: Role;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar',nullable: true })
     avatar: string;
   
-    @Column({ type: 'varchar', unique: true  })
+    @Column({ type: 'varchar', unique: true, nullable: true  })
     phone: string;
   
-    @Column({ type: 'varchar' })
-    money: string;
+    @Column({nullable: true, default: () => 0 })
+    money: number;
   
     @OneToMany(()=> Vote, (vote) => vote.id)
     vote: Vote[];
@@ -58,6 +59,10 @@ import { Vote } from '../vote/entities/vote.entity';
     async hashPhone(){
       this.phone = await bcrypt.hash(this.phone, 8); 
     }
+
+    @OneToMany(()=> RechargeHistory, (RechargeHistory) => RechargeHistory.id)
+    RechargeHistory: RechargeHistory[]
+    
     
   }
   
