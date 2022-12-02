@@ -8,10 +8,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
 import { RechargeHistoryModule } from '../recharge_history/recharge_history.module';
 import { CandidatesModule } from '../candidates/candidates.module';
+import { VoteModule } from '../vote/vote.module';
 @Module({
   imports: [
     RechargeHistoryModule,
     CandidatesModule,
+    VoteModule,
     TypeOrmModule.forFeature([Account]),
     CacheModule.registerAsync({
       imports: [ConfigModule],

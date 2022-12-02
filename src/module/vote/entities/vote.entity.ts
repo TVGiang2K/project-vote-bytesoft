@@ -5,11 +5,16 @@ import { Column, ManyToOne, PrimaryGeneratedColumn, Entity } from "typeorm";
 export class Vote {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({ type: 'datetime'})
+
+    @Column({ type: 'datetime',default: () => 'NOW()'})
     created_time: Date
 
     @ManyToOne(()=>  Candidate, (candidate) => candidate.id)
     candidate: Candidate;
+
     @ManyToOne(()=>  Account , (acc ) => acc.id)
     acc: Account; 
+
+    @Column()
+    quantityVoted: number;
 }

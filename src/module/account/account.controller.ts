@@ -27,10 +27,16 @@ export class AccountController {
     private RechargeHistoryService: RechargeHistoryService,
   ) {}
 
-  @Auth(Role.ADMIN, Role.USER)
+  @Auth(Role.ADMIN)
   @Get()
   showAll() {
     return this.accountService.showAll();
+  }
+
+  @Auth(Role.USER)
+  @Get('historyVoting')
+  historyVoting(@User() getUser){
+    return this.accountService.MyhistoryVote(getUser.id)
   }
 
   @Auth(Role.ADMIN)
@@ -96,4 +102,6 @@ export class AccountController {
   ) {
     return this.accountService.vote(quantityVote,idCandidate,getUser)
   }
+
+
 }

@@ -1,6 +1,6 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Entity, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { AuthLoginDto } from './dto/loginAccount.dto';
 import { createAccountDto } from './dto/createAccount.dto';
@@ -9,20 +9,21 @@ import { Account } from './account.entity';
 import { User } from './user.decorator';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
 import { CandidatesService } from '../candidates/candidates.service';
+import { VoteService } from '../vote/vote.service';
 @Injectable()
 export class AccountService {
   constructor(
     @InjectRepository(Account)
     private readonly AccountRp: Repository<Account>,
     private RechargeHistoryService: RechargeHistoryService,
-    private candidatesServices: CandidatesService
+    private candidatesServices: CandidatesService,
+    private VoteService: VoteService,
   ) {}
 
   async create(data: createAccountDto) {
     const Account = this.AccountRp.create(data);
     await Account.save();
     delete Account.password;
-
     return Account;
   }
 
@@ -30,7 +31,6 @@ export class AccountService {
     const Account = await this.AccountRp.findOne({
       where: { email: email },
     });
-
     if (!Account) {
       throw new HttpException('Account Not Found', HttpStatus.UNAUTHORIZED);
     }
@@ -50,6 +50,7 @@ export class AccountService {
   async showAll(): Promise<Account[]> {
     return await this.AccountRp.find();
   }
+
   async remove(id: number) {
     return await this.AccountRp.delete(id);
   }
@@ -75,6 +76,7 @@ export class AccountService {
     return await this.RechargeHistoryService.updateStatus(id)
   }
    
+  // user vote for candidates
   vote(quantityVote:number,idCandidate,getUser){
     let baseMoney = 10000;
     let totalMoney = baseMoney*quantityVote;
@@ -87,11 +89,13 @@ export class AccountService {
     }else{
       this.AccountRp.update(getUser.id,{
         money:newMoney,
-      })
-      this.candidatesServices.updateVote(quantityVote,idCandidate)
-      
+      });
+      this.candidatesServices.updateVote(quantityVote,idCandidate);
+      this.VoteService.createHistoryVote(getUser.id,idCandidate,quantityVote)
     }
   }
-  
 
+  MyhistoryVote(UserId: number){
+    return this.VoteService.historyVote(UserId)
+  }
 }

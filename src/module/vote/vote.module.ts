@@ -7,6 +7,7 @@ import { Vote } from './entities/vote.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Vote])],
   controllers: [VoteController],
-  providers: [VoteService]
+  providers: [VoteService],
+  exports:[VoteService]
 })
 export class VoteModule {}

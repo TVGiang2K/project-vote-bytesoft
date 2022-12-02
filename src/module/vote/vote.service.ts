@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateVoteDto } from './dto/create-vote.dto';
-import { UpdateVoteDto } from './dto/update-vote.dto';
+import { getDataSourcePrefix, InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { createQueryBuilder, DataSource, Repository } from 'typeorm';
+import { Account } from '../account/account.entity';
+import { Vote } from './entities/vote.entity';
 
 @Injectable()
 export class VoteService {
-  create(createVoteDto: CreateVoteDto) {
-    return 'This action adds a new vote';
+
+  constructor(
+    @InjectRepository(Vote)
+    private VoteRp: Repository<Vote>,
+    private dataResource: DataSource,
+    ){}
+
+  async findAll(): Promise<Vote[]> {
+    return await this.VoteRp.find();
   }
 
-  findAll() {
-    return `This action returns all vote`;
+  async createHistoryVote(idUser,idCandidate,quantityVote){
+    return await this.VoteRp.save({
+      candidate: idCandidate,
+      acc: idUser,
+      quantityVoted:quantityVote,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vote`;
-  }
-
-  update(id: number, updateVoteDto: UpdateVoteDto) {
-    return `This action updates a #${id} vote`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} vote`;
+  async historyVote(idUser){
+    const users = await this.dataResource
+    .getRepository(Vote)
+    .createQueryBuilder("vote")
+    .innerJoinAndSelect("vote.acc","acc")
+    .innerJoinAndSelect("vote.candidate","candidate")
+    .where("acc.id = :id",{ id: idUser})
+    .take(9)
+    .getMany();
+    console.log(users)
   }
 }

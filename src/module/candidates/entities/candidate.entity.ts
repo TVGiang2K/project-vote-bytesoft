@@ -35,8 +35,8 @@ export class Candidate {
     quantityVote: number
 
  
-    @ManyToOne(()=>  Contest, (contest) => contest.id,{})
-    contest!: Contest;
+    @ManyToOne(()=>  Contest, (contest) => contest.id)
+    contest: Contest;
     
     @OneToMany(()=> Vote, (vote) => vote.id)
     vote: Vote[];
