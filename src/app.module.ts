@@ -11,9 +11,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PagerMiddleware } from './middleware/page.middleware';
 import * as redisStore from 'cache-manager-redis-store';
 import { RechargeHistoryModule } from './module/recharge_history/recharge_history.module';
+import { VoteModule } from './module/vote/vote.module';
+import { GatewayModule } from './gateway/gateway.module';
+
 
 @Module({
-  imports: [ ContestModule, TypeOrmModule.forRoot(typeormConfig),
+  imports: [ ContestModule, VoteModule, TypeOrmModule.forRoot(typeormConfig),
     CandidatesModule,
     RechargeHistoryModule,
     ConfigModule.forRoot({
@@ -31,7 +34,7 @@ import { RechargeHistoryModule } from './module/recharge_history/recharge_histor
         port: configService.get<string>('REDIS_PORT'),
         username: configService.get<string>('REDIS_USERNAME'),
         password: configService.get<string>('REDIS_PASSWORD'),
-      })
+      }),
     }),
   ],
   controllers: [AppController],

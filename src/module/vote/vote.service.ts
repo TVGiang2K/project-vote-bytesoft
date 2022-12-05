@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { getDataSourcePrefix, InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { createQueryBuilder, DataSource, Repository } from 'typeorm';
-import { Account } from '../account/account.entity';
+import {  InjectRepository } from '@nestjs/typeorm';
+import {  DataSource, Repository } from 'typeorm';
 import { Vote } from './entities/vote.entity';
 
 @Injectable()
@@ -16,6 +15,7 @@ export class VoteService {
   async findAll(): Promise<Vote[]> {
     return await this.VoteRp.find();
   }
+  
 
   async createHistoryVote(idUser,idCandidate,quantityVote){
     return await this.VoteRp.save({

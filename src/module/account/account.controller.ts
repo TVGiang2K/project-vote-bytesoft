@@ -1,18 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Request,
-  Patch,
-  HttpCode,
-  Post,
-  Delete,
-  UsePipes,
-  Param,
-  ValidationPipe,
-  UseGuards,
-  SetMetadata,
-} from '@nestjs/common';
+import { Body, Controller, Get,Request, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, UseGuards, SetMetadata, Render} from '@nestjs/common';
 import { Auth } from 'src/auth/auth.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
@@ -92,6 +78,9 @@ export class AccountController {
     return this.RechargeHistoryService.cancel_recharge(req);
   }
 
+
+
+  
   //  user vote cho thí sinh yêu thích
   @Auth(Role.USER)
   @Get('vote/:idCandidate/:quantityVote')
@@ -102,6 +91,7 @@ export class AccountController {
   ) {
     return this.accountService.vote(quantityVote,idCandidate,getUser)
   }
+
 
 
 }

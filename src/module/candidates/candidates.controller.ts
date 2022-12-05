@@ -40,4 +40,9 @@ export class CandidatesController {
   update_Vote(@Param('id') id: number){
   //  return this.candidatesService.voting(id)
   }
+
+  
+
+
+
 } 

@@ -1,0 +1,116 @@
+<%-include ('../header') %>
+
+
+  <!-- Content wrapper -->
+  <div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Edit Candidates</h4>
+      
+      <form action="" method="post">
+      <div class="row">
+        <div class="col-xl-8">
+          <!-- HTML5 Inputs -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="mb-3 row">
+                <label for="html5-text-input" class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="text" placeholder="Name"  id="html5-text-input" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="html5-tel-input" class="col-md-2 col-form-label">Adress</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="text" placeholder="...Ha Noi" id="html5-tel-input" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="html5-tel-input" class="col-md-2 col-form-label">Phone</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="tel" placeholder="90-(164)-188-556" id="html5-tel-input" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="html5-password-input" class="col-md-2 col-form-label">Content</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="text" placeholder="" id="html5-password-input" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="html5-number-input" class="col-md-2 col-form-label">Age</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="number" value="18" id="html5-number-input" />
+                </div>
+              </div>
+              
+              <div class="mb-3 row">
+                <label for="html5-date-input" class="col-md-2 col-form-label">Date</label>
+                <div class="col-md-10">
+                  <input class="form-control" type="date" value="2021-06-18" id="html5-date-input" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Default Checkboxes and radios & Default checkboxes and radios -->
+        <div class="col-xl-4">
+          <div class="card mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile" />
+              </div>
+              <div class="col-md">
+                <small class="text-light fw-semibold">Status</small>
+                <div class="form-check mt-3">
+                  <input
+                    name="default-radio-1"
+                    class="form-check-input"
+                    type="radio"
+                    value=""
+                    id="defaultRadio1"
+                  />
+                  <label class="form-check-label" for="defaultRadio1"> Hieenr thij </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    name="default-radio-1"
+                    class="form-check-input"
+                    type="radio"
+                    value=""
+                    id="defaultRadio2"
+                    checked
+                  />
+                  <label class="form-check-label" for="defaultRadio2"> Tamj aan </label>
+                </div>
+              </div>
+            </div>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+              <div class="input-group">
+                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                <select class="form-select" id="inputGroupSelect01">
+                  <option selected>Choose...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-offset="0,4"
+              data-bs-placement="right" data-bs-html="true" title="Add one candidates ">
+              Update
+            </button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </form>
+    </div>
+    </div>
+    <!-- / Content -->
+
+
+      <%-include ('../footer') %>

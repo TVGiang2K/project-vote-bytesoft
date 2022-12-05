@@ -10,6 +10,7 @@ import { User } from './user.decorator';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
 import { CandidatesService } from '../candidates/candidates.service';
 import { VoteService } from '../vote/vote.service';
+
 @Injectable()
 export class AccountService {
   constructor(
@@ -19,6 +20,8 @@ export class AccountService {
     private candidatesServices: CandidatesService,
     private VoteService: VoteService,
   ) {}
+
+  clientToUser = {};
 
   async create(data: createAccountDto) {
     const Account = this.AccountRp.create(data);
@@ -40,6 +43,12 @@ export class AccountService {
     }
     return Account;
   }
+
+  async idInfo(name: string, clientId: string){
+    this.clientToUser[clientId] = name;
+    return Object.values(this.clientToUser);
+  }
+
 
   async showById(id: any): Promise<Account> {
     const Account = await this.AccountRp.findOne({ where: { id: id } });
@@ -77,7 +86,7 @@ export class AccountService {
   }
    
   // user vote for candidates
-  vote(quantityVote:number,idCandidate,getUser){
+  vote(quantityVote:number, idCandidate, getUser){
     let baseMoney = 10000;
     let totalMoney = baseMoney*quantityVote;
     console.log(getUser.money)
