@@ -2,13 +2,13 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication,  } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 import {resolve } from 'path';
 import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     );
-
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')
@@ -21,6 +21,12 @@ async function bootstrap() {
   app.useStaticAssets(resolve('./src/public'));
   app.setBaseViewsDir(resolve('./src/views'));
   app.setViewEngine('ejs');
+  
+  app.use(cookieParser());
+  app.enableCors({
+    origin: 'https://localhost:3000',
+    credentials: true,
+  })
 
   await app.listen(3000);
 }

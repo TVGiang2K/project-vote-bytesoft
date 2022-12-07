@@ -6,6 +6,7 @@ import { createAccountDto } from 'src/module/account/dto/createAccount.dto';
 import { AuthLoginDto } from "./auth-login.dto";
  import * as bcrypt from 'bcrypt';
 import { Cache } from 'cache-manager';
+import { ConfigService } from '@nestjs/config';
 
 
 
@@ -15,6 +16,7 @@ export class AuthService {
     constructor(
         private accountService: AccountService,
         private jwtService: JwtService,
+        private configService: ConfigService,
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
 
     ) { }
@@ -37,22 +39,16 @@ export class AuthService {
     
     async login(user: AuthLoginDto){
         const account = await this.accountService.findByLogin(user);
-        const refreshToken = this._createToken(account);
-        this.cacheManager.set('login', (await refreshToken).accesstoken);
-        
-        return {
-            username: account.name,
-            access_token:(await refreshToken).accesstoken,
-        }
+        // console.log(account);
+        const email = account.email
+        const accesstoken = this.jwtService.sign({email});
+        return `Authentication=${accesstoken}; HttpOnly; Path=/; Max-Age=${this.configService.get('EXPRIRESIN')}`
     }
 
-    async _createToken({email}) {
-        const accesstoken = this.jwtService.sign({email});
+    // async _createToken(email:string) {
         
-            return {
-                accesstoken,
-            };
-    }
+    //     return accesstoken;
+    // }
 
     async logout(){
         return this.cacheManager.del('login');

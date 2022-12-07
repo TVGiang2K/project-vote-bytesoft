@@ -1,4 +1,5 @@
-import { Body, Controller, Get,Request, Patch, HttpCode, Post, Delete, UsePipes, Param, ValidationPipe, UseGuards, SetMetadata, Render} from '@nestjs/common';
+import { Body, Controller, Get,Request, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res} from '@nestjs/common';
+import { Response } from 'express';
 import { Auth } from 'src/auth/auth.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
@@ -15,8 +16,13 @@ export class AccountController {
 
   @Auth(Role.ADMIN)
   @Get()
-  showAll() {
-    return this.accountService.showAll();
+  async showAll(@Res() res: Response,@User() user: any) {
+    const accounts = await this.accountService.showAll()
+    res.render('account',{
+      MyUser: user,
+      accounts: accounts
+    })
+    console.log(accounts)
   }
 
   @Auth(Role.USER)

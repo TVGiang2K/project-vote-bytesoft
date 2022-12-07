@@ -1,6 +1,5 @@
 import {
   Controller,
-  Request,
   Post,
   UseGuards,
   Body,
@@ -12,6 +11,7 @@ import {
   Inject,
   Render,
   Res,
+  Req,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
@@ -22,8 +22,9 @@ import { Role } from './auth/roles/roles.enum';
 import { Auth } from './auth/auth.decorator';
 import { User } from './module/account/user.decorator';
 import {Cache} from 'cache-manager';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { View } from 'typeorm/schema-builder/view/View';
+import { JwtStrategy } from './auth/jwt.strategy';
 @Controller()
 export class AppController {
   constructor(
@@ -33,23 +34,24 @@ export class AppController {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  @Auth(Role.ADMIN)
-  @Get('show')
-  getsession(){
-    return this.cacheManager.get('login')
+  @Get()
+  @Render('login')
+  async loginUser() {
+    return { message: 'hello' }; 
   }
 
+  @HttpCode(200)
+  @UseGuards(JwtStrategy)
   @Post('login')
-  login(@Body() loginAdminDto:AuthLoginDto) {
-    return this.authService.login(loginAdminDto)
+  async login(@Req() req: Request, @Res() res: Response) {
+    const cookie = this.authService.login(req.body);
+    console.log(cookie)
+    res.setHeader('Set-Cookie', await cookie);
+    req.body.password = undefined;
+    res.redirect('/profile')
+    // return res.send(req.body.email);
   }
-
-  @Get('show')
-  show(){
-    return this.cacheManager.get('login')
-  }
-
-
+  
   @Post('register')
   @HttpCode(200)
   @UsePipes(ValidationPipe)
@@ -57,15 +59,13 @@ export class AppController {
     return await this.authService.register(AdminCreate);
   }
 
-  @Auth(Role.USER, Role.ADMIN)
+  @Auth(Role.ADMIN)
   @Get('profile')
-  async myInfo(@User() user: any) {
-    return {
+  async myInfo(@User() user: any,@Res() res: Response) {
+    res.render('index',{
       MyUser: user
-    }
+    })
   }
-
-
 
   @Auth(Role.USER, Role.ADMIN)
   @Get('logout')
@@ -73,37 +73,6 @@ export class AppController {
     return await this.authService.logout()
   }
 
-
-
-
-
-
-
-
-
-
-
-  @Get('account-admin')
-    @Render('account')
-    account() {
-        return  this.accountService.showAll().then((data) => data? {account : data}: {account: []}); ;
-    }
-
-
-
-
-
-  @Get()
-  @Render('index')
-  root() {
-    return { message: this.appService.root() }; 
-  }
-
-  @Get('login')
-  @Render('login')
-  loginadmin() {
-    return { message: this.appService.root() }; 
-  }
 
   @Get('contest')
   @Render('contest/contest')
