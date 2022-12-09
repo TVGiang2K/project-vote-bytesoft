@@ -10,8 +10,9 @@ export class CandidatesService {
   constructor(
     @InjectRepository(Candidate)
     private candidateRepository: Repository<Candidate>,
-  ) {
-  }
+  ) {}
+
+
   create(createCandidateDto: CreateCandidateDto): Promise<Candidate> {
     return this.candidateRepository.save(createCandidateDto);
   }
@@ -21,19 +22,27 @@ export class CandidatesService {
       take,
       skip,
     })
-    console.log(data)
     return {  data: data, total: total  }
   }
+  
+  async showCadi(): Promise<Candidate[]> {
+    return await this.candidateRepository.find();
+  }
+
+  // async totalCandidates(skip:number = 0){
+  //   const [data, total] = await this.candidateRepository.findAndCount({skip});
+  //   return total
+  // }
 
   findOne(id: number) : Promise<Candidate> {
-    return this.candidateRepository.findOneBy({ id });
+    return this.candidateRepository.findOne({where: {id:id}, relations: ['contest']});
   }
 
   update(id: number, updateCandidateDto: UpdateCandidateDto): Promise<UpdateResult> {
     return this.candidateRepository.update(id, updateCandidateDto);
   }
 
-  remove(id: number) {
+  remove(id: number) { 
     return this.candidateRepository.delete({ id });
   }
 

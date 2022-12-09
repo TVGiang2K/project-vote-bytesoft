@@ -17,6 +17,11 @@ export class VoteService {
   }
   
 
+  async totalVote(skip:number = 0){
+    const [data, total] = await this.VoteRp.findAndCount({skip});
+    return total
+  }
+  
   async createHistoryVote(idUser,idCandidate,quantityVote){
     return await this.VoteRp.save({
       candidate: idCandidate,

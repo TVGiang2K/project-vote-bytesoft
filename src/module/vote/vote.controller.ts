@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { VoteService } from './vote.service';
 import { CreateVoteDto } from './dto/create-vote.dto';
 import { UpdateVoteDto } from './dto/update-vote.dto';
-import { VotetingGetway } from '../../gateway/vote.gateway';
 
 @Controller('vote')
 export class VoteController {
@@ -13,6 +12,11 @@ export class VoteController {
   @Get()
   findAll() {
     return this.voteService.findAll();
+  }
+
+  @Get('total')
+  totalVote(@Query() {skip}) {
+    return this.voteService.totalVote(skip);
   }
 
 }

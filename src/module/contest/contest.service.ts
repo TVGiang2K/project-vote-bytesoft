@@ -55,9 +55,22 @@ export class ContestService {
     return this.contestsRepository.save(createContestDto);
   }
  
-  findAll(): Promise<Contest[]> {
-    return this.contestsRepository.find();
+  async findAll(): Promise<Contest[]> {
+    const resuilt = await this.contestsRepository.find();
+    return resuilt
   }
+
+  async showAll(skip:number = 0) {
+    const [data, total] = await this.contestsRepository.findAndCount({
+      skip
+    })
+    return {  data: data, total: total  }
+  }
+
+  // async totalContest(skip:number = 0){
+  //   const [data, total] = await this.contestsRepository.findAndCount({skip});
+  //   return total
+  // }
 
   findOne(id: number) : Promise<Contest> {
     return this.contestsRepository.findOneBy({id});

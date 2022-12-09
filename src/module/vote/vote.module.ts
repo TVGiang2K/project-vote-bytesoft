@@ -3,17 +3,16 @@ import { VoteService } from './vote.service';
 import { VoteController } from './vote.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Vote } from './entities/vote.entity';
-import { GatewayModule } from 'src/gateway/gateway.module';
+import { VotetingGetway } from './vote.gateway';
+import { AccountService } from '../account/account.service';
 
-
+ 
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Vote]), 
-  GatewayModule,
-],
+  imports: [TypeOrmModule.forFeature([Vote])],
   controllers: [VoteController],
-  providers: [VoteService],
+  providers: [VoteService, VotetingGetway],
   exports:[VoteService]
 })
 export class VoteModule {}

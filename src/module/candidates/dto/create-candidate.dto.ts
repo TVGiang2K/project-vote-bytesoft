@@ -14,12 +14,13 @@ export class CreateCandidateDto {
         message: 'số điện thoại tối đa 10 số',
       })
     phone: string;
+
     @IsNotEmpty({ message: 'Hãy chọn ảnh của bạn'})
     avatar: string;
     
     @IsNotEmpty({ message: 'Hãy nhập địa chỉ của bạn'})
     address: string;
 
-    @IsNotEmpty({ message: 'Hãy nhập chọn cuộc thi của bạn'})
-    contestId: number;
+    // @IsNotEmpty({ message: 'Hãy nhập chọn cuộc thi của bạn'})
+    // contestId: number;
 }

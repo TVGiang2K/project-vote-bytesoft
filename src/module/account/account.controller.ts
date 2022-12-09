@@ -52,7 +52,6 @@ export class AccountController {
   @Get('vote-history/:id')
   async admin_historyVoting_user(@Param('id') id:number,@Res() res: Response,@User() user: any){
     const history = await this.accountService.MyhistoryVote(id)
-    console.log(history[0].quantityVoted)
     res.render('history/history-vote',{
       MyUser: user,
       history,

@@ -9,7 +9,8 @@ import { PagerMiddleware } from 'src/middleware/page.middleware';
 @Module({
   imports: [TypeOrmModule.forFeature([Contest]),ScheduleModule.forRoot(),],
   controllers: [ContestController],
-  providers: [ContestService]
+  providers: [ContestService],
+  exports: [ContestService]
 })
 export class ContestModule {
   

@@ -18,7 +18,6 @@ import { PagerMiddleware } from './middleware/page.middleware';
 import * as redisStore from 'cache-manager-redis-store';
 import { RechargeHistoryModule } from './module/recharge_history/recharge_history.module';
 import { VoteModule } from './module/vote/vote.module';
-import { GatewayModule } from './gateway/gateway.module';
 
 @Module({
   imports: [

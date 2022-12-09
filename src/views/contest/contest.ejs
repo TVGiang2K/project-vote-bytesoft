@@ -11,7 +11,7 @@
           <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Contest</h4>
         </div>
         <div class="col-md-2">
-          <a href="/create-contest">
+          <a href="create">
             <button hef class="btn btn-primary" data-bs-toggle="tooltip" data-bs-offset="0,4"
             data-bs-placement="right" data-bs-html="true" title="Add one candidates ">
             Add
@@ -23,19 +23,20 @@
 
 
       <div class="row">
+        <% contests.forEach((item, key) => { %>
         <div class="col-xl-12">
-          <h6 class="text-muted">Name/ contest</h6>
+          <h4 class="text-muted">Contest: <%= item.name %></h4>
           <div class="nav-align-top mb-4">
             <ul class="nav nav-tabs" role="tablist">
               <li class="nav-item">
                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                  data-bs-target="#navs-top-profile" aria-controls="navs-top-profile" aria-selected="true">
+                  data-bs-target="#navs-top-profile-<%= key %>" aria-controls="navs-top-profile" aria-selected="true">
                   <i class="menu-icon tf-icons bx bx-collection"></i>
                   Profile contest
                 </button>
               </li>
               <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-list"
+                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-list-<%= key %>"
                   aria-controls="navs-top-list" aria-selected="false">
                   <i class="menu-icon tf-icons bx bx-detail"></i>
                   List candidates
@@ -43,31 +44,27 @@
               </li>
               <li class="nav-item">
                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                  data-bs-target="#navs-top-history" aria-controls="navs-top-history" aria-selected="false">
-                  <i class="menu-icon tf-icons bx bx-crown"></i>
+                  data-bs-target="#navs-top-history-<%= key %>" aria-controls="navs-top-history" aria-selected="false">
+                  <i class='menu-icon tf-icons bx bx-building'></i>
                   History vote
                 </button>
               </li>
               <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-option"
+                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-option-<%= key %>"
                   aria-controls="navs-top-option" aria-selected="false">
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
               </li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane fade show active" id="navs-top-profile" role="tabpanel">
-                <p>
-                  Icing pastry pudding oat cake. Lemon drops cotton candy caramels cake caramels sesame snaps
-                  powder. Bear claw candy topping.
-                </p>
+              <div class="tab-pane fade show active" id="navs-top-profile-<%= key %>" role="tabpanel">
+                <p>Start Time: <%= item.start_date.toLocaleDateString('zh-Hans-CN') %> ; <%= item.start_date.toLocaleTimeString('zh-Hans-CN') %>
+                  => Last Time: <%= item.last_date.toLocaleDateString('zh-Hans-CN') %> ; <%= item.last_date.toLocaleTimeString('zh-Hans-CN') %> </p>
                 <p class="mb-0">
-                  Tootsie roll fruitcake cookie. Dessert topping pie. Jujubes wafer carrot cake jelly. Bonbon
-                  jelly-o jelly-o ice cream jelly beans candy canes cake bonbon. Cookie jelly beans marshmallow
-                  jujubes sweet.
+                  Trạng thái : <%= item.status %>
                 </p>
               </div>
-              <div class="tab-pane fade" id="navs-top-list" role="tabpanel">
+              <div class="tab-pane fade" id="navs-top-list-<%= key %>" role="tabpanel">
                 <p>
                   Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
                   cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream
@@ -78,7 +75,7 @@
                   cotton candy liquorice caramels.
                 </p>
               </div>
-              <div class="tab-pane fade" id="navs-top-history" role="tabpanel">
+              <div class="tab-pane fade" id="navs-top-history-<%= key %>" role="tabpanel">
                 <p>
                   Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
                   cupcake gummi bears cake chocolate.
@@ -89,93 +86,16 @@
                   jelly-o tart brownie jelly.
                 </p>
               </div>
-              <div class="tab-pane fade" id="navs-top-option" role="tabpanel">
+              <div class="tab-pane fade" id="navs-top-option-<%= key %>" role="tabpanel">
                 <p>
-                  
-                  <a class="dropdown-item" href="/edit-contest"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                  <a class="dropdown-item" href="edit/<%= item.id %>"><i class="bx bx-edit-alt me-1"></i> Edit Contest</a>
+                  <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete Contest</a>
                 </p>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="col-xl-12">
-          <h6 class="text-muted">Name/ contest</h6>
-          <div class="nav-align-top mb-4">
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item">
-                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                  data-bs-target="#navs-top-profile" aria-controls="navs-top-profile" aria-selected="true">
-                  <i class="menu-icon tf-icons bx bx-collection"></i>
-                  Profile contest
-                </button>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-list"
-                  aria-controls="navs-top-list" aria-selected="false">
-                  <i class="menu-icon tf-icons bx bx-detail"></i>
-                  List candidates
-                </button>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                  data-bs-target="#navs-top-history" aria-controls="navs-top-history" aria-selected="false">
-                  <i class="menu-icon tf-icons bx bx-crown"></i>
-                  History vote
-                </button>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-option"
-                  aria-controls="navs-top-option" aria-selected="false">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane fade show active" id="navs-top-profile" role="tabpanel">
-                <p>
-                  Icing pastry pudding oat cake. Lemon drops cotton candy caramels cake caramels sesame snaps
-                  powder. Bear claw candy topping.
-                </p>
-                <p class="mb-0">
-                  Tootsie roll fruitcake cookie. Dessert topping pie. Jujubes wafer carrot cake jelly. Bonbon
-                  jelly-o jelly-o ice cream jelly beans candy canes cake bonbon. Cookie jelly beans marshmallow
-                  jujubes sweet.
-                </p>
-              </div>
-              <div class="tab-pane fade" id="navs-top-list" role="tabpanel">
-                <p>
-                  Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
-                  cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream
-                  cheesecake fruitcake.
-                </p>
-                <p class="mb-0">
-                  Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
-                  cotton candy liquorice caramels.
-                </p>
-              </div>
-              <div class="tab-pane fade" id="navs-top-history" role="tabpanel">
-                <p>
-                  Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
-                  cupcake gummi bears cake chocolate.
-                </p>
-                <p class="mb-0">
-                  Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake. Sweet
-                  roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly
-                  jelly-o tart brownie jelly.
-                </p>
-              </div>
-              <div class="tab-pane fade" id="navs-top-option" role="tabpanel">
-                <p>
-                  
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <% })%>
       </div>
       <!-- Tabs -->
     </div>

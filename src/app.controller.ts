@@ -25,6 +25,7 @@ import {Cache} from 'cache-manager';
 import { Request, Response } from 'express';
 import { View } from 'typeorm/schema-builder/view/View';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { get } from 'http';
 @Controller()
 export class AppController {
   constructor(
@@ -93,42 +94,62 @@ export class AppController {
   }
 
 
-  @Get('contest')
-  @Render('contest/contest')
-  contest() {
+  @Get('error')
+  @Render('error')
+  error() {
     return { message: this.appService.root() }; 
   }
-  @Get('create-contest')
-  @Render('contest/create')
-  contestCreate() {
+
+
+
+
+
+
+
+
+
+  // @Get('account-admin')
+  //   @Render('account')
+  //   account() {
+  //       return  this.accountService.showAll().then((data) => data? {account : data}: {account: []}); ;
+  //   }
+
+
+
+
+  @Get()
+  @Render('index')
+  root() {
     return { message: this.appService.root() }; 
   }
-  @Get('edit-contest')
-  @Render('contest/update')
-  contestUpdate() {
+
+  @Get('login')
+  @Render('login')
+  loginadmin() {
+    return { message: this.appService.root() }; 
+  }
+
+  @Get('contest-history')
+  @Render('history-vote')
+  contestHis() {
     return { message: this.appService.root() }; 
   }
 
 
 
   
-  @Get('candidates')
-  @Render('candidates/candidates')
-  candidates() {
-    return { message: this.appService.root() }; 
-  }
+  // @Get('candidates')
+  // @Render('candidates/candidates')
+  // candidates() {
+  //   return { message: this.appService.root() }; 
+  // }
 
-  @Get('create-candidates')
-  @Render('candidates/create')
-  createCandidates() {
-    return { message: this.appService.root() }; 
-  }
 
-  @Get('edit-candidates')
-  @Render('candidates/update')
-  updateCandidates() {
-    return { message: this.appService.root() }; 
-  }
+  // @Get('edit-candidates')
+  // @Render('candidates/update')
+  // updateCandidates() {
+  //   return { message: this.appService.root() }; 
+  // }
 
 
   @Get('vote')
