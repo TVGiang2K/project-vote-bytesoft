@@ -31,12 +31,9 @@ export class VoteService {
     .createQueryBuilder("vote")
     .innerJoinAndSelect("vote.acc","acc")
     .innerJoinAndSelect("vote.candidate","candidate")
-    // .select(['vote.*','acc.name', 'candidate.name', 'candidate.id'])
     .where("acc.id = :id",{ id: idUser})
     .take(9)
     .getMany();
-    return{
-      historyVote: users
-    }
+    return users;
   }
 }

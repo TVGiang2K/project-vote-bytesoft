@@ -1,9 +1,15 @@
-import { CacheModule, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  CacheModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm.config';
-import { AccountModule} from './module/account/account.module';
+import { AccountModule } from './module/account/account.module';
 import { ContestModule } from './module/contest/contest.module';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './module/candidates/candidates.module';
@@ -14,13 +20,15 @@ import { RechargeHistoryModule } from './module/recharge_history/recharge_histor
 import { VoteModule } from './module/vote/vote.module';
 import { GatewayModule } from './gateway/gateway.module';
 
-
 @Module({
-  imports: [ ContestModule, VoteModule, TypeOrmModule.forRoot(typeormConfig),
+  imports: [
+    ContestModule,
+    VoteModule,
+    TypeOrmModule.forRoot(typeormConfig),
     CandidatesModule,
     RechargeHistoryModule,
     ConfigModule.forRoot({
-      isGlobal:true
+      isGlobal: true,
     }),
     AccountModule,
     AuthModule,
@@ -38,8 +46,13 @@ import { GatewayModule } from './gateway/gateway.module';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],  
+  providers: [AppService],
 })
-export class AppModule {
-  
-}  
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(PagerMiddleware).forRoutes({
+      path: 'paged',
+      method: RequestMethod.GET,
+    });
+  }
+}

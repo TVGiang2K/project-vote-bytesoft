@@ -44,14 +44,33 @@ export class AppController {
   @UseGuards(JwtStrategy)
   @Post('login')
   async login(@Req() req: Request, @Res() res: Response) {
-    const cookie = this.authService.login(req.body);
-    console.log(cookie)
-    res.setHeader('Set-Cookie', await cookie);
-    req.body.password = undefined;
-    res.redirect('/profile')
+    const cookie = await this.authService.login(req.body);
+    // console.log(cookie);
+    if(!cookie){
+      res.redirect('/')
+      return {
+        message: 'incorrect account'
+      }
+    }else{
+      res.setHeader('Set-Cookie', await cookie);
+      req.body.password = undefined;
+      res.redirect('/profile')
+    }
     // return res.send(req.body.email);
   }
   
+  @HttpCode(200)
+  @UseGuards(JwtStrategy)
+  @Post('loginUser')
+  async loginUsers(@Req() req: Request, @Res() res: Response) {
+    const cookie = await this.authService.login(req.body);
+
+      res.setHeader('Set-Cookie', await cookie);
+      req.body.password = undefined;
+      res.redirect('/profile')
+    // return res.send(req.body.email);
+  }
+
   @Post('register')
   @HttpCode(200)
   @UsePipes(ValidationPipe)
@@ -59,7 +78,7 @@ export class AppController {
     return await this.authService.register(AdminCreate);
   }
 
-  @Auth(Role.ADMIN)
+  @Auth(Role.ADMIN, Role.USER)
   @Get('profile')
   async myInfo(@User() user: any,@Res() res: Response) {
     res.render('index',{

@@ -7,7 +7,6 @@ export const typeormConfig: TypeOrmModuleOptions = {
     port: 3306,
     username: 'admin',
     password: 'Loc27112003#',
-    logging: "all",
     database: 'vote-project',   
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: true, // đồng bộ với database

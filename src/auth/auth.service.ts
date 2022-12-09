@@ -7,8 +7,7 @@ import { AuthLoginDto } from "./auth-login.dto";
  import * as bcrypt from 'bcrypt';
 import { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
-
-
+import { exit } from 'process';
 
 
 @Injectable()
@@ -38,17 +37,12 @@ export class AuthService {
     }
     
     async login(user: AuthLoginDto){
-        const account = await this.accountService.findByLogin(user);
-        // console.log(account);
+        const account = await this.accountService.findByLogin(user.email,user.password);
+        console.log(account);
         const email = account.email
         const accesstoken = this.jwtService.sign({email});
         return `Authentication=${accesstoken}; HttpOnly; Path=/; Max-Age=${this.configService.get('EXPRIRESIN')}`
     }
-
-    // async _createToken(email:string) {
-        
-    //     return accesstoken;
-    // }
 
     async logout(){
         return this.cacheManager.del('login');

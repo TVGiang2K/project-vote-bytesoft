@@ -11,11 +11,6 @@ import { PagerMiddleware } from 'src/middleware/page.middleware';
   controllers: [ContestController],
   providers: [ContestService]
 })
-export class ContestModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(PagerMiddleware).forRoutes({
-      path: 'candidates/paged',
-      method: RequestMethod.GET
-    })
-}
+export class ContestModule {
+  
 }

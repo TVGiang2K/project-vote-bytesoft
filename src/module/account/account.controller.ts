@@ -1,5 +1,6 @@
-import { Body, Controller, Get,Request, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res} from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Get, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res, Req} from '@nestjs/common';
+import { Request, Response } from 'express';
+import { exit } from 'process';
 import { Auth } from 'src/auth/auth.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
@@ -16,19 +17,46 @@ export class AccountController {
 
   @Auth(Role.ADMIN)
   @Get()
-  async showAll(@Res() res: Response,@User() user: any) {
-    const accounts = await this.accountService.showAll()
-    res.render('account',{
-      MyUser: user,
-      accounts: accounts
-    })
-    console.log(accounts)
+  async showAll(@Res() res: Response,@User() user: any,@Req() req: Request,take: number = 3) {
+    const acctionPage = req.url.slice(9)
+    if(req.url == '/account'){
+      const skip = 0;
+      const accounts = await this.accountService.showAll(take,skip)
+      res.render('account',{
+        MyUser: user,
+        accounts: accounts.data,
+        paginate: accounts.total,
+        qttPage: accounts.page,
+      })
+    }else{
+      const acction = take * parseInt(acctionPage) - take
+      const accounts = await this.accountService.showAll(take,acction)
+      res.render('account',{
+        MyUser: user,
+        accounts: accounts.data,
+        paginate: accounts.total,
+        qttPage: accounts.page,
+      })
+    }
   }
 
+  // lịch sử vote
   @Auth(Role.USER)
   @Get('historyVoting')
   historyVoting(@User() getUser){
     return this.accountService.MyhistoryVote(getUser.id)
+  }
+
+  // admin xem lịch sử vote của người dùng
+  @Auth(Role.ADMIN)
+  @Get('vote-history/:id')
+  async admin_historyVoting_user(@Param('id') id:number,@Res() res: Response,@User() user: any){
+    const history = await this.accountService.MyhistoryVote(id)
+    console.log(history[0].quantityVoted)
+    res.render('history/history-vote',{
+      MyUser: user,
+      history,
+    });
   }
 
   @Auth(Role.ADMIN)
@@ -83,9 +111,6 @@ export class AccountController {
   cancel_recharge(@Param('id') req) {
     return this.RechargeHistoryService.cancel_recharge(req);
   }
-
-
-
   
   //  user vote cho thí sinh yêu thích
   @Auth(Role.USER)
@@ -97,7 +122,5 @@ export class AccountController {
   ) {
     return this.accountService.vote(quantityVote,idCandidate,getUser)
   }
-
-
 
 }

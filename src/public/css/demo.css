@@ -113,11 +113,10 @@
 }
 
 .demo-inline-spacing{
-  position: relative;
-
+  float:right;
+  padding-right:20px
 }
 
 .navigation{
-  position: absolute;
-  top: 100px;
+
 }

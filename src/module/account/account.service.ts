@@ -1,4 +1,4 @@
-import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException, Param, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -10,6 +10,7 @@ import { User } from './user.decorator';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
 import { CandidatesService } from '../candidates/candidates.service';
 import { VoteService } from '../vote/vote.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AccountService {
@@ -30,7 +31,7 @@ export class AccountService {
     return Account;
   }
 
-  async findByLogin({ email, password }: AuthLoginDto) {
+  async findByLogin( email, password ) {
     const Account = await this.AccountRp.findOne({
       where: { email: email },
     });
@@ -56,9 +57,15 @@ export class AccountService {
     return Account;
   }
 
-  async showAll(): Promise<Account[]> {
-    return await this.AccountRp.find();
+  async showAll(take: number,skip:number) {
+    const [data, total] = await this.AccountRp.findAndCount({
+      take,
+      skip,
+    })
+    const page = total/3
+    return {  data: data, total: total, page: parseInt(page.toFixed())  }
   }
+
 
   async remove(id: number) {
     return await this.AccountRp.delete(id);
@@ -100,11 +107,13 @@ export class AccountService {
         money:newMoney,
       });
       this.candidatesServices.updateVote(quantityVote,idCandidate);
-      this.VoteService.createHistoryVote(getUser.id,idCandidate,quantityVote)
+      this.VoteService.createHistoryVote(getUser.id,idCandidate,quantityVote);
     }
   }
 
-  MyhistoryVote(UserId: number){
-    return this.VoteService.historyVote(UserId)
+  async MyhistoryVote(UserId: number){
+    const history = await this.VoteService.historyVote(UserId)
+    return history;
   }
 }
+
