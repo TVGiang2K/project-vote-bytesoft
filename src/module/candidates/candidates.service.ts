@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { ContestService } from '../contest/contest.service';
+import { VoteService } from '../vote/vote.service';
 import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
 import { Candidate } from './entities/candidate.entity';
@@ -11,6 +12,7 @@ export class CandidatesService {
   constructor(
     @InjectRepository(Candidate)
     private candidateRepository: Repository<Candidate>,
+    private VoteService: VoteService,
   ) {}
 
 
@@ -66,5 +68,10 @@ export class CandidatesService {
     return await this.candidateRepository.update(idCandidate,{
       quantityVote: quantityVoteNew
     })
+  }
+
+  async MyhistoryVote(Id: number){
+    const history = await this.VoteService.historyVoteCandidates(Id)
+    return history;
   }
 }
