@@ -45,7 +45,7 @@ export class AuthService {
     }
 
     async logout(){
-        return this.cacheManager.del('login');
+       return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
     }
 
  }

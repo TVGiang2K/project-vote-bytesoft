@@ -13,13 +13,13 @@
         <div class="table-responsive text-nowrap">
           <table class="table">
             <thead>
-              <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>name candidate</th>
-                <th>created_time</th>
-                <th>quantityVoted</th>
-                <th>Menu</th>
+              <tr >
+                <th >Id</th>
+                <th >Email</th>
+                <th >name candidate</th>
+                <th >created_time</th>
+                <th >quantityVoted</th>
+                <th >Menu</th>
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
@@ -29,22 +29,17 @@
                     <%= item.id %>
                   </td>
                   <td>
-                    <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                      <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                        class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                        <img src="img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                      </li>
-                    </ul>
+                    <%= item.acc.email %>
                   </td>
                   <td>
                     <i class="fab fa-angular fa-lg text-danger me-3"></i>
                     <strong>
-                        <%= item.acc.name %>
+                      <%= item.candidate.name %>
                     </strong>
                   </td>
                   <td>
                     <span class="badge bg-label-primary me-1">
-                        <%= item.candidate.name %>
+                        <%= item.created_time.toLocaleDateString('zh-Hans-CN') %>
                     </span>
                   </td>
                   <td>

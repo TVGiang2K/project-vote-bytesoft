@@ -57,7 +57,7 @@ export class AccountService {
     return Account;
   }
 
-  async showAll(take: number,skip:number) {
+  async showAllPaginate(take: number,skip:number) {
     const [data, total] = await this.AccountRp.findAndCount({
       take,
       skip,

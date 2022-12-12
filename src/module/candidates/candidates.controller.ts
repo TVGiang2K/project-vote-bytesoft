@@ -114,7 +114,7 @@ export class CandidatesController {
     res.render('candidates/candidates',{
       MyUser: user,
       candidates: candidate
-    })
+    });
   }
 
 

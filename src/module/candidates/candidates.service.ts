@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
+import { ContestService } from '../contest/contest.service';
 import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
 import { Candidate } from './entities/candidate.entity';
@@ -25,8 +26,9 @@ export class CandidatesService {
     return {  data: data, total: total  }
   }
   
-  async showCadi(): Promise<Candidate[]> {
-    return await this.candidateRepository.find();
+  async showCadi(take: number = 12,skip:number = 0) {
+    const data = await this.candidateRepository.find();
+    return data
   }
 
   // async totalCandidates(skip:number = 0){

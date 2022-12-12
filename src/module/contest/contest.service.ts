@@ -3,10 +3,12 @@ import { CreateContestDto } from './dto/create-contest.dto';
 import { UpdateContestDto } from './dto/update-contest.dto';
 import { Contest } from '../contest/entities/contest.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { UpdateResult,DeleteResult } from 'typeorm';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { CandidatesService } from '../candidates/candidates.service';
+import { Candidate } from '../candidates/entities/candidate.entity';
 // import { async } from 'rxjs';
 
 @Injectable()  // map các bảng trong csdl
@@ -14,7 +16,9 @@ export class ContestService {
   constructor(
     @InjectRepository(Contest) // tự động cập nhật khi có thay đổi về dữ liệu
     private contestsRepository: Repository<Contest>,
-    private schedulerRegistry: SchedulerRegistry
+    private schedulerRegistry: SchedulerRegistry,
+    private candidatesServices: CandidatesService,
+    private dataResource: DataSource,
     ) {}
     private readonly logger = new Logger(ContestService.name);
     async create(createContestDto: CreateContestDto): Promise<Contest> {
@@ -55,9 +59,18 @@ export class ContestService {
     return this.contestsRepository.save(createContestDto);
   }
  
-  async findAll(): Promise<Contest[]> {
-    const resuilt = await this.contestsRepository.find();
-    return resuilt
+  async findAll(){
+    const candidate_by_contest = await this.dataResource
+    .getRepository(Candidate)
+    .createQueryBuilder("candidate")
+    .innerJoinAndSelect("candidate.contest","contest")
+    .cache(true)
+    .take(9)
+    .getMany()
+    
+    console.log(candidate_by_contest);
+    
+    return candidate_by_contest
   }
 
   async showAll(skip:number = 0) {

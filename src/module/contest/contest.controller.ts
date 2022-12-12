@@ -4,23 +4,31 @@ import { Role } from 'src/auth/roles/roles.enum';
 import { User } from '../account/user.decorator';
 import { ContestService } from './contest.service';
 import { CreateContestDto } from './dto/create-contest.dto';
-import { UpdateContestDto } from './dto/update-contest.dto';
-import { Response, Request } from 'express';
-import { log } from 'console';
+import { Response, Request  } from 'express';
+import { CandidatesService } from '../candidates/candidates.service';
 
 @Controller('contest')
 export class ContestController {
-  constructor(private readonly contestService: ContestService) {}
+  constructor(
+    private readonly contestService: ContestService,
+    private candidatesServices: CandidatesService,
+
+    ) {}
   
 
   @Auth(Role.ADMIN)
-  @Get('list')
-  async show(@Res() res: Response ,@User() user: any) {
-    const contest = await this.contestService.findAll();
+  @Get()
+  async show(@Res() res: Response ,@User() user: any,@Query() {take,skip}) {
+    const candidate_by_contest = await this.contestService.findAll();
+    const contest = await this.contestService.showAll();
     res.render('contest/contest',{
       MyUser: user,
-      contests: contest
-    })
+      contest:contest.data,
+      candidate_by_contest: candidate_by_contest,
+      contest_by_candidate: candidate_by_contest[0].contest.id,
+      quantityCandidates: candidate_by_contest.length
+      // candidates: candidates,
+    });
   }
 
   @Auth(Role.ADMIN)
@@ -75,50 +83,6 @@ export class ContestController {
     }
   }
 
-
-  // @Get('contest')
-  // @Render('contest/contest')
-  // contest() {
-  //   return { message: this.appService.root() }; 
-  // }
-  // @Get('create-contest')
-  // @Render('contest/create')
-  // contestCreate() {
-  //   return { message: this.appService.root() }; 
-  // }
-  // @Get('edit-contest')
-  // @Render('contest/update')
-  // contestUpdate() {
-  //   return { message: this.appService.root() }; 
-  // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // API 
   @Get('total')
   total(@Query() {skip}) {
     return this.contestService.showAll(skip);
@@ -132,25 +96,19 @@ export class ContestController {
     return this.contestService.create(createContestDto);
   }
 
-  @Auth(Role.ADMIN)
-  @Get()
-  findAll() {
-    return this.contestService.findAll();
-  }
-  
   // @Auth(Role.ADMIN, Role.USER)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.contestService.findOne(+id);
   }
 
-  // @Auth(Role.ADMIN, Role.USER)
-  // @Patch(':id')
-  // @UsePipes(ValidationPipe)
-  // update(@Param('id') id: string, @Request() req) {
-  //   console.log(req.body)
-  //   return this.contestService.update(+id, req.body);
-  // }
+  @Auth(Role.ADMIN, Role.USER)
+  @Patch(':id')
+  @UsePipes(ValidationPipe)
+  update(@Param('id') id: string, @Req() req) {
+    console.log(req.body)
+    return this.contestService.update(+id, req.body);
+  }
 
   // @Auth(Role.ADMIN)
   @Delete(':id')

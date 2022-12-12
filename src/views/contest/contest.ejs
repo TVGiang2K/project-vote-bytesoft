@@ -23,7 +23,7 @@
 
 
       <div class="row">
-        <% contests.forEach((item, key) => { %>
+        <% contest.forEach((item, key) => { %>
         <div class="col-xl-12">
           <h4 class="text-muted">Contest: <%= item.name %></h4>
           <div class="nav-align-top mb-4">
@@ -36,11 +36,12 @@
                 </button>
               </li>
               <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-list-<%= key %>"
+                <a class="nav-link" role="tab" data-bs-toggle="tab" href="contest/list-candidates/<%= key %>"
+                  data-bs-target="#navs-top-list-<%= key %>"
                   aria-controls="navs-top-list" aria-selected="false">
                   <i class="menu-icon tf-icons bx bx-detail"></i>
                   List candidates
-                </button>
+                </a>
               </li>
               <li class="nav-item">
                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
@@ -61,19 +62,31 @@
                 <p>Start Time: <%= item.start_date.toLocaleDateString('zh-Hans-CN') %> ; <%= item.start_date.toLocaleTimeString('zh-Hans-CN') %>
                   => Last Time: <%= item.last_date.toLocaleDateString('zh-Hans-CN') %> ; <%= item.last_date.toLocaleTimeString('zh-Hans-CN') %> </p>
                 <p class="mb-0">
-                  Trạng thái : <%= item.status %>
+                  Trạng thái : <%= item.status ? 'chưa bắt đầu' : 'đã bắt đầu' %>
+                </p>
+                <p class="mb-0">
+                  Số lượng thí sinh : <%= quantityCandidates %>
                 </p>
               </div>
               <div class="tab-pane fade" id="navs-top-list-<%= key %>" role="tabpanel">
-                <p>
-                  Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
-                  cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream
-                  cheesecake fruitcake.
-                </p>
-                <p class="mb-0">
-                  Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
-                  cotton candy liquorice caramels.
-                </p>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>Avatar</th>
+                      <th>Quantity Vote</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
               <div class="tab-pane fade" id="navs-top-history-<%= key %>" role="tabpanel">
                 <p>

@@ -26,6 +26,7 @@ import { Request, Response } from 'express';
 import { View } from 'typeorm/schema-builder/view/View';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { get } from 'http';
+import RequestWithUser from './auth/requestWithUser.interface';
 @Controller()
 export class AppController {
   constructor(
@@ -57,7 +58,7 @@ export class AppController {
       req.body.password = undefined;
       res.redirect('/profile')
     }
-    // return res.send(req.body.email);
+    return res.send(req.body.email);
   }
   
   @HttpCode(200)
@@ -68,7 +69,7 @@ export class AppController {
 
       res.setHeader('Set-Cookie', await cookie);
       req.body.password = undefined;
-      res.redirect('/profile')
+      res.redirect('/profile');
     // return res.send(req.body.email);
   }
 
@@ -84,13 +85,16 @@ export class AppController {
   async myInfo(@User() user: any,@Res() res: Response) {
     res.render('index',{
       MyUser: user
-    })
+    });
+    res.status(user.statusCode).json(user.data); // when remove .send(), it will succeed
+  return;
   }
 
   @Auth(Role.USER, Role.ADMIN)
   @Get('logout')
-  async logout(){
-    return await this.authService.logout()
+  async logout( @Res() res: Response ) {
+    res.setHeader('Set-Cookie', await this.authService.logout())
+    return res.redirect('/');
   }
 
 
@@ -99,23 +103,6 @@ export class AppController {
   error() {
     return { message: this.appService.root() }; 
   }
-
-
-
-
-
-
-
-
-
-  // @Get('account-admin')
-  //   @Render('account')
-  //   account() {
-  //       return  this.accountService.showAll().then((data) => data? {account : data}: {account: []}); ;
-  //   }
-
-
-
 
   @Get()
   @Render('index')
@@ -135,40 +122,16 @@ export class AppController {
     return { message: this.appService.root() }; 
   }
 
-
-
-  
-  // @Get('candidates')
-  // @Render('candidates/candidates')
-  // candidates() {
-  //   return { message: this.appService.root() }; 
-  // }
-
-
-  // @Get('edit-candidates')
-  // @Render('candidates/update')
-  // updateCandidates() {
-  //   return { message: this.appService.root() }; 
-  // }
-
+  @Get('candidates')
+  @Render('candidates/candidates')
+  candidates() {
+    return { message: this.appService.root() }; 
+  }
 
   @Get('vote')
   @Render('vote')
   vote() {
     return { message: this.appService.root() }; 
   }
-
-
-
-
-  // @Get()
-  // getView(@Res() res: Response){
-  //   console.log(this.appService.getAllBook());
-    
-  //   return res.render("index", { books : this.appService.getAllBook()}); 
-  // }
-
-
- 
 
 }

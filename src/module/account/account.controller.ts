@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res, Req} from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res, Req, Render} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { exit } from 'process';
 import { Auth } from 'src/auth/auth.decorator';
@@ -21,16 +21,16 @@ export class AccountController {
     const acctionPage = req.url.slice(9)
     if(req.url == '/account'){
       const skip = 0;
-      const accounts = await this.accountService.showAll(take,skip)
+      const accounts = await this.accountService.showAllPaginate(take,skip)
       res.render('account',{
         MyUser: user,
         accounts: accounts.data,
         paginate: accounts.total,
         qttPage: accounts.page,
-      })
+      });
     }else{
       const acction = take * parseInt(acctionPage) - take
-      const accounts = await this.accountService.showAll(take,acction)
+      const accounts = await this.accountService.showAllPaginate(take,acction)
       res.render('account',{
         MyUser: user,
         accounts: accounts.data,
