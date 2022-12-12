@@ -35,7 +35,7 @@
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
-              <% contest.forEach((item, key) => { %>
+              <% contests.forEach((item, key) => { %>
               <tr>
                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%= item.name %></strong></td>
                 <td><%= item.start_date.toISOString().slice(0, -5) %></td>
@@ -47,7 +47,8 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#"><i class="bx bx-show"></i> Show history vote</a>
+                      <a class="dropdown-item" href="list-contest-candidates/<%= item.id %>"><i class="menu-icon tf-icons bx bx-detail"></i> Show list candidates</a>
+                      <a class="dropdown-item" href="vote-history-contest/<%= item.id %>"><i class="bx bx-show"></i> Show history vote</a>
                       <a class="dropdown-item" href="edit/<%= item.id %>"><i class="bx bx-edit-alt me-1"></i> Edit Contest</a>
                       <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete Contest</a>
                     </div>

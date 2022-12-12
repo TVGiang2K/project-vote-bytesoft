@@ -15,15 +15,14 @@ export class ContestController {
 
     ) {}
   
-
   @Auth(Role.ADMIN)
-  @Get('')
+  @Get('list')
   async show(@Res() res: Response ,@User() user: any,@Query() {take,skip}) {
     const candidate_by_contest = await this.contestService.findAll();
     const contest = await this.contestService.showAll();
     res.render('contest/contest',{
       MyUser: user,
-      contest:contest.data,
+      contests :contest.data,
       candidate_by_contest: candidate_by_contest,
       contest_by_candidate: candidate_by_contest[0].contest.id,
       quantityCandidates: candidate_by_contest.length
@@ -82,6 +81,31 @@ export class ContestController {
       res.redirect('/contest/list')
     }
   }
+
+  @Auth(Role.ADMIN)
+  @Get('vote-history-contest/:id')
+  async admin_historyVoting_contest(@Param('id') id:number,@Res() res: Response,@User() user: any){
+    const names = await this.contestService.findOne(id);
+    res.render('history/history-vote-contest',{
+      MyUser: user,
+      names,
+    });
+  }
+
+  @Auth(Role.ADMIN)
+  @Get('list-contest-candidates/:id')
+  async admin_list_candidates(@Param('id') id:number,@Res() res: Response,@User() user: any){
+    const names = await this.contestService.findOne(id);
+    res.render('contest/list-candidates',{
+      MyUser: user,
+      names,
+    });
+  }
+  
+
+
+
+
 
   @Get('total')
   total(@Query() {skip}) {

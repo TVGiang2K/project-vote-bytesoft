@@ -51,7 +51,7 @@ export class AccountController {
 
   // admin xem lịch sử vote của người dùng
   @Auth(Role.ADMIN)
-  @Get('vote-history/:id')
+  @Get('vote-history-account/:id')
   async admin_historyVoting_user(@Param('id') id:number,@Res() res: Response,@User() user: any){
     const history = await this.accountService.MyhistoryVote(id)
     res.render('history/history-vote-user',{

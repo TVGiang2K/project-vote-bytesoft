@@ -66,10 +66,7 @@ export class ContestService {
     .innerJoinAndSelect("candidate.contest","contest")
     .cache(true)
     .take(9)
-    .getMany()
-    
-    console.log(candidate_by_contest);
-    
+    .getMany()    
     return candidate_by_contest
   }
 

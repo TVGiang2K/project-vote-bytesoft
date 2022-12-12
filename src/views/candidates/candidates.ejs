@@ -11,7 +11,7 @@
           <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Candidates</h4>
         </div>
         <div class="col-md-2">
-          <a href="candidates/create">
+          <a href="create">
             <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-offset="0,4"
             data-bs-placement="right" data-bs-html="true" title="Add one candidates ">
             Add
@@ -38,9 +38,9 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#"><i class="bx bx-show"></i> Show history vote</a>
-                      <a class="dropdown-item"  href="candidates/edit/<%= item.id %>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                      <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="candidates/delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete</a>
+                      <a class="dropdown-item" href="vote-history-cadidetes/<%= item.id %>"><i class="bx bx-show"></i> Show history vote</a>
+                      <a class="dropdown-item"  href="edit/<%= item.id %>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                      <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete</a>
                     </div>
                   </div>
                 </div>

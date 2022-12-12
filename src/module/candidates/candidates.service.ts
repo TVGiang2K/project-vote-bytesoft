@@ -70,8 +70,8 @@ export class CandidatesService {
     })
   }
 
-  async MyhistoryVote(Id: number){
-    const history = await this.VoteService.historyVoteCandidates(Id)
+  async historyVote(id: number){
+    const history = await this.VoteService.historyVoteCandidates(id)
     return history;
   }
 }

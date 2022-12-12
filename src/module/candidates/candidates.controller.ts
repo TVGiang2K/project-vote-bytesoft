@@ -49,9 +49,6 @@ export class CandidatesController {
   )
   async addCandidates(@Res() res: Response,@Req() req: Request, @UploadedFile() file: Express.Multer.File) {
     req.body.avatar = file.filename;
-    if (!file.filename){
-
-    }
     const candidate = await this.candidatesService.create(req.body)
     if(!candidate){
       res.redirect('/error')
@@ -108,12 +105,24 @@ export class CandidatesController {
   }
 
   @Auth(Role.ADMIN)
-  @Get()
+  @Get('list')
   async show(@Res() res: Response ,@User() user: any) {
     const candidate = await this.candidatesService.showCadi()
     res.render('candidates/candidates',{
       MyUser: user,
       candidates: candidate
+    });
+  }
+  
+  @Auth(Role.ADMIN)
+  @Get('vote-history-cadidetes/:id')
+  async admin_historyVoting_candidates(@Param('id') id:number,@Res() res: Response,@User() user: any){
+    const names = await this.candidatesService.findOne(id);
+    const history = await this.candidatesService.historyVote(id)
+    res.render('history/history-vote-candidates',{
+      MyUser: user,
+      history,
+      names,
     });
   }
 

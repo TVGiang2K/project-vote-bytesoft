@@ -6,37 +6,25 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
       <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Name Candidates /</span><%= names.name %>
+        <span class="text-muted fw-light">Tables /</span> Account
       </h4>
 
       <div class="card">
+        <h5></h5>
         <div class="table-responsive text-nowrap">
           <table class="table">
             <thead>
               <tr>
                 <th>Id</th>
                 <th>Voter's name</th>
+                <th>Name Candidates</th>
                 <th>created_time</th>
                 <th>quantityVoted</th>
-                <th>Name Contest</th>
               </tr>
             </thead>
-            <tbody>
-                <% history.forEach((item,key) => { %>
-                <tr>
-                    <td><%= key+1 %></td>
-                    <td><%= item.acc.name %></td>
-                    <td><%= item.created_time.toDateString() %> <%= item.created_time.toTimeString().slice(0, -25) %></td>
-                    <td><%= item.quantityVoted %></td>
-                    <td>Name Contest</td>
-                </tr>
-                <% }) %>
-            </tbody>
           </table>
-        
         </div>
       </div>
     </div>
-
     <%-include ('../footer') %>
   </div>
