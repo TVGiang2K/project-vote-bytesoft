@@ -17,7 +17,7 @@ export class ContestController {
   
 
   @Auth(Role.ADMIN)
-  @Get()
+  @Get('')
   async show(@Res() res: Response ,@User() user: any,@Query() {take,skip}) {
     const candidate_by_contest = await this.contestService.findAll();
     const contest = await this.contestService.showAll();
