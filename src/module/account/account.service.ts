@@ -112,7 +112,7 @@ export class AccountService {
   }
 
   async MyhistoryVote(UserId: number){
-    const history = await this.VoteService.historyVote(UserId)
+    const history = await this.VoteService.historyVoteUser(UserId)
     return history;
   }
 }

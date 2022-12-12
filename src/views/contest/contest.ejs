@@ -22,95 +22,44 @@
       </div>
 
 
-      <div class="row">
-        <% contest.forEach((item, key) => { %>
-        <div class="col-xl-12">
-          <h4 class="text-muted">Contest: <%= item.name %></h4>
-          <div class="nav-align-top mb-4">
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item">
-                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                  data-bs-target="#navs-top-profile-<%= key %>" aria-controls="navs-top-profile" aria-selected="true">
-                  <i class="menu-icon tf-icons bx bx-collection"></i>
-                  Profile contest
-                </button>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" role="tab" data-bs-toggle="tab" href="contest/list-candidates/<%= key %>"
-                  data-bs-target="#navs-top-list-<%= key %>"
-                  aria-controls="navs-top-list" aria-selected="false">
-                  <i class="menu-icon tf-icons bx bx-detail"></i>
-                  List candidates
-                </a>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                  data-bs-target="#navs-top-history-<%= key %>" aria-controls="navs-top-history" aria-selected="false">
-                  <i class='menu-icon tf-icons bx bx-building'></i>
-                  History vote
-                </button>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-option-<%= key %>"
-                  aria-controls="navs-top-option" aria-selected="false">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane fade show active" id="navs-top-profile-<%= key %>" role="tabpanel">
-                <p>Start Time: <%= item.start_date.toLocaleDateString('zh-Hans-CN') %> ; <%= item.start_date.toLocaleTimeString('zh-Hans-CN') %>
-                  => Last Time: <%= item.last_date.toLocaleDateString('zh-Hans-CN') %> ; <%= item.last_date.toLocaleTimeString('zh-Hans-CN') %> </p>
-                <p class="mb-0">
-                  Trạng thái : <%= item.status ? 'chưa bắt đầu' : 'đã bắt đầu' %>
-                </p>
-                <p class="mb-0">
-                  Số lượng thí sinh : <%= quantityCandidates %>
-                </p>
-              </div>
-              <div class="tab-pane fade" id="navs-top-list-<%= key %>" role="tabpanel">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Name</th>
-                      <th>Avatar</th>
-                      <th>Quantity Vote</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="tab-pane fade" id="navs-top-history-<%= key %>" role="tabpanel">
-                <p>
-                  Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
-                  cupcake gummi bears cake chocolate.
-                </p>
-                <p class="mb-0">
-                  Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake. Sweet
-                  roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly
-                  jelly-o tart brownie jelly.
-                </p>
-              </div>
-              <div class="tab-pane fade" id="navs-top-option-<%= key %>" role="tabpanel">
-                <p>
-                  <a class="dropdown-item" href="edit/<%= item.id %>"><i class="bx bx-edit-alt me-1"></i> Edit Contest</a>
-                  <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete Contest</a>
-                </p>
-              </div>
-            </div>
-          </div>
+      <div class="card">
+        <div class="table-responsive text-nowrap">
+          <table class="table ">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Start_date</th>
+                <th>Last_date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+              <% contests.forEach((item, key) => { %>
+              <tr>
+                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%= item.name %></strong></td>
+                <td><%= item.start_date.toISOString().slice(0, -5) %></td>
+                <td><%= item.last_date.toISOString().slice(0, -5) %></td>
+                <td><span class="badge bg-label-primary me-1"><%= item.status  == 1 ? 'Display': 'Hidien'%></span></td>
+                <td>
+                  <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                      <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#"><i class="bx bx-show"></i> Show history vote</a>
+                      <a class="dropdown-item" href="edit/<%= item.id %>"><i class="bx bx-edit-alt me-1"></i> Edit Contest</a>
+                      <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete Contest</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <% })%>
+            </tbody>
+          </table>
         </div>
-        <% })%>
       </div>
-      <!-- Tabs -->
+
     </div>
     <!-- / Content -->
 

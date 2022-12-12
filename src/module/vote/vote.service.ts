@@ -30,7 +30,7 @@ export class VoteService {
     });
   }
 
-  async historyVote(idUser){
+  async historyVoteUser(idUser){
     const users = await this.dataResource
     .getRepository(Vote)
     .createQueryBuilder("vote")
@@ -40,5 +40,17 @@ export class VoteService {
     .take(9)
     .getMany();
     return users;
+  } 
+
+  async historyVoteCandidates(idCandidates){
+    const candidate = await this.dataResource
+    .getRepository(Vote)
+    .createQueryBuilder("vote")
+    .innerJoinAndSelect("vote.acc","acc")
+    .innerJoinAndSelect("vote.candidate","candidate")
+    .where("candidate.id = :id",{ id: idCandidates})
+    .take(9)
+    .getMany();
+    return candidate;
   }
 }
