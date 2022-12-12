@@ -1,0 +1,98 @@
+<%-include ('header') %>
+
+  <!-- Content wrapper -->
+  <div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Tables /</span> Account
+      </h4>
+
+      <div class="card">
+        <div class="table-responsive text-nowrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>status</th>
+                <th>wait_money</th>
+                <th>created_date</th>
+                <th>acountId</th>
+                <th>Menu</th>
+              </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+              <% data.forEach((item, key)=> { %>
+                <tr>
+                  <td>
+                    <%= item.id %>
+                  </td>
+                  <td>
+                    <i class="fab fa-angular fa-lg text-danger me-3"></i>
+                    <strong>
+                      <%= item.status %>
+                    </strong>
+                  </td>
+                  <td>
+                    <span class="badge bg-label-primary me-1">
+                      <%= item.wait_money %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge bg-label-primary me-1">
+                      <%= item.created_date %>
+                    </span>
+                  </td>
+                  <td>
+                    <%= item.Account.id %>
+                  </td>
+                  <td>
+                    <div class="dropdown">
+                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <% if(item.status == 0){ %>
+                        <a class="dropdown-item" href="account/recharge/<%= item.id %>/success"><i class='bx bx-stopwatch'></i>Nạp</a>
+                        <% }else { %>
+                            <a class="dropdown-item" href=""><i class='bx bx-stopwatch'></i>Hủy</a>
+                        <% } %>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <% })%>
+            </tbody>
+          </table>
+          <div class="demo-inline-spacing">
+            <nav aria-label="Page navigation" class="navigation">
+              <ul class="pagination">
+                <li class="page-item first">
+                  <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a>
+                </li>
+                <li class="page-item prev">
+                  <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>
+                </li>
+                
+                  <li class="page-item">
+                    <a class="page-link" type="submit" href="?">
+                      
+                    </a>
+                  </li>
+                  
+                    <li class="page-item next">
+                      <a class="page-link" href="?"><i class="tf-icon bx bx-chevron-right"></i></a>
+                    </li>
+                    <li class="page-item last">
+                      <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a>
+                    </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%-include ('footer') %>
+  </div>

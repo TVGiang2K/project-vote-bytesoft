@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res, Req, Render} from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res, Req, Render, Redirect} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { exit } from 'process';
 import { Auth } from 'src/auth/auth.decorator';
@@ -47,6 +47,8 @@ export class AccountController {
     return this.accountService.MyhistoryVote(getUser.id)
   }
 
+
+
   // admin xem lịch sử vote của người dùng
   @Auth(Role.ADMIN)
   @Get('vote-history/:id')
@@ -79,29 +81,33 @@ export class AccountController {
 
   // admin xác nhận nạp tiền cho users
   @Auth(Role.ADMIN)
-  @Patch('recharge/:id/:status')
+  @Get('recharge/:id/:status')
   async updateStatusRecharge(
     @Param('id') id: number,
     @Param('status') status = 'success',
+    @Res() res:Response
   ) {
     const money = await this.RechargeHistoryService.findOne(id);
     // console.log(money.accountId)
     const moneyOld = await this.accountService.showById(money.Account.id);
     console.log(moneyOld);
-    return this.accountService.updateMoney(
+    this.accountService.updateMoney(
       id,
       money.Account.id,
       money.wait_money,
       moneyOld.money,
     );
+    return res.redirect('/recharge-history')
   }
 
   // user gửi request nạp tiền cho admin
   @Auth(Role.USER)
-  @Get('recharge/:money')
-  recharge(@Param('money') req, @User() user) {
-    // console.log(user)
-    return this.RechargeHistoryService.User_recharge(req, user);
+  @Post('recharge')
+  recharge(@Body() body, @User() user) {
+    this.RechargeHistoryService.User_recharge(body, user);
+    return {
+      message: "Đợi xử lý"
+    }
   }
 
   // User hủy request nạp tiền
@@ -121,5 +127,12 @@ export class AccountController {
   ) {
     return this.accountService.vote(quantityVote,idCandidate,getUser)
   }
+
+    // api
+    @Auth(Role.USER)
+    @Get('api/historyVoting')
+    Api_historyVoting(@User() getUser){
+      return this.accountService.MyhistoryVote(getUser.id)
+    }
 
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Render } from '@nestjs/common';
 import { RechargeHistoryService } from './recharge_history.service';
 import { CreateRechargeHistoryDto } from './dto/create-recharge_history.dto';
 import { UpdateRechargeHistoryDto } from './dto/update-recharge_history.dto';
@@ -10,9 +10,20 @@ import { User } from '../account/user.decorator';
 export class RechargeHistoryController {
   constructor(private readonly rechargeHistoryService: RechargeHistoryService) {}
 
+  @Auth(Role.ADMIN)
+  @Get()
+  @Render('recharge')
+  async findAll(@User() user:any) {
+    const data = await this.rechargeHistoryService.findAll();
+    console.log(data);
+    return {
+      MyUser:user,
+      data:data
+    }
+  }
 
   @Get()
-  findAll() {
+  api_findAll() {
     return this.rechargeHistoryService.findAll();
   }
 

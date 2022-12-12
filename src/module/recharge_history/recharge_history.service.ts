@@ -18,7 +18,7 @@ export class RechargeHistoryService {
   }
 
   async findAll(): Promise<RechargeHistory[]>{
-    return await this.historyRepository.find()
+    return await this.historyRepository.find({relations: ['Account']})
   }
 
   async findOne(id: number): Promise<RechargeHistory> {
