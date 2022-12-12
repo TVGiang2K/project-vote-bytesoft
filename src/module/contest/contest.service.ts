@@ -70,6 +70,22 @@ export class ContestService {
     return candidate_by_contest
   }
 
+  async find_list_candidates(id: number){
+    const candidate_by_contest = await this.dataResource
+    .getRepository(Candidate)
+    .createQueryBuilder("candidate")
+    .innerJoinAndSelect("candidate.contest","contest")
+    .where("contest.id = :id",{ id: id})
+    .cache(true)
+    .take(9)
+    .getMany()    
+    return candidate_by_contest
+  }
+
+  async findAll_create_c(){
+    return await this.contestsRepository.find();
+  }
+
   async showAll(skip:number = 0) {
     const [data, total] = await this.contestsRepository.findAndCount({
       skip
@@ -94,6 +110,8 @@ export class ContestService {
   remove(id: number): Promise<DeleteResult>{
     return this.contestsRepository.delete(id);
   }
+
+
 }
 function setTime(): number {
   throw new Error('Function not implemented.');

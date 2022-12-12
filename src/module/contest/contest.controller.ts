@@ -96,9 +96,13 @@ export class ContestController {
   @Get('list-contest-candidates/:id')
   async admin_list_candidates(@Param('id') id:number,@Res() res: Response,@User() user: any){
     const names = await this.contestService.findOne(id);
+    const candidate_by_contest = await this.contestService.find_list_candidates(id);
+    console.log(candidate_by_contest);
+    
     res.render('contest/list-candidates',{
       MyUser: user,
       names,
+      candidate_by_contest,
     });
   }
   

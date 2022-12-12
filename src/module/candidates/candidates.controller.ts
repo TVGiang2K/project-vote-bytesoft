@@ -24,7 +24,8 @@ export class CandidatesController {
   @Auth(Role.ADMIN)
   @Get('create')
   async createeCandidates(@Res() res: Response,@User() user: any, @Req() req: Request) {
-    const contest = await this.contestService.findAll()
+    const contest = await this.contestService.findAll_create_c()
+    console.log(contest);
     res.render('candidates/create',{
       MyUser: user,
       contest: contest
@@ -53,7 +54,7 @@ export class CandidatesController {
     if(!candidate){
       res.redirect('/error')
     } else {
-      res.redirect('/candidates')
+      res.redirect('/candidates/list')
     }
   }
 
@@ -70,7 +71,7 @@ export class CandidatesController {
   @Auth(Role.ADMIN)
   @Get('edit/:id')
   async editCandidates(@Param('id') id: number,@Res() res: Response,@User() user: any) {
-    const contest = await this.contestService.findAll()
+    const contest = await this.contestService.findAll_create_c()
     const candidates = await this.candidatesService.findOne(id);
     res.render('candidates/update',{
       MyUser: user,
