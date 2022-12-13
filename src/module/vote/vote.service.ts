@@ -53,4 +53,17 @@ export class VoteService {
     .getMany();
     return candidate;
   }
+
+  async historyVoteByContest(idContest: number){
+    const data = await this.dataResource
+    .getRepository(Vote)
+    .createQueryBuilder("vote")
+    .innerJoinAndSelect("vote.candidate","candidate")
+    .innerJoinAndSelect("vote.acc","acc")
+    .where("candidate.contest = :id",{ id: idContest})
+    .take(9)
+    .getMany();
+
+    return data
+  }
 }

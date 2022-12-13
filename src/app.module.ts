@@ -14,7 +14,7 @@ import { ContestModule } from './module/contest/contest.module';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './module/candidates/candidates.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PagerMiddleware } from './middleware/page.middleware';
+import { LogoutMiddleware, PagerMiddleware } from './middleware/page.middleware';
 import * as redisStore from 'cache-manager-redis-store';
 import { RechargeHistoryModule } from './module/recharge_history/recharge_history.module';
 import { VoteModule } from './module/vote/vote.module';
@@ -52,6 +52,11 @@ export class AppModule implements NestModule {
     consumer.apply(PagerMiddleware).forRoutes({
       path: 'paged',
       method: RequestMethod.GET,
+    });
+
+    consumer.apply(LogoutMiddleware).forRoutes({
+      path: '/logout/true',
+      method: RequestMethod.ALL,
     });
   }
 }

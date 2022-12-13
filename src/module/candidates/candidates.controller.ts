@@ -60,11 +60,13 @@ export class CandidatesController {
 
   @Get('delete/:id')
   delete(@Param('id') id: string,@Res() res: Response,@User() user: any,) {
-    const candidate = this.candidatesService.remove(+id);
-    if(!candidate){
-      res.redirect('/error')
-    } else {
-      res.redirect('/candidates')
+    try {
+      const candidate = this.candidatesService.remove(+id);
+      res.redirect('/candidates/list')
+    } catch (error) {
+      res.render('/error',{
+        message: error.message
+      })
     }
   }
 
@@ -111,6 +113,14 @@ export class CandidatesController {
     const candidate = await this.candidatesService.showCadi()
     res.render('candidates/candidates',{
       MyUser: user,
+      candidates: candidate
+    });
+  }
+
+  @Get('api/list')
+  async Apitshow(@Res() res: Response ,@User() user: any) {
+    const candidate = await this.candidatesService.showCadi()
+    res.send({
       candidates: candidate
     });
   }

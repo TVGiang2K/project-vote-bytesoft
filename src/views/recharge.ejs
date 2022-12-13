@@ -24,6 +24,8 @@
             </thead>
             <tbody class="table-border-bottom-0">
               <% data.forEach((item, key)=> { %>
+                <% if(item.status == 0){ %>
+
                 <tr>
                   <td>
                     <%= item.id %>
@@ -53,15 +55,15 @@
                         <i class="bx bx-dots-vertical-rounded"></i>
                       </button>
                       <div class="dropdown-menu">
-                        <% if(item.status == 0){ %>
                         <a class="dropdown-item" href="account/recharge/<%= item.id %>/success"><i class='bx bx-stopwatch'></i>Nạp</a>
-                        <% }else { %>
-                            <a class="dropdown-item" href=""><i class='bx bx-stopwatch'></i>Hủy</a>
-                        <% } %>
                       </div>
                     </div>
                   </td>
                 </tr>
+                <% }else { %>
+                
+                  <% } %>
+
                 <% })%>
             </tbody>
           </table>

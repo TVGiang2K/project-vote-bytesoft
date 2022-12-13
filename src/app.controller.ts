@@ -90,12 +90,13 @@ export class AppController {
   return;
   }
 
-  @Auth(Role.USER, Role.ADMIN)
-  @Get('logout')
-  async logout( @Res() res: Response ) {
-    res.setHeader('Set-Cookie', await this.authService.logout())
-    return res.redirect('/');
-  }
+  // @Auth(Role.USER, Role.ADMIN)
+  // @Get('logout')
+  // async logout( @Res() res: Response ) {
+  //   console.log('áds');
+  //   res.setHeader('Set-Cookie', await this.authService.logout())
+  //   return res.redirect('/');
+  // }
 
 
   @Get('error')

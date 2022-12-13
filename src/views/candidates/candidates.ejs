@@ -26,7 +26,7 @@
         <% candidates.forEach((item, key) => { %>
         <div class="col">
           <div class="card h-100">
-            <img class="card-img-top" src="/img/avatars/<%= item.avatar %>" alt="Card image cap" />
+            <img class="card-img-top" height="450px" src="/img/avatars/<%= item.avatar %>" alt="Card image cap" />
             <div class="card-body">
               <div class="row">
                 <div class="col-md-10">
@@ -40,15 +40,14 @@
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="vote-history-cadidetes/<%= item.id %>"><i class="bx bx-show"></i> Show history vote</a>
                       <a class="dropdown-item"  href="edit/<%= item.id %>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                      <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete</a>
+                      <form action="" method="delete">
+                        <a class="dropdown-item" onclick="return confirm('You definitely want to delete this entry ?')" href="delete/<%= item.id %>"><i class="bx bx-trash me-1"></i> Delete</a>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-              <p class="card-text">
-                This is a longer card with supporting text below as a natural lead-in to additional content.
-                This content is a little bit longer.
-              </p>
+              <a style="width:100%" href="details/<%= item.id %>" class="btn btn-outline-success">Watch details</a>
             </div>
           </div>
         </div>

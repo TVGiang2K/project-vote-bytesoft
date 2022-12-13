@@ -9,6 +9,7 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
 import { CandidatesService } from '../candidates/candidates.service';
 import { Candidate } from '../candidates/entities/candidate.entity';
+import { VoteService } from '../vote/vote.service';
 // import { async } from 'rxjs';
 
 @Injectable()  // map các bảng trong csdl
@@ -18,6 +19,7 @@ export class ContestService {
     private contestsRepository: Repository<Contest>,
     private schedulerRegistry: SchedulerRegistry,
     private candidatesServices: CandidatesService,
+    private voteService : VoteService,
     private dataResource: DataSource,
     ) {}
     private readonly logger = new Logger(ContestService.name);
@@ -75,7 +77,6 @@ export class ContestService {
     .getRepository(Candidate)
     .createQueryBuilder("candidate")
     .innerJoinAndSelect("candidate.contest","contest")
-    .where("contest.id = :id",{ id: id})
     .cache(true)
     .take(9)
     .getMany()    
@@ -98,8 +99,13 @@ export class ContestService {
   //   return total
   // }
 
-  findOne(id: number) : Promise<Contest> {
-    return this.contestsRepository.findOneBy({id});
+  async findOne(id: number) : Promise<Contest> {
+    return await this.contestsRepository.findOneBy({id});
+  }
+
+  async historyContestVote(id: number){
+    const data = await this.voteService.historyVoteByContest(id);
+    return data
   }
 
   update(id: number, updateContestDto: UpdateContestDto): Promise<UpdateResult> {

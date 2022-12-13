@@ -6,6 +6,7 @@ import { ContestService } from './contest.service';
 import { CreateContestDto } from './dto/create-contest.dto';
 import { Response, Request  } from 'express';
 import { CandidatesService } from '../candidates/candidates.service';
+import { exit } from 'process';
 
 @Controller('contest')
 export class ContestController {
@@ -24,10 +25,25 @@ export class ContestController {
       MyUser: user,
       contests :contest.data,
       candidate_by_contest: candidate_by_contest,
-      contest_by_candidate: candidate_by_contest[0].contest.id,
       quantityCandidates: candidate_by_contest.length
       // candidates: candidates,
     });
+  }
+
+  @Get('api/list')
+  async Apishow(@Res() res: Response ,@User() user: any,@Query() {take,skip}) {
+    const candidate_by_contest = await this.contestService.findAll();
+    const contest = await this.contestService.showAll();
+    res.send({
+      contests :contest.data,
+      candidate_by_contest: candidate_by_contest,
+      quantityCandidates: candidate_by_contest.length
+    });
+  }
+
+  @Get('api/:contest_id')
+  async showId(@Param('contest_id') contest_id: number){
+    return await this.contestService.findOne(contest_id)
   }
 
   @Auth(Role.ADMIN)
@@ -63,8 +79,6 @@ export class ContestController {
   @Get('edit/:id')
   async editCandidates(@Param('id') id: number,@Res() res: Response,@User() user: any) {
     const contest = await this.contestService.findOne(id);
-    console.log();
-        
     res.render('contest/update',{
       MyUser: user,
       contest: contest
@@ -85,11 +99,20 @@ export class ContestController {
   @Auth(Role.ADMIN)
   @Get('vote-history-contest/:id')
   async admin_historyVoting_contest(@Param('id') id:number,@Res() res: Response,@User() user: any){
-    const names = await this.contestService.findOne(id);
+    const data = await this.contestService.historyContestVote(id);
     res.render('history/history-vote-contest',{
       MyUser: user,
-      names,
+      data: data,
     });
+  }
+
+  @Auth(Role.USER)
+  @Get('api/vote-history-contest/:id')
+  async api_admin_historyVoting_contest(@Param('id') id:number,@Res() res: Response,@User() user: any){
+    const data = await this.contestService.historyContestVote(id);
+    return res.send({
+      data: data,
+    })
   }
 
   @Auth(Role.ADMIN)
@@ -97,7 +120,6 @@ export class ContestController {
   async admin_list_candidates(@Param('id') id:number,@Res() res: Response,@User() user: any){
     const names = await this.contestService.findOne(id);
     const candidate_by_contest = await this.contestService.find_list_candidates(id);
-    console.log(candidate_by_contest);
     
     res.render('contest/list-candidates',{
       MyUser: user,
@@ -105,11 +127,6 @@ export class ContestController {
       candidate_by_contest,
     });
   }
-  
-
-
-
-
 
   @Get('total')
   total(@Query() {skip}) {
@@ -134,7 +151,6 @@ export class ContestController {
   @Patch(':id')
   @UsePipes(ValidationPipe)
   update(@Param('id') id: string, @Req() req) {
-    console.log(req.body)
     return this.contestService.update(+id, req.body);
   }
 
@@ -143,8 +159,5 @@ export class ContestController {
   remove(@Param('id') id: string) {
     return this.contestService.remove(+id);
   }
-}
-function _getTimeZoneOffsetInMs() {
-  throw new Error('Function not implemented.');
 }
 

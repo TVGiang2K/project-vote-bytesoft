@@ -22,6 +22,17 @@
                 <th>quantityVoted</th>
               </tr>
             </thead>
+            <tbody>
+              <% data.forEach((item,key) => { %>
+              <tr>
+                <td><%= item.id %></td>
+                <td><%= item.acc.name %></td>
+                <td><%= item.candidate.name %></td>
+                <td><%= item.created_time.toLocaleDateString('zh-Hans-CN') %></td>
+                <td><%= item.quantityVoted %></td>
+              </tr>
+              <% }); %>
+            </tbody>
           </table>
         </div>
       </div>

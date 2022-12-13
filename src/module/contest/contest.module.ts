@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Contest } from '../contest/entities/contest.entity';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CandidatesModule } from '../candidates/candidates.module';
+import { VoteModule } from '../vote/vote.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Contest]),ScheduleModule.forRoot(),forwardRef(() => CandidatesModule),],
+  imports: [TypeOrmModule.forFeature([Contest]),ScheduleModule.forRoot(),forwardRef(() => CandidatesModule),VoteModule],
   controllers: [ContestController],
   providers: [ContestService],
   exports: [ContestService]
