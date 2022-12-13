@@ -21,18 +21,7 @@ import * as redisStore from 'cache-manager-redis-store';
         signOptions: { expiresIn: '60d' },
       }),
     }),
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        isGlobal: true,
-        store: redisStore,
-        host: configService.get<string>('REDIS_HOST'),
-        port: configService.get<string>('REDIS_PORT'),
-        username: configService.get<string>('REDIS_USERNAME'),
-        password: configService.get<string>('REDIS_PASSWORD'),
-      })
-    }),
+    CacheModule.register(),
   ],
   providers: [AuthService, JwtStrategy, jwtAuthGuard, RolesGuard],
   exports: [AuthService]

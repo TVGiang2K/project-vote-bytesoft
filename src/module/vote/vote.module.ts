@@ -4,7 +4,7 @@ import { VoteController } from './vote.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Vote } from './entities/vote.entity';
 import { VotetingGetway } from './vote.gateway';
-import { AccountService } from '../account/account.service';
+import { AccountModule } from '../account/account.module';
 
  
 

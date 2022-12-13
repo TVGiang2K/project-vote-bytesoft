@@ -90,7 +90,6 @@ export class AccountController {
     const money = await this.RechargeHistoryService.findOne(id);
     // console.log(money.accountId)
     const moneyOld = await this.accountService.showById(money.Account.id);
-    console.log(moneyOld);
     this.accountService.updateMoney(
       id,
       money.Account.id,

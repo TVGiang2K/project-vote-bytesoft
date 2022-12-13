@@ -15,7 +15,6 @@ export class RechargeHistoryController {
   @Render('recharge')
   async findAll(@User() user:any) {
     const data = await this.rechargeHistoryService.findAll();
-    console.log(data);
     return {
       MyUser:user,
       data:data

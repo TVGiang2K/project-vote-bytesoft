@@ -18,7 +18,6 @@
                 <th>Voter's name</th>
                 <th>created_time</th>
                 <th>quantityVoted</th>
-                <th>Name Contest</th>
               </tr>
             </thead>
             <tbody>
@@ -28,7 +27,6 @@
                     <td><%= item.acc.name %></td>
                     <td><%= item.created_time.toDateString() %> <%= item.created_time.toTimeString().slice(0, -25) %></td>
                     <td><%= item.quantityVoted %></td>
-                    <td>Name Contest</td>
                 </tr>
                 <% }) %>
             </tbody>

@@ -25,7 +25,6 @@ export class CandidatesController {
   @Get('create')
   async createeCandidates(@Res() res: Response,@User() user: any, @Req() req: Request) {
     const contest = await this.contestService.findAll_create_c()
-    console.log(contest);
     res.render('candidates/create',{
       MyUser: user,
       contest: contest
@@ -111,6 +110,7 @@ export class CandidatesController {
   @Get('list')
   async show(@Res() res: Response ,@User() user: any) {
     const candidate = await this.candidatesService.showCadi()
+    console.log(candidate);
     res.render('candidates/candidates',{
       MyUser: user,
       candidates: candidate

@@ -96,7 +96,6 @@ export class AccountService {
   vote(quantityVote:number, idCandidate, getUser){
     let baseMoney = 10000;
     let totalMoney = baseMoney*quantityVote;
-    console.log(getUser.money)
     let newMoney = getUser.money - totalMoney;
     if(getUser.money < totalMoney){
       return {

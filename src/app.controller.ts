@@ -105,29 +105,6 @@ export class AppController {
     return { message: this.appService.root() }; 
   }
 
-  @Get()
-  @Render('index')
-  root() {
-    return { message: this.appService.root() }; 
-  }
-
-  @Get('login')
-  @Render('login')
-  loginadmin() {
-    return { message: this.appService.root() }; 
-  }
-
-  @Get('contest-history')
-  @Render('history-vote')
-  contestHis() {
-    return { message: this.appService.root() }; 
-  }
-
-  @Get('candidates')
-  @Render('candidates/candidates')
-  candidates() {
-    return { message: this.appService.root() }; 
-  }
 
   @Get('vote')
   @Render('vote')

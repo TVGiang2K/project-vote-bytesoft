@@ -26,16 +26,16 @@
         <% candidates.forEach((item, key) => { %>
         <div class="col">
           <div class="card h-100">
-            <img class="card-img-top" height="450px" src="/img/avatars/<%= item.avatar %>" alt="Card image cap" />
+            <img class="card-img-top" height="300px" src="/img/avatars/<%= item.avatar %>" alt="Card image cap" />
             <div class="card-body">
               <div class="row">
                 <div class="col-md-10">
-                  <h5 class="card-title"><%= item.name %></h5>
+                  <h5 class="card-title text-info"><%= item.name %></h5>
                 </div>
                 <div class="col-md-2 text-right">
                   <div class="dropdown">
                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                      <i class="bx bx-dots-vertical-rounded"></i>
+                      <i class="bx bx-dots-vertical-rounded text-warning"></i>
                     </button>
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="vote-history-cadidetes/<%= item.id %>"><i class="bx bx-show"></i> Show history vote</a>
@@ -46,8 +46,31 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-md-8 ">
+                  Address: <%= item.address %>
+                </div>
+                <div class="col-md-4">
+                  Age: <%= item.age %>
+                </div>
+                <div class="col-md-8 text-primary">
+                  Contest: <%= item.contest.name %>
+                </div>
+                <div class="col-md-4 text-danger">
+                  Vote: <%= item.quantityVote %>
+                </div>
+                <div class="col-md-12">
+                  Phone: <%= item.phone %>
+                </div>
+                <div class="col-md-12">
+                  Status: <%= item.status  == 1 ? 'Display': 'Hidien'%>
+                </div>
+                <div class="col-md-12 text-center">
+                  Content: <%= item.content %>
+                </div>
+                <div class="col-md-12 text-center">
+                  Other: <%= item.other %>
+                </div>
               </div>
-              <a style="width:100%" href="details/<%= item.id %>" class="btn btn-outline-success">Watch details</a>
             </div>
           </div>
         </div>

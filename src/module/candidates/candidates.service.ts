@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { DataSource, Repository, UpdateResult } from 'typeorm';
 import { ContestService } from '../contest/contest.service';
 import { VoteService } from '../vote/vote.service';
 import { CreateCandidateDto } from './dto/create-candidate.dto';
@@ -13,6 +13,7 @@ export class CandidatesService {
     @InjectRepository(Candidate)
     private candidateRepository: Repository<Candidate>,
     private VoteService: VoteService,
+    private dataResource: DataSource,
   ) {}
 
 
@@ -29,7 +30,12 @@ export class CandidatesService {
   }
   
   async showCadi(take: number = 12,skip:number = 0) {
-    const data = await this.candidateRepository.find();
+    const data = await this.dataResource.getRepository(Candidate)
+    .createQueryBuilder("candidate")
+    .innerJoinAndSelect("candidate.contest","contest")
+    .cache(true)
+    .take(9)
+    .getMany();
     return data
   }
 
