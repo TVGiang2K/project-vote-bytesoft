@@ -40,7 +40,6 @@ export class ContestService {
        this.logger.warn(`time (${new Date(createContestDto.last_date)}) for job ${createContestDto.name} to stop!`)
        job1.stop();
     });
-    // await this.schedulerRegistry.addCronJob(createContestDto.name, job1);
     await job1.start();
 
     await this.logger.warn(
@@ -77,10 +76,9 @@ export class ContestService {
     .getRepository(Candidate)
     .createQueryBuilder("candidate")
     .innerJoinAndSelect("candidate.contest","contest")
+    .orderBy('candidate.quantityVote', 'DESC')
     .where("contest.id = :id",{ id: id})
-    .take(9)
     .cache(true)
-    .take(9)
     .getMany()    
     return candidate_by_contest
   }
@@ -102,7 +100,7 @@ export class ContestService {
   // }
 
   async findOne(id: number) : Promise<Contest> {
-    return await this.contestsRepository.findOneBy({id});
+return await this.contestsRepository.findOneBy({id});
   }
 
   async historyContestVote(id: number){

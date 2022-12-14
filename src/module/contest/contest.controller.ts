@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,HttpCode,UsePipes,ValidationPipe, Query, Res, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,HttpCode,UsePipes,ValidationPipe, Query, Res, Req, HttpStatus } from '@nestjs/common';
 import { Auth } from 'src/auth/auth.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { User } from '../account/user.decorator';
@@ -16,38 +16,40 @@ export class ContestController {
     private candidatesServices: CandidatesService,
 
     ) {}
+
   
   @Auth(Role.ADMIN)
   @Get('list')
   async show(@Res() res: Response ,@User() user: any,@Query() {take,skip}) {
-    const candidate_by_contest = await this.contestService.findAll();
-    const contest = await this.contestService.showAll();
-    console.log(contest);
-    
+    const contest = await this.contestService.showAll();    
     res.render('contest/contest',{
       MyUser: user,
       contests :contest.data,
-      candidate_by_contest: candidate_by_contest,
-      quantityCandidates: candidate_by_contest.length,
       total: contest.total
     });
   }
 
   @Get('api/list')
-  async Apishow(@Res() res: Response ,@User() user: any,@Query() {take,skip}) {
-    const candidate_by_contest = await this.contestService.findAll();
+  async Apishow(@Res() res: Response ,@Query() {take,skip}) {
     const contest = await this.contestService.showAll();
     res.send({
-      contests :contest.data,
-      candidate_by_contest: candidate_by_contest,
-      quantityCandidates: candidate_by_contest.length
+      contests :contest.data
     });
   }
 
-  @Get('api/:contest_id')
-  async showId(@Param('contest_id') contest_id: number){
-    return await this.contestService.findOne(contest_id)
+  @Get('api/:id')
+  async api_show_contest_id(@Param('id') id:number,@Res() res: Response){
+    const names = await this.contestService.findOne(id);
+    const candidate_by_contest = await this.contestService.find_list_candidates(id);
+    console.log(candidate_by_contest);
+    
+    res.send({
+      names,
+      candidate_by_contest,
+    });
   }
+
+
 
   @Auth(Role.ADMIN)
   @Get('create')
@@ -147,6 +149,8 @@ export class ContestController {
   // @Auth(Role.ADMIN, Role.USER)
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('AAA');
+    
     return this.contestService.findOne(+id);
   }
 
@@ -162,5 +166,9 @@ export class ContestController {
   remove(@Param('id') id: string) {
     return this.contestService.remove(+id);
   }
+
+
+  
+  
 }
 

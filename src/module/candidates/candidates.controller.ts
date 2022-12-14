@@ -110,7 +110,6 @@ export class CandidatesController {
   @Get('list')
   async show(@Res() res: Response ,@User() user: any) {
     const candidate = await this.candidatesService.showCadi()
-    console.log(candidate);
     res.render('candidates/candidates',{
       MyUser: user,
       candidates: candidate,
