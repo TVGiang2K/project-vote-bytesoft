@@ -34,7 +34,6 @@ export class CandidatesService {
     .createQueryBuilder("candidate")
     .innerJoinAndSelect("candidate.contest","contest")
     .cache(true)
-    .take(9)
     .getMany();
     return data
   }

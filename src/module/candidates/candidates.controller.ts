@@ -113,10 +113,14 @@ export class CandidatesController {
     console.log(candidate);
     res.render('candidates/candidates',{
       MyUser: user,
-      candidates: candidate
+      candidates: candidate,
+      total: candidate.length
     });
   }
 
+
+
+  
   @Get('api/list')
   async Apitshow(@Res() res: Response ,@User() user: any) {
     const candidate = await this.candidatesService.showCadi()
@@ -138,16 +142,11 @@ export class CandidatesController {
   }
 
 
-
-
-  
-
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createCandidateDto: CreateCandidateDto) {
     return this.candidatesService.create(createCandidateDto);
   }
-
 
 
   @Get('paged')
@@ -185,11 +184,6 @@ export class CandidatesController {
 
  
 
-
-  
-  
-  
-  
 
 
 

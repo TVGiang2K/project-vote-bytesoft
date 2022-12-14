@@ -77,6 +77,8 @@ export class ContestService {
     .getRepository(Candidate)
     .createQueryBuilder("candidate")
     .innerJoinAndSelect("candidate.contest","contest")
+    .where("contest.id = :id",{ id: id})
+    .take(9)
     .cache(true)
     .take(9)
     .getMany()    

@@ -5,13 +5,13 @@ export const typeormConfig: TypeOrmModuleOptions = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
-    username: 'admin',
-    password: 'Loc27112003#',
+    username: 'root',
+    password: '',
     database: 'vote-project',   
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: true, // đồng bộ với database
     cache: {
-        type: "redis",
+        type: "redis", 
         options: {
             host: "localhost",
             port: 6379

@@ -7,6 +7,7 @@ import { CreateContestDto } from './dto/create-contest.dto';
 import { Response, Request  } from 'express';
 import { CandidatesService } from '../candidates/candidates.service';
 import { exit } from 'process';
+import { log } from 'console';
 
 @Controller('contest')
 export class ContestController {
@@ -21,12 +22,14 @@ export class ContestController {
   async show(@Res() res: Response ,@User() user: any,@Query() {take,skip}) {
     const candidate_by_contest = await this.contestService.findAll();
     const contest = await this.contestService.showAll();
+    console.log(contest);
+    
     res.render('contest/contest',{
       MyUser: user,
       contests :contest.data,
       candidate_by_contest: candidate_by_contest,
-      quantityCandidates: candidate_by_contest.length
-      // candidates: candidates,
+      quantityCandidates: candidate_by_contest.length,
+      total: contest.total
     });
   }
 
