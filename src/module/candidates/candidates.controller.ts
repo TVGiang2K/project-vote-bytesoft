@@ -102,7 +102,7 @@ export class CandidatesController {
       req.body.avatar = file.filename;
     }
     const candidate = await this.candidatesService.update(id, req.body);
-    res.redirect('/candidates')
+    res.redirect('/candidates/list')
 
   }
 
