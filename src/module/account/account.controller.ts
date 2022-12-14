@@ -17,7 +17,7 @@ export class AccountController {
 
   @Auth(Role.ADMIN)
   @Get()
-  async showAll(@Res() res: Response,@User() user: any,@Req() req: Request,take: number = 3) {
+  async showAll(@Res() res: Response,@User() user: any,@Req() req: Request,take: number = 7) {
     const acctionPage = req.url.slice(9)
     if(req.url == '/account'){
       const skip = 0;
