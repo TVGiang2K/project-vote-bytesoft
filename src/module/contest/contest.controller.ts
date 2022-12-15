@@ -42,7 +42,6 @@ export class ContestController {
     const names = await this.contestService.findOne(id);
     const candidate_by_contest = await this.contestService.find_list_candidates(id);
     console.log(candidate_by_contest);
-    
     res.send({
       names,
       candidate_by_contest,

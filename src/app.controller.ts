@@ -66,14 +66,13 @@ export class AppController {
   
   @HttpCode(200)
   @UseGuards(JwtStrategy)
-  @Post('loginUser')
-  async loginUsers(@Req() req: Request, @Res() res: Response) {
+  @Post('api/loginUser')
+  async loginUsers(@Req() req: Request, @Res() res: Response, @User() user) {
     const cookie = await this.authService.login(req.body);
-
+    const account = await this.accountService.findByLogin(user.email,user.password);
       res.setHeader('Set-Cookie', await cookie);
-      req.body.password = undefined;
-      res.redirect('/profile');
-    // return res.send(req.body.email);
+      account.password = undefined;
+      res.send({account: account});
   }
 
   @Post('register')
