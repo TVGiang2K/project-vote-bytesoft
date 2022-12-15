@@ -67,9 +67,9 @@ export class AppController {
   @HttpCode(200)
   @UseGuards(JwtStrategy)
   @Post('api/loginUser')
-  async loginUsers(@Req() req: Request, @Res() res: Response, @User() user) {
+  async loginUsers(@Req() req: Request, @Res() res: Response) {
     const cookie = await this.authService.login(req.body);
-    const account = await this.accountService.findByLogin(user.email,user.password);
+    const account = await this.accountService.findByLogin(req.body.email,req.body.password);
       res.setHeader('Set-Cookie', await cookie);
       account.password = undefined;
       res.send({account: account});
@@ -82,14 +82,21 @@ export class AppController {
     return await this.authService.register(AdminCreate);
   }
 
-  @Auth(Role.ADMIN, Role.USER)
+  @Auth(Role.ADMIN)
   @Get('profile')
   async myInfo(@User() user: any,@Res() res: Response) {
     res.render('index',{
       MyUser: user
     });
     res.status(user.statusCode).json(user.data); // when remove .send(), it will succeed
-  return;
+    return;
+  }
+
+  @Auth(Role.USER)
+  @Get('api/profile')
+  async ApimyInfo(@User() user: any,@Res() res: Response) {
+    res.status(user.statusCode).json(user.data); // when remove .send(), it will succeed
+    return;
   }
 
   // @Auth(Role.USER, Role.ADMIN)
