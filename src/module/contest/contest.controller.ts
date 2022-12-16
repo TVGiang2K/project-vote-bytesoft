@@ -40,13 +40,13 @@ export class ContestController {
   @Get('api/:id')
   async api_show_contest_id(@Param('id') id:number,@Res() res: Response){
     const names = await this.contestService.findOne(id);
-    const candidate_by_contest = await this.contestService.find_list_candidates(id);
-    console.log(candidate_by_contest);
+    const candidates_by_contest = await this.contestService.find_list_candidates(id);    
     res.send({
       names,
-      candidate_by_contest,
+      candidates_by_contest,
     });
   }
+
 
 
 

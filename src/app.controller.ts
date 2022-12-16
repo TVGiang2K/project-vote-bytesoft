@@ -7,16 +7,14 @@ import {
   HttpCode,
   UsePipes,
   ValidationPipe,
-  CACHE_MANAGER,
-  Inject,
   Render,
   Res,
   Req,
-  HttpStatus,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
-import { AuthLoginDto } from './auth/auth-login.dto';
 import { createAccountDto } from './module/account/dto/createAccount.dto';
 import { AccountService } from './module/account/account.service';
 import { Role } from './auth/roles/roles.enum';
@@ -24,17 +22,17 @@ import { Auth } from './auth/auth.decorator';
 import { User } from './module/account/user.decorator';
 import {Cache} from 'cache-manager';
 import { Request, Response } from 'express';
-import { View } from 'typeorm/schema-builder/view/View';
 import { JwtStrategy } from './auth/jwt.strategy';
-import { get } from 'http';
-import RequestWithUser from './auth/requestWithUser.interface';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { log } from 'console';
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService: AuthService,
-    private readonly  accountService: AccountService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private accountService: AccountService
   ) {}
 
 
@@ -75,12 +73,24 @@ export class AppController {
       res.send({account: account});
   }
 
+
+
+  @Post('upload')
+  @UseInterceptors(
+  FileInterceptor('file')) 
+    uploadFile(@UploadedFile() file: Express.Multer.File) {
+      return file;
+  }
+
   @Post('register')
   @HttpCode(200)
-  @UsePipes(ValidationPipe)
-  async createAdmin(@Body() AdminCreate: createAccountDto) {
-    return await this.authService.register(AdminCreate);
+  async createAdmin(@Req() req: Request) {    
+    console.log(req.body);
+    
+    return await this.authService.register(req.body);
   }
+
+
 
   @Auth(Role.ADMIN)
   @Get('profile')

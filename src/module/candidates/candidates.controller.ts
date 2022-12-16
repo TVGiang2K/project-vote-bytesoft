@@ -4,7 +4,6 @@ import { log } from 'console';
 import { Response, Request } from 'express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { exit } from 'process';
 import { Auth } from 'src/auth/auth.decorator';
 import { Role } from 'src/auth/roles/roles.enum';
 import { User } from '../account/user.decorator';
@@ -31,6 +30,8 @@ export class CandidatesController {
     })
   }
    
+
+
   @Auth(Role.ADMIN)
   @Post('create-candidates')
   @UseInterceptors(
@@ -48,7 +49,9 @@ export class CandidatesController {
     }),
   )
   async addCandidates(@Res() res: Response,@Req() req: Request, @UploadedFile() file: Express.Multer.File) {
+    
     req.body.avatar = file.filename;
+    
     const candidate = await this.candidatesService.create(req.body)
     if(!candidate){
       res.redirect('/error')
@@ -120,14 +123,6 @@ export class CandidatesController {
 
 
   
-  @Get('api/list')
-  async Apitshow(@Res() res: Response ,@User() user: any) {
-    const candidate = await this.candidatesService.showCadi()
-    res.send({
-      candidates: candidate
-    });
-  }
-  
   @Auth(Role.ADMIN)
   @Get('vote-history-cadidetes/:id')
   async admin_historyVoting_candidates(@Param('id') id:number,@Res() res: Response,@User() user: any){
@@ -158,10 +153,21 @@ export class CandidatesController {
   //   return this.candidatesService.totalCandidates(skip);
   // }
 
+  @Get('api/list')
+  async Apitshow(@Res() res: Response ,@User() user: any) {
+    const candidate = await this.candidatesService.showCadi()
+    res.send({
+      candidates: candidate
+    });
+  }
   
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.candidatesService.findOne(+id);
+  @Get('api/:id')
+  async findOne(@Param('id') id: number ,@Res() res: Response) {
+    const candidate_by_id = await this.candidatesService.showApiById(id);
+    console.log(candidate_by_id);
+    res.send({
+      candidate_by_id,
+    });
   }
 
   @Patch(':id')

@@ -38,10 +38,11 @@ export class CandidatesService {
     return data
   }
 
-  // async totalCandidates(skip:number = 0){
-  //   const [data, total] = await this.candidateRepository.findAndCount({skip});
-  //   return total
-  // }
+  async showApiById(id: number) : Promise<Candidate> {
+    return await this.candidateRepository.findOneBy({id});
+  }
+
+
 
   findOne(id: number) : Promise<Candidate> {
     return this.candidateRepository.findOne({where: {id:id}, relations: ['contest']});

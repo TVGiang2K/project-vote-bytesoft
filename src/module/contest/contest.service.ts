@@ -100,7 +100,7 @@ export class ContestService {
   // }
 
   async findOne(id: number) : Promise<Contest> {
-return await this.contestsRepository.findOneBy({id});
+    return await this.contestsRepository.findOneBy({id});
   }
 
   async historyContestVote(id: number){
