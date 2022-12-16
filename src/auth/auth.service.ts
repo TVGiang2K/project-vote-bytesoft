@@ -42,6 +42,12 @@ export class AuthService {
         const accesstoken = this.jwtService.sign({email});
         return `Authentication=${accesstoken}; HttpOnly; Path=/; Max-Age=${this.configService.get('EXPRIRESIN')}`
     }
+    async loginUser(user: AuthLoginDto){
+        const account = await this.accountService.findByLogin(user.email,user.password);
+        const email = account.email
+        const accesstoken = this.jwtService.sign({email});
+        return `AuthenUser=${accesstoken}; HttpOnly; Path=/; Max-Age=${this.configService.get('EXPRIRESIN')}`
+    }
 
     async logout(){
        return `Authentication=; HttpOnly; Path=/; Max-Age=0`;

@@ -1,4 +1,4 @@
-import {  CacheModule, Module } from '@nestjs/common';
+import {  CacheModule, forwardRef, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -12,7 +12,7 @@ import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
-   AccountModule,
+    forwardRef(() => AccountModule),
    PassportModule,
    JwtModule.registerAsync({
       imports: [ConfigModule],

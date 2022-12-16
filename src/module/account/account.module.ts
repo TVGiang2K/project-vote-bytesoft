@@ -1,4 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { CacheModule, forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountController } from './account.controller';
 import { Account } from './account.entity';
@@ -9,6 +9,7 @@ import { RechargeHistoryService } from '../recharge_history/recharge_history.ser
 import { RechargeHistoryModule } from '../recharge_history/recharge_history.module';
 import { CandidatesModule } from '../candidates/candidates.module';
 import { VoteModule } from '../vote/vote.module';
+import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports: [
     RechargeHistoryModule,
@@ -16,6 +17,7 @@ import { VoteModule } from '../vote/vote.module';
     VoteModule,
     TypeOrmModule.forFeature([Account]),
     CacheModule.register(),
+    forwardRef(() => AuthModule),
   ],
   controllers: [AccountController],
   providers: [AccountService],

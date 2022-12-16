@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res, Req, Render, Redirect} from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Delete, UsePipes, Param, ValidationPipe, Res, Req, Render, Redirect, HttpCode, UseGuards} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { exit } from 'process';
 import { Auth } from 'src/auth/auth.decorator';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { Role } from 'src/auth/roles/roles.enum';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
 import { AccountService } from './account.service';
@@ -12,8 +14,21 @@ import { User } from './user.decorator';
 export class AccountController {
   constructor(
     private readonly accountService: AccountService,
+    private authService: AuthService,
     private RechargeHistoryService: RechargeHistoryService,
   ) {}
+
+  @HttpCode(200)
+  @UseGuards(JwtStrategy)
+  @Post('api/loginUser')
+  async loginUsers(@Req() req: Request, @Res() res: Response) {
+    const cookie = await this.authService.loginUser(req.body);
+    console.log(cookie);
+    const account = await this.accountService.findByLogin(req.body.email,req.body.password);
+      res.setHeader('Set-Cookie',await cookie);
+      account.password = undefined;
+      res.send({account: account,cookie:cookie});
+  }
 
   @Auth(Role.ADMIN)
   @Get()

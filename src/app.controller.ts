@@ -5,8 +5,6 @@ import {
   Body,
   Get,
   HttpCode,
-  UsePipes,
-  ValidationPipe,
   Render,
   Res,
   Req,
@@ -15,18 +13,13 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
-import { createAccountDto } from './module/account/dto/createAccount.dto';
 import { AccountService } from './module/account/account.service';
 import { Role } from './auth/roles/roles.enum';
 import { Auth } from './auth/auth.decorator';
 import { User } from './module/account/user.decorator';
-import {Cache} from 'cache-manager';
 import { Request, Response } from 'express';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
-import { log } from 'console';
 @Controller()
 export class AppController {
   constructor(
@@ -48,30 +41,14 @@ export class AppController {
   @Post('login')
   async login(@Req() req: Request, @Res() res: Response) {
     const cookie = await this.authService.login(req.body);
-    // console.log(cookie);
-    if(!cookie){
-      res.redirect('/')
-      return {
-        message: 'incorrect account'
-      }
-    }else{
+    console.log(cookie);
       res.setHeader('Set-Cookie', await cookie);
       req.body.password = undefined;
       res.redirect('/profile')
-    }
     return res.send(req.body.email);
   }
   
-  @HttpCode(200)
-  @UseGuards(JwtStrategy)
-  @Post('api/loginUser')
-  async loginUsers(@Req() req: Request, @Res() res: Response) {
-    const cookie = await this.authService.login(req.body);
-    const account = await this.accountService.findByLogin(req.body.email,req.body.password);
-      res.setHeader('Set-Cookie', await cookie);
-      account.password = undefined;
-      res.send({account: account});
-  }
+
 
 
 
@@ -109,13 +86,18 @@ export class AppController {
     return;
   }
 
-  // @Auth(Role.USER, Role.ADMIN)
-  // @Get('logout')
-  // async logout( @Res() res: Response ) {
-  //   console.log('áds');
-  //   res.setHeader('Set-Cookie', await this.authService.logout())
-  //   return res.redirect('/');
-  // }
+  @Auth(Role.ADMIN)
+  @Get('logout')
+  async logout( @Res() res: Response ) {
+    res.setHeader('Set-Cookie', await this.authService.logout())
+    return res.redirect('/');
+  }
+
+  @Auth(Role.USER)
+  @Get('logout')
+  async Userlogout( @Res() res: Response ) {
+    res.setHeader('Set-Cookie', await this.authService.logout())
+  }
 
 
   @Get('error')
@@ -124,11 +106,5 @@ export class AppController {
     return { message: this.appService.root() }; 
   }
 
-
-  @Get('vote')
-  @Render('vote')
-  vote() {
-    return { message: this.appService.root() }; 
-  }
 
 }
