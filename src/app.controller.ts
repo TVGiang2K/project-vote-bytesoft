@@ -44,13 +44,8 @@ export class AppController {
     console.log(cookie);
       res.setHeader('Set-Cookie', await cookie);
       req.body.password = undefined;
-      res.redirect('/profile')
-    return res.send(req.body.email);
+      res.redirect('/profile');
   }
-  
-
-
-
 
   @Post('upload')
   @UseInterceptors(
@@ -67,23 +62,20 @@ export class AppController {
     return await this.authService.register(req.body);
   }
 
-
-
   @Auth(Role.ADMIN)
   @Get('profile')
   async myInfo(@User() user: any,@Res() res: Response) {
     res.render('index',{
       MyUser: user
     });
-    res.status(user.statusCode).json(user.data); // when remove .send(), it will succeed
-    return;
   }
 
   @Auth(Role.USER)
   @Get('api/profile')
   async ApimyInfo(@User() user: any,@Res() res: Response) {
-    res.status(user.statusCode).json(user.data); // when remove .send(), it will succeed
-    return;
+    res.send({
+      user: user
+    })
   }
 
   @Auth(Role.ADMIN)
@@ -94,9 +86,12 @@ export class AppController {
   }
 
   @Auth(Role.USER)
-  @Get('logout')
+  @Get('api/logout')
   async Userlogout( @Res() res: Response ) {
-    res.setHeader('Set-Cookie', await this.authService.logout())
+    res.setHeader('Set-Cookie', `AuthenUser=; HttpOnly; Path=/; Max-Age=0`)
+    res.send({
+      profile: []
+    })
   }
 
 

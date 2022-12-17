@@ -134,12 +134,13 @@ export class AccountController {
   //  user vote cho thí sinh yêu thích
   @Auth(Role.USER)
   @Get('vote/:idCandidate/:quantityVote')
-  vote(
+  async vote(
     @Param('quantityVote') quantityVote: number,
     @Param('idCandidate') idCandidate: number,
     @User() getUser,
   ) {
-    return this.accountService.vote(quantityVote,idCandidate,getUser)
+    console.log(quantityVote,idCandidate)
+    return await this.accountService.vote(quantityVote,idCandidate,getUser)
   }
 
     // api

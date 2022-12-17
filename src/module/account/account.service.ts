@@ -107,6 +107,9 @@ export class AccountService {
       });
       this.candidatesServices.updateVote(quantityVote,idCandidate);
       this.VoteService.createHistoryVote(getUser.id,idCandidate,quantityVote);
+      return {
+        message: "voted success",
+      }
     }
   }
 
