@@ -118,7 +118,7 @@ export class AccountController {
   @Auth(Role.USER)
   @Post('recharge')
   recharge(@Body() body, @User() user) {
-    this.RechargeHistoryService.User_recharge(body, user);
+    this.RechargeHistoryService.User_recharge(body.money, user);
     return {
       message: "Đợi xử lý"
     }

@@ -34,9 +34,12 @@ export class RechargeHistoryService {
   }
 
   async User_recharge(body:number,@User() userReq): Promise<RechargeHistory>{
+    console.log(body)
     const data = new RechargeHistory()
     data.Account = userReq.id;
-    data.wait_money = body;
+    let a = data.wait_money = body;
+    console.log(data)
+
     return await this.historyRepository.save(data)
   }
 
