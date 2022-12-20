@@ -20,8 +20,6 @@ export class AuthService {
 
     ) { }
 
-   
-
     async validateAccount(email): Promise<Account>{
         const account = await this.accountService.findEmail(email);
         if (!account){

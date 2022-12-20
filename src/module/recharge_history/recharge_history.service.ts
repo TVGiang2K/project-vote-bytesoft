@@ -26,7 +26,6 @@ export class RechargeHistoryService {
   }
   
   async findByUser(idUser: number): Promise<RechargeHistory[]> {
-    console.log(idUser)
     const data = await this.historyRepository.find({relations: ['Account']})
     const result = data.filter((item)=>{
       return item.Account.id == idUser

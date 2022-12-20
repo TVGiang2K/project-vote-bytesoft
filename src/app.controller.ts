@@ -56,9 +56,7 @@ export class AppController {
 
   @Post('register')
   @HttpCode(200)
-  async createAdmin(@Req() req: Request) {
-    console.log(req);
-    
+  async createAdmin(@Req() req: Request) {    
     return await this.accountService.create(req.body);
   }
 

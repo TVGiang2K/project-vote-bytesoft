@@ -115,7 +115,7 @@ export class AccountService {
     let newMoney = getUser.money - totalMoney;
     if(getUser.money < totalMoney){
       return {
-        message: 'your account is not enough please recharge to continue voting'
+        action: false
       }
     }else{
       this.AccountRp.update(getUser.id,{
@@ -124,7 +124,7 @@ export class AccountService {
       this.candidatesServices.updateVote(quantityVote,idCandidate);
       this.VoteService.createHistoryVote(getUser.id,idCandidate,quantityVote);
       return {
-        message: "voted success",
+        action: true
       }
     }
   }

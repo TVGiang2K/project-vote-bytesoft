@@ -74,8 +74,6 @@ export class AccountController {
     return this.accountService.MyhistoryVote(getUser.id)
   }
 
-
-
   // admin xem lịch sử vote của người dùng
   @Auth(Role.ADMIN)
   @Get('vote-history-account/:id')
@@ -137,6 +135,7 @@ export class AccountController {
       message: "Đợi xử lý"
     }
   }
+  
 
   // User hủy request nạp tiền
   @Auth(Role.USER)
