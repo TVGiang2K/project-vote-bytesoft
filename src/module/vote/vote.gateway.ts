@@ -1,11 +1,13 @@
 import { OnModuleInit } from '@nestjs/common';
 import { MessageBody,SubscribeMessage, WebSocketGateway, WebSocketServer,} from '@nestjs/websockets';
 import {Server} from 'socket.io';
+import { AccountService } from '../account/account.service';
 
 
 @WebSocketGateway()
 export class VotetingGetway implements OnModuleInit
 {
+  constructor(private readonly accountService: AccountService) {}
   @WebSocketServer()
   server: Server;
 
@@ -23,7 +25,7 @@ export class VotetingGetway implements OnModuleInit
     this.server.emit('onMessage', {
       msg: 'new message',
       content: body, 
-    });
+    }); 
   }  
 
   // @SubscribeMessage('voting')
@@ -34,12 +36,6 @@ export class VotetingGetway implements OnModuleInit
   //     this.server.emit('voted', voted);
   //     return voted;
   //   }
-
-  // @WebSocketServer() io: Namespace;
-  
-  
-
-
 
   // constructor(
   //   private readonly accountService: AccountService,

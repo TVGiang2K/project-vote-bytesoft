@@ -12,7 +12,7 @@ import { AccountModule } from '../account/account.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Vote])],
   controllers: [VoteController],
-  providers: [VoteService, VotetingGetway],
+  providers: [VoteService],
   exports:[VoteService]
 })
 export class VoteModule {}

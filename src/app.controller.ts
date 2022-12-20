@@ -20,6 +20,7 @@ import { User } from './module/account/user.decorator';
 import { Request, Response } from 'express';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { log } from 'console';
 @Controller()
 export class AppController {
   constructor(
@@ -46,17 +47,19 @@ export class AppController {
       res.redirect('/profile');
   }
 
-  @Post('upload')
-  @UseInterceptors(
-  FileInterceptor('file')) 
-    uploadFile(@UploadedFile() file: Express.Multer.File) {
-      return file;
-  }
+  // @Post('upload')
+  // @UseInterceptors(
+  // FileInterceptor('file')) 
+  //   uploadFile(@UploadedFile() file: Express.Multer.File) {
+  //     return file;
+  // }
 
   @Post('register')
   @HttpCode(200)
-  async createAdmin(@Req() req: Request) {    
-    return await this.authService.register(req.body);
+  async createAdmin(@Req() req: Request) {
+    console.log(req);
+    
+    return await this.accountService.create(req.body);
   }
 
   @Auth(Role.ADMIN)

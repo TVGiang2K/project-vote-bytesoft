@@ -20,9 +20,7 @@ export class AuthService {
 
     ) { }
 
-    async register (userDto: createAccountDto){
-        const user = await this.accountService.create(userDto);
-    }
+   
 
     async validateAccount(email): Promise<Account>{
         const account = await this.accountService.findEmail(email);

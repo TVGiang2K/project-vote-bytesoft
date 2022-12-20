@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes, Query, Render, Res, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
-import { log } from 'console';
 import { Response, Request } from 'express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -10,7 +9,6 @@ import { User } from '../account/user.decorator';
 import { ContestService } from '../contest/contest.service';
 import { CandidatesService } from './candidates.service';
 import { CreateCandidateDto } from './dto/create-candidate.dto';
-import { UpdateCandidateDto } from './dto/update-candidate.dto';
 
 @Controller('candidates')
 export class CandidatesController {

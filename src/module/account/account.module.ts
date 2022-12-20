@@ -10,6 +10,7 @@ import { RechargeHistoryModule } from '../recharge_history/recharge_history.modu
 import { CandidatesModule } from '../candidates/candidates.module';
 import { VoteModule } from '../vote/vote.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { VotetingGetway } from '../vote/vote.gateway';
 @Module({
   imports: [
     RechargeHistoryModule,
@@ -20,7 +21,7 @@ import { AuthModule } from 'src/auth/auth.module';
     forwardRef(() => AuthModule),
   ],
   controllers: [AccountController],
-  providers: [AccountService],
+  providers: [AccountService, VotetingGetway],
   exports: [AccountService],
 })
 export class AccountModule {}
