@@ -41,7 +41,6 @@ export class AppController {
   @Post('login')
   async login(@Req() req: Request, @Res() res: Response) {
     const cookie = await this.authService.login(req.body);
-    console.log(cookie);
       res.setHeader('Set-Cookie', await cookie);
       req.body.password = undefined;
       res.redirect('/profile');
@@ -57,8 +56,6 @@ export class AppController {
   @Post('register')
   @HttpCode(200)
   async createAdmin(@Req() req: Request) {    
-    console.log(req.body);
-    
     return await this.authService.register(req.body);
   }
 

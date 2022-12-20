@@ -20,6 +20,7 @@ export class CandidatesController {
 
   ) {}
 
+  // thêm data thí sinh
   @Auth(Role.ADMIN)
   @Get('create')
   async createeCandidates(@Res() res: Response,@User() user: any, @Req() req: Request) {
@@ -29,9 +30,8 @@ export class CandidatesController {
       contest: contest
     })
   }
-   
 
-
+  // upload ảnh của thí sinh
   @Auth(Role.ADMIN)
   @Post('create-candidates')
   @UseInterceptors(
@@ -48,10 +48,9 @@ export class CandidatesController {
       }),
     }),
   )
+  // upload
   async addCandidates(@Res() res: Response,@Req() req: Request, @UploadedFile() file: Express.Multer.File) {
-    
     req.body.avatar = file.filename;
-    
     const candidate = await this.candidatesService.create(req.body)
     if(!candidate){
       res.redirect('/error')
@@ -60,6 +59,7 @@ export class CandidatesController {
     }
   }
 
+  // delete thí sinh
   @Get('delete/:id')
   delete(@Param('id') id: string,@Res() res: Response,@User() user: any,) {
     try {
@@ -72,6 +72,7 @@ export class CandidatesController {
     }
   }
 
+  // tìm kiếm thí sinh theo id
   @Auth(Role.ADMIN)
   @Get('edit/:id')
   async editCandidates(@Param('id') id: number,@Res() res: Response,@User() user: any) {
@@ -84,6 +85,7 @@ export class CandidatesController {
     })
   }
 
+  // sửa thí sinh theo id
   @Auth(Role.ADMIN)
   @Post('edit/update/:id')
   @UseInterceptors(
@@ -109,6 +111,7 @@ export class CandidatesController {
 
   }
 
+  // show danh sách
   @Auth(Role.ADMIN)
   @Get('list')
   async show(@Res() res: Response ,@User() user: any) {
@@ -120,9 +123,7 @@ export class CandidatesController {
     });
   }
 
-
-
-  
+  // lịch sử vote của thí sinh theo id
   @Auth(Role.ADMIN)
   @Get('vote-history-cadidetes/:id')
   async admin_historyVoting_candidates(@Param('id') id:number,@Res() res: Response,@User() user: any){
@@ -148,11 +149,7 @@ export class CandidatesController {
     return this.candidatesService.showAll(take,skip)
   }
 
-  // @Get('total')
-  // Total(@Query() {skip}){
-  //   return this.candidatesService.totalCandidates(skip);
-  // }
-
+  // api danh sách thí sinh tham dự
   @Get('api/list')
   async Apitshow(@Res() res: Response ,@User() user: any) {
     const candidate = await this.candidatesService.showCadi()
@@ -161,6 +158,7 @@ export class CandidatesController {
     });
   }
   
+  // api chi tiết thí sinh
   @Get('api/:id')
   async findOne(@Param('id') id: number ,@Res() res: Response) {
     const candidate_by_id = await this.candidatesService.showApiById(id);
@@ -170,21 +168,22 @@ export class CandidatesController {
     });
   }
 
-  @Patch(':id')
-  @UsePipes(ValidationPipe)
-  update(@Param('id') id: string, @Body() updateCandidateDto: UpdateCandidateDto) {
-    return this.candidatesService.update(+id, updateCandidateDto);
-  }
+  // @Patch(':id')
+  // @UsePipes(ValidationPipe)
+  // update(@Param('id') id: string, @Body() updateCandidateDto: UpdateCandidateDto) {
+  //   return this.candidatesService.update(+id, updateCandidateDto);
+  // }
 
+  // xóa thí sinh
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.candidatesService.remove(+id);
   }
 
-  @Patch('voted/:id')
-  update_Vote(@Param('id') id: number){
+  // @Patch('voted/:id')
+  // update_Vote(@Param('id') id: number){
   //  return this.candidatesService.voting(id)
-  }
+  // }
 
 
  

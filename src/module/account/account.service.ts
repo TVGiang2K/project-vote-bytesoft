@@ -11,6 +11,7 @@ import { RechargeHistoryService } from '../recharge_history/recharge_history.ser
 import { CandidatesService } from '../candidates/candidates.service';
 import { VoteService } from '../vote/vote.service';
 import { Response } from 'express';
+import { exit } from 'process';
 
 @Injectable()
 export class AccountService {
@@ -25,10 +26,17 @@ export class AccountService {
   clientToUser = {};
 
   async create(data: createAccountDto) {
-    const Account = this.AccountRp.create(data);
-    await Account.save();
-    delete Account.password;
-    return Account;
+    const showAcc = await this.showByEmail(data.email);
+    if(showAcc.email == data.email) {
+      return {
+        message:'email đã được sử dụng'
+      }
+    }else{
+      const Account = this.AccountRp.create(data);
+      await Account.save();
+      delete Account.password;
+      return Account;
+    }
   }
 
   async findByLogin( email, password ) {
@@ -53,6 +61,12 @@ export class AccountService {
 
   async showById(id: any): Promise<Account> {
     const Account = await this.AccountRp.findOne({ where: { id: id } });
+    delete Account.password;
+    return Account;
+  }
+
+  async showByEmail(email: any): Promise<Account> {
+    const Account = await this.AccountRp.findOne({ where: { email: email } });
     delete Account.password;
     return Account;
   }

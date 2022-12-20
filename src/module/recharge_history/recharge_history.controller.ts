@@ -10,6 +10,7 @@ import { User } from '../account/user.decorator';
 export class RechargeHistoryController {
   constructor(private readonly rechargeHistoryService: RechargeHistoryService) {}
 
+  // view admin xem lịch sử nạp tiền cho user
   @Auth(Role.ADMIN)
   @Get()
   @Render('recharge')
@@ -21,20 +22,20 @@ export class RechargeHistoryController {
     }
   }
 
-  @Get()
-  api_findAll() {
-    return this.rechargeHistoryService.findAll();
-  }
+  // @Get()
+  // api_findAll() {
+  //   return this.rechargeHistoryService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.rechargeHistoryService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.rechargeHistoryService.findOne(+id);
+  // }
 
-  @Delete(':id')
-  delete(@Param('id') id: number) {
-    this.rechargeHistoryService.remove(id)
-  }
+  // @Delete(':id')
+  // delete(@Param('id') id: number) {
+  //   this.rechargeHistoryService.remove(id)
+  // }
  
 
 }

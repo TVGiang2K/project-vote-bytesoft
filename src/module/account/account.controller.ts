@@ -18,18 +18,19 @@ export class AccountController {
     private RechargeHistoryService: RechargeHistoryService,
   ) {}
 
+  // đăng nhập authentication
   @HttpCode(200)
   @UseGuards(JwtStrategy)
   @Post('api/loginUser')
   async loginUsers(@Req() req: Request, @Res() res: Response) {
     const cookie = await this.authService.loginUser(req.body);
-    console.log(cookie);
     const account = await this.accountService.findByLogin(req.body.email,req.body.password);
       res.setHeader('Set-Cookie',await cookie);
       account.password = undefined;
       res.send({account: account,cookie:cookie});
   }
 
+  // show all account có phân trang
   @Auth(Role.ADMIN)
   @Get()
   async showAll(@Res() res: Response,@User() user: any,@Req() req: Request,take: number = 7) {
@@ -62,8 +63,6 @@ export class AccountController {
     return this.accountService.MyhistoryVote(getUser.id)
   }
 
-
-
   // admin xem lịch sử vote của người dùng
   @Auth(Role.ADMIN)
   @Get('vote-history-account/:id')
@@ -75,12 +74,14 @@ export class AccountController {
     });
   }
 
+  // tìm kiếm theo id
   @Auth(Role.ADMIN)
   @Get('/:id')
   show(@Param('id') id: string) {
     return this.accountService.showById(+id);
   }
 
+  // sửa theo id
   @Auth(Role.ADMIN)
   @UsePipes(ValidationPipe)
   @Patch(':id')
@@ -88,6 +89,7 @@ export class AccountController {
     return this.accountService.update(+id, updateUserDto);
   }
 
+  // xóa theo Id
   @Auth(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: number) {
@@ -103,7 +105,6 @@ export class AccountController {
     @Res() res:Response
   ) {
     const money = await this.RechargeHistoryService.findOne(id);
-    // console.log(money.accountId)
     const moneyOld = await this.accountService.showById(money.Account.id);
     this.accountService.updateMoney(
       id,
@@ -139,15 +140,36 @@ export class AccountController {
     @Param('idCandidate') idCandidate: number,
     @User() getUser,
   ) {
-    console.log(quantityVote,idCandidate)
     return await this.accountService.vote(quantityVote,idCandidate,getUser)
   }
 
-    // api
+  // admin xem lịch sử nạp của user 
+  @Auth(Role.ADMIN)
+  @Get('recharge-history/:idUser')
+  @Render('history/history-recharge')
+  async historyRechargeOfAdmin_User(@Param('idUser') idUser:number,@User() user){
+    const data = await this.RechargeHistoryService.findByUser(idUser);
+    return {
+      data: data,
+      MyUser: user
+    }
+  }
+
+    // api lịch sử vote của User
     @Auth(Role.USER)
     @Get('api/historyVoting')
     Api_historyVoting(@User() getUser){
       return this.accountService.MyhistoryVote(getUser.id)
     }
 
+
+    // api lịch sử của account
+    @Auth(Role.USER)
+    @Get('recharge-history/:idUser')
+    async historyRechargeOfUser(@Param('idUser') idUser:number,@User() user){
+      const data = await this.RechargeHistoryService.findByUser(idUser);
+      return {
+        data: data,
+      }
+    }
 }

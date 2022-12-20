@@ -1,0 +1,54 @@
+<%-include ('../header') %>
+
+  <!-- Content wrapper -->
+  <div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Tables /</span> Recharge history
+      </h4>
+
+      <div class="card">
+        <div class="table-responsive text-nowrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Stt</th>
+                <th>Money</th>
+                <th>Status</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+              <% data.forEach((item, key)=> { %>
+                <tr>
+                  <td>
+                    <%= key+1 %>
+                  </td>
+                  <td>
+                    <i class="fab fa-angular fa-lg text-danger me-3"></i>
+                    <strong>
+                      <%= item.Account.money %> VND
+                    </strong>
+                  </td>
+                  <td>
+                    <span class="badge bg-label-primary me-1">
+                      <%= item.status == 1 ? 'Success' : 'Waiting' %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge bg-label-primary me-1">
+                      <%= item.created_date %>
+                    </span>
+                  </td>
+                </tr>
+                <% })%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <%-include ('../footer') %>
+  </div>

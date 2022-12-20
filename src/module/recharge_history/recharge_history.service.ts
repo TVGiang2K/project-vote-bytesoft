@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Delete, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Entity, Repository } from 'typeorm';
 import { Account } from '../account/account.entity';
@@ -23,6 +23,18 @@ export class RechargeHistoryService {
 
   async findOne(id: number): Promise<RechargeHistory> {
     return await this.historyRepository.findOne({where: {id:id}, relations: ['Account']})
+  }
+  
+  async findByUser(idUser: number): Promise<RechargeHistory[]> {
+    console.log(idUser)
+    const data = await this.historyRepository.find({relations: ['Account']})
+    const result = data.filter((item)=>{
+      return item.Account.id == idUser
+    })
+    console.log(result);
+    
+    return result
+
   }
 
   update(id: number, updateRechargeHistoryDto: UpdateRechargeHistoryDto) {

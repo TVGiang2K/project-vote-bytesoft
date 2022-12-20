@@ -56,16 +56,16 @@ export class CandidatesService {
     return this.candidateRepository.delete({ id });
   }
 
-  async voting(id:number){
-    const candidate = await this.candidateRepository.findOne({where: {id}})
-    let raiseVote = candidate.quantityVote ++
-    if(raiseVote > 0 && raiseVote == 1){
+  // async voting(id:number){
+  //   const candidate = await this.candidateRepository.findOne({where: {id}})
+  //   let raiseVote = candidate.quantityVote ++
+  //   if(raiseVote > 0 && raiseVote == 1){
 
-      return await  this.candidateRepository.save(candidate);
-    }else{
+  //     return await  this.candidateRepository.save(candidate);
+  //   }else{
         
-    }
-  }
+  //   }
+  // }
 
   async updateVote(quantityVote:any,idCandidate:number){
     const quantityVoteOld = await this.findOne(idCandidate)
