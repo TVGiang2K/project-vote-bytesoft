@@ -11,6 +11,8 @@ import { RechargeHistoryService } from '../recharge_history/recharge_history.ser
 import { CandidatesService } from '../candidates/candidates.service';
 import { VoteService } from '../vote/vote.service';
 import { Response } from 'express';
+import { exit } from 'process';
+import { log } from 'console';
 
 @Injectable()
 export class AccountService {
@@ -25,9 +27,9 @@ export class AccountService {
   clientToUser = {};
 
   
-  async create(data: createAccountDto) {
-    const showAcc = await this.showByEmail(data.email);
-    if(showAcc.email == data.email) {
+  async create(data: createAccountDto){
+    const Account = await this.AccountRp.findOne({ where: { email: data.email } });    
+    if(Account) {
       return {
         action: false
       };
@@ -67,11 +69,6 @@ export class AccountService {
     return Account;
   }
 
-  async showByEmail(email: any): Promise<Account> {
-    const Account = await this.AccountRp.findOne({ where: { email: email } });
-    delete Account.password;
-    return Account;
-  }
 
   async showAllPaginate(take: number,skip:number) {
     const [data, total] = await this.AccountRp.findAndCount({

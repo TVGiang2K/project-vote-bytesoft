@@ -24,7 +24,6 @@ export class AccountController {
   @Post('api/loginUser')
   async loginUsers(@Req() req: Request, @Res() res: Response) {
     const cookie = await this.authService.loginUser(req.body);
-    console.log(cookie);
     const account = await this.accountService.findByLogin(req.body.email,req.body.password);
       res.setHeader('Set-Cookie',await cookie);
       account.password = undefined;
@@ -36,12 +35,12 @@ export class AccountController {
   @Auth(Role.USER)
   @Get('recharge-history')
   async historyRechargeOfUser(@User() user){
-    const data = await this.RechargeHistoryService.findByUser(user.id);
+    const data = await this.RechargeHistoryService.findByUser(user.id);    
     return {
       data: data,
     }
   }
-  
+
 
   @Auth(Role.ADMIN)
   @Get()
@@ -154,7 +153,6 @@ export class AccountController {
     @Param('idCandidate') idCandidate: number,
     @User() getUser,
   ) {
-    console.log(quantityVote,idCandidate)
     return await this.accountService.vote(quantityVote,idCandidate,getUser)
   }
 

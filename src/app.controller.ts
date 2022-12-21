@@ -19,8 +19,6 @@ import { Auth } from './auth/auth.decorator';
 import { User } from './module/account/user.decorator';
 import { Request, Response } from 'express';
 import { JwtStrategy } from './auth/jwt.strategy';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { log } from 'console';
 @Controller()
 export class AppController {
   constructor(
@@ -30,7 +28,7 @@ export class AppController {
   ) {}
 
 
-
+  // Đăng nhập admin
   @Get()
   @Render('login')
   async loginUser() {
@@ -47,25 +45,32 @@ export class AppController {
       res.redirect('/profile');
   }
 
-  // @Post('upload')
-  // @UseInterceptors(
-  // FileInterceptor('file')) 
-  //   uploadFile(@UploadedFile() file: Express.Multer.File) {
-  //     return file;
-  // }
-
-  @Post('register')
-  @HttpCode(200)
-  async createAdmin(@Req() req: Request) {    
-    return await this.accountService.create(req.body);
-  }
-
   @Auth(Role.ADMIN)
   @Get('profile')
   async myInfo(@User() user: any,@Res() res: Response) {
     res.render('index',{
       MyUser: user
     });
+  }
+
+  @Auth(Role.ADMIN)
+  @Get('logout')
+  async logout( @Res() res: Response ) {
+    res.setHeader('Set-Cookie', await this.authService.logout())
+    return res.redirect('/');
+  }
+
+
+
+
+
+
+
+// Đăng nhập user
+  @Post('register')
+  @HttpCode(200)
+  async createAdmin(@Req() req: Request) {    
+    return this.accountService.create(req.body);
   }
 
   @Auth(Role.USER)
@@ -76,13 +81,6 @@ export class AppController {
     })
   }
 
-  @Auth(Role.ADMIN)
-  @Get('logout')
-  async logout( @Res() res: Response ) {
-    res.setHeader('Set-Cookie', await this.authService.logout())
-    return res.redirect('/');
-  }
-
   @Auth(Role.USER)
   @Get('api/logout')
   async Userlogout( @Res() res: Response ) {
@@ -91,13 +89,4 @@ export class AppController {
       profile: []
     })
   }
-
-
-  @Get('error')
-  @Render('error')
-  error() {
-    return { message: this.appService.root() }; 
-  }
-
-
 }
