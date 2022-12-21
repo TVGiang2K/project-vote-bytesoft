@@ -2,15 +2,12 @@ import { Injectable, HttpStatus, HttpException, Param, Res } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { AuthLoginDto } from './dto/loginAccount.dto';
 import { createAccountDto } from './dto/createAccount.dto';
 import { updateAccountDto } from './dto/updateAccount.dto';
 import { Account } from './account.entity';
-import { User } from './user.decorator';
 import { RechargeHistoryService } from '../recharge_history/recharge_history.service';
 import { CandidatesService } from '../candidates/candidates.service';
 import { VoteService } from '../vote/vote.service';
-import { Response } from 'express';
 
 @Injectable()
 export class AccountService {
@@ -26,8 +23,8 @@ export class AccountService {
 
   
   async create(data: createAccountDto) {
-    const showAcc = await this.showByEmail(data.email);
-    if(showAcc.email == data.email) {
+    const Account = await this.AccountRp.findOne({ where: { email: data.email } });
+    if(Account) {
       return {
         action: false
       };
@@ -63,12 +60,6 @@ export class AccountService {
 
   async showById(id: any): Promise<Account> {
     const Account = await this.AccountRp.findOne({ where: { id: id } });
-    delete Account.password;
-    return Account;
-  }
-
-  async showByEmail(email: any): Promise<Account> {
-    const Account = await this.AccountRp.findOne({ where: { email: email } });
     delete Account.password;
     return Account;
   }

@@ -24,7 +24,6 @@ export class AccountController {
   @Post('api/loginUser')
   async loginUsers(@Req() req: Request, @Res() res: Response) {
     const cookie = await this.authService.loginUser(req.body);
-    console.log(cookie);
     const account = await this.accountService.findByLogin(req.body.email,req.body.password);
       res.setHeader('Set-Cookie',await cookie);
       account.password = undefined;
@@ -126,7 +125,6 @@ export class AccountController {
     return res.redirect('/recharge-history')
   }
 
-  
 
   // user gửi request nạp tiền cho admin
   @Auth(Role.USER)
