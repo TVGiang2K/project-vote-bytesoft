@@ -35,12 +35,12 @@ export class AccountController {
   @Auth(Role.USER)
   @Get('recharge-history')
   async historyRechargeOfUser(@User() user){
-    const data = await this.RechargeHistoryService.findByUser(user.id);
+    const data = await this.RechargeHistoryService.findByUser(user.id);    
     return {
       data: data,
     }
   }
-  
+
 
   @Auth(Role.ADMIN)
   @Get()
@@ -152,7 +152,6 @@ export class AccountController {
     @Param('idCandidate') idCandidate: number,
     @User() getUser,
   ) {
-    console.log(quantityVote,idCandidate)
     return await this.accountService.vote(quantityVote,idCandidate,getUser)
   }
 

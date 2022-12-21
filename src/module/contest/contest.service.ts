@@ -23,6 +23,8 @@ export class ContestService {
     private dataResource: DataSource,
     ) {}
     private readonly logger = new Logger(ContestService.name);
+
+    
     async create(createContestDto: CreateContestDto): Promise<Contest> {
     const job = new CronJob(new Date(createContestDto.start_date), () => {
       this.logger.localInstance.verbose('cuộc thi đã bắt đầu', () => { createContestDto.status =1 })      
@@ -112,8 +114,8 @@ export class ContestService {
   }
 
 
-  remove(id: number): Promise<DeleteResult>{
-    return this.contestsRepository.delete(id);
+  async remove(id: number): Promise<DeleteResult>{
+    return await this.contestsRepository.delete(id);
   }
 
 

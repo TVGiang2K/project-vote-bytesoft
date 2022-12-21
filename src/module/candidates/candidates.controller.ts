@@ -46,7 +46,6 @@ export class CandidatesController {
       }),
     }),
   )
-  // upload
   async addCandidates(@Res() res: Response,@Req() req: Request, @UploadedFile() file: Express.Multer.File) {
     req.body.avatar = file.filename;
     const candidate = await this.candidatesService.create(req.body)
@@ -160,7 +159,6 @@ export class CandidatesController {
   @Get('api/:id')
   async findOne(@Param('id') id: number ,@Res() res: Response) {
     const candidate_by_id = await this.candidatesService.showApiById(id);
-    console.log(candidate_by_id);
     res.send({
       candidate_by_id,
     });
