@@ -19,6 +19,7 @@ export class AccountController {
     private RechargeHistoryService: RechargeHistoryService,
   ) {}
 
+  // api login user 
   @HttpCode(200)
   @UseGuards(JwtStrategy)
   @Post('api/loginUser')
@@ -41,7 +42,7 @@ export class AccountController {
     }
   }
 
-
+//phân trang admin
   @Auth(Role.ADMIN)
   @Get()
   async showAll(@Res() res: Response,@User() user: any,@Req() req: Request,take: number = 7) {
@@ -85,12 +86,14 @@ export class AccountController {
     });
   }
 
+  // lấy dữ liệu tài khoản admin
   @Auth(Role.ADMIN)
   @Get('/:id')
   show(@Param('id') id: string) {
     return this.accountService.showById(+id);
   }
-
+   
+  // cập nhật tài khoản admin
   @Auth(Role.ADMIN)
   @UsePipes(ValidationPipe)
   @Patch(':id')
@@ -168,7 +171,7 @@ export class AccountController {
     }
   }
 
-    // api lịch sử vote của User
+    // api thay đổi mật khẩu của user
   @Auth(Role.USER)
   @Post('api/change-password')
   async changePassword(@Req() req: Request, @User() user:any){
@@ -199,7 +202,7 @@ export class AccountController {
     }
   }
 
-  // api
+  // api lịch sử vote của User
     @Auth(Role.USER)
     @Get('api/historyVoting')
     Api_historyVoting(@User() getUser){

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes, Query, Render, Res, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ValidationPipe, UsePipes, Query, Res, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { Response, Request } from 'express';
 import { diskStorage } from 'multer';
@@ -133,14 +133,14 @@ export class CandidatesController {
     });
   }
 
-
+  // thêm mới thí sinh
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createCandidateDto: CreateCandidateDto) {
     return this.candidatesService.create(createCandidateDto);
   }
 
-
+  // pân trang
   @Get('paged')
   findAll(@Query() {take,skip}){
     return this.candidatesService.showAll(take,skip)

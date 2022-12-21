@@ -25,9 +25,8 @@ export class ContestService {
     private readonly logger = new Logger(ContestService.name);
 
     
-    async create(createContestDto: CreateContestDto): Promise<Contest> {
+    async create(createContestDto: CreateContestDto) {
     const job = new CronJob(new Date(createContestDto.start_date), () => {
-      this.logger.localInstance.verbose('cuộc thi đã bắt đầu', () => { createContestDto.status =1 })      
       this.logger.warn(`time (${new Date(createContestDto.start_date)}) for job ${createContestDto.name} to run!`);      
     });  
 
@@ -35,30 +34,30 @@ export class ContestService {
     await job.start();
 
     await this.logger.warn(
-      `job ${createContestDto.name} added for each minute at ${new Date(createContestDto.start_date)} seconds!`,
+      `job ${createContestDto.name} added system start date ${new Date(createContestDto.start_date)}`,
     );
+
     const job1 = new CronJob(new Date(createContestDto.last_date), () => {
-       this.logger.warn(`time (${new Date(createContestDto.last_date)}) for job ${createContestDto.name} to stop!`)
+       this.logger.warn(`last date (${new Date(createContestDto.last_date)}) contest name ${createContestDto.name} to stop!`)
        job1.stop();
     });
     await job1.start();
-
     await this.logger.warn(
-      `job ${createContestDto.name} will stop for each minute at ${new Date(createContestDto.last_date)} seconds!`,
+      `job ${createContestDto.name} will stop for each date at ${new Date(createContestDto.last_date)} seconds!`,
 
     );
 
-    const jobs = this.schedulerRegistry.getCronJobs();
-     jobs.forEach((value, key, map) => {
-        let next;
-        try {
-          next = value.nextDates().toJSDate();
-        } catch (e) {
-          next = 'error: next fire date is in the past!';
-        }
-        this.logger.log(`job: ${key} -> next: ${next}`);
-      });
-    return this.contestsRepository.save(createContestDto);
+  //   const jobs = this.schedulerRegistry.getCronJobs();
+  //    jobs.forEach((value, key, map) => {
+  //       let next;
+  //       try {
+  //         next = value.nextDates().toJSDate();
+  //       } catch (e) {
+  //         next = 'error: next fire date is in the past!';
+  //       }
+  //       this.logger.log(`job: ${key} -> next: ${next}`);
+  //     });
+  //   return this.contestsRepository.save(createContestDto);
   }
  
   async findAll(){
