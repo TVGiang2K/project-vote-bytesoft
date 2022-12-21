@@ -8,4 +8,6 @@ export class CreateContestDto {
     @IsNotEmpty({ message: 'chọn ngày kết thúc' })
     last_date: Date
   static start_date: string | number | Date;
-}
+  @IsNotEmpty()
+   status: 0| 1| 2  
+} 

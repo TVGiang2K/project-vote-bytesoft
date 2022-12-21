@@ -90,6 +90,12 @@ export class AccountService {
   async update(id: number, userUpdateDto: updateAccountDto) {
     return await this.AccountRp.update(+id, userUpdateDto);
   }
+  async edit_pass(id: number, pass:any) {
+    pass = await bcrypt.hash(pass, 8); 
+    return await this.AccountRp.update(+id, {
+      password:pass
+    });
+  }
 
   async findEmail(email: string): Promise<Account> {
     return await this.AccountRp.findOne({

@@ -9,6 +9,7 @@ import { RechargeHistoryService } from '../recharge_history/recharge_history.ser
 import { AccountService } from './account.service';
 import { updateAccountDto } from './dto/updateAccount.dto';
 import { User } from './user.decorator';
+import * as bcrypt from 'bcrypt';
 
 @Controller('account')
 export class AccountController {
@@ -104,6 +105,7 @@ export class AccountController {
     return this.accountService.remove(id);
   }
 
+
   // admin xác nhận nạp tiền cho users
   @Auth(Role.ADMIN)
   @Get('recharge/:id/:status')
@@ -169,6 +171,37 @@ export class AccountController {
   }
 
     // api lịch sử vote của User
+  @Auth(Role.USER)
+  @Post('api/change-password')
+  async changePassword(@Req() req: Request, @User() user:any){
+    const currentPass = req.body.currentPass
+    const newPass = req.body.newPass
+    const confirmPass = req.body.confirmPass
+    const compare_pass = await bcrypt.compare(currentPass, user.password);
+    
+    if(compare_pass){
+      if(newPass == confirmPass){
+        this.accountService.edit_pass(user.id,newPass)
+        return {
+          action: true,
+          message: 'password changed'
+        }
+      }
+      else{
+        return {
+          action: false,
+          message: 'ko khop mt mowis'
+        }
+      }
+    }else{
+      return {
+          action: false,
+        message: 'maatj khaaur nhaapj dda sai'
+      }
+    }
+  }
+
+  // api
     @Auth(Role.USER)
     @Get('api/historyVoting')
     Api_historyVoting(@User() getUser){
