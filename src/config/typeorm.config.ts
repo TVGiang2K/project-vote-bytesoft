@@ -18,3 +18,25 @@ export const typeormConfig: TypeOrmModuleOptions = {
     //     }
     // }
 };
+
+
+// import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+    
+// export const typeormConfig: TypeOrmModuleOptions = {
+//     // kết nối cơ sở dữ liệu
+//     type: 'mysql',
+//     host: 'localhost',
+//     port: 3306,
+//     username: 'admin',
+//     password: 'Loc27112003#',
+//     database: 'vote-project',   
+//     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+//     synchronize: true, // đồng bộ với database
+//     // cache: {
+//     //     type: "redis", 
+//     //     options: {
+//     //         host: "127.0.0.1",
+//     //         port: 6379
+//     //     }
+//     // }
+// };

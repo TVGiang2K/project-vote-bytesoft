@@ -24,7 +24,7 @@ export class AccountController {
   @UseGuards(JwtStrategy)
   @Post('api/loginUser')
   async loginUsers(@Req() req: Request, @Res() res: Response) {
-    const cookie = await this.authService.loginUser(req.body);
+    const cookie = await this.authService.login(req.body);
     const account = await this.accountService.findByLogin(req.body.email,req.body.password);
       res.setHeader('Set-Cookie',await cookie);
       account.password = undefined;
