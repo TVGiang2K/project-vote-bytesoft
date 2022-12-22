@@ -13,8 +13,7 @@ export const typeormConfig: TypeOrmModuleOptions = {
     cache: {
         type: "redis", 
         options: {
-            host: "localhost",
-            port: 6379
+            host: "redis://red-cehvrpkgqg4e0efdgul0:6379",
         }
     }
 };
