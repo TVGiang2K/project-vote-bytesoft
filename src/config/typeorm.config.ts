@@ -13,7 +13,7 @@ export const typeormConfig: TypeOrmModuleOptions = {
     cache: {
         type: "redis", 
         options: {
-            host: "redis://red-cehvrpkgqg4e0efdgul0:6379",
+            host: "127.0.0.1:6379",
         }
     }
 };
