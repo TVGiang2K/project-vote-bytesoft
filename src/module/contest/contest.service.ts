@@ -47,17 +47,17 @@ export class ContestService {
 
     );
 
-  //   const jobs = this.schedulerRegistry.getCronJobs();
-  //    jobs.forEach((value, key, map) => {
-  //       let next;
-  //       try {
-  //         next = value.nextDates().toJSDate();
-  //       } catch (e) {
-  //         next = 'error: next fire date is in the past!';
-  //       }
-  //       this.logger.log(`job: ${key} -> next: ${next}`);
-  //     });
-  //   return this.contestsRepository.save(createContestDto);
+    const jobs = this.schedulerRegistry.getCronJobs();
+     jobs.forEach((value, key, map) => {
+        let next;
+        try {
+          next = value.nextDates().toJSDate();
+        } catch (e) {
+          next = 'error: next fire date is in the past!';
+        }
+        this.logger.log(`job: ${key} -> next: ${next}`);
+      });
+    return this.contestsRepository.save(createContestDto);
   }
  
   async findAll(){
