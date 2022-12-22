@@ -31,18 +31,7 @@ import { VoteModule } from './module/vote/vote.module';
     }),
     AccountModule,
     AuthModule,
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        isGlobal: true,
-        store: redisStore,
-        host: configService.get<string>('REDIS_HOST'),
-        port: configService.get<string>('REDIS_PORT'),
-        username: configService.get<string>('REDIS_USERNAME'),
-        password: configService.get<string>('REDIS_PASSWORD'),
-      }),
-    }),
+    
   ],
   controllers: [AppController],
   providers: [AppService],
