@@ -10,10 +10,11 @@ export const typeormConfig: TypeOrmModuleOptions = {
     database: 'freedb_vote-project-app',   
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: true, // đồng bộ với database
-    cache: {
-        type: "redis", 
-        options: {
-            host: "127.0.0.1:6379",
-        }
-    }
+    // cache: {
+    //     type: "redis", 
+    //     options: {
+    //         host: "127.0.0.1",
+    //         port: 6379
+    //     }
+    // }
 };
