@@ -3,11 +3,11 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 export const typeormConfig: TypeOrmModuleOptions = {
     // kết nối cơ sở dữ liệu
     type: 'mysql',
-    host: 'localhost',
+    host: 'sql.freedb.tech',
     port: 3306,
-    username: 'admin',
-    password: 'Loc27112003#',
-    database: 'vote-project',   
+    username: 'freedb_locdubai',
+    password: 'D?pmfXxb3Ey#J?V',
+    database: 'freedb_vote-project-app',   
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: true, // đồng bộ với database
     cache: {
