@@ -38,7 +38,7 @@ export class AuthService {
         const account = await this.accountService.findByLogin(user.email,user.password);
         const email = account.email
         const accesstoken = this.jwtService.sign({email});
-        return `AuthenUser=${accesstoken}; HttpOnly; Path=/; Max-Age=${this.configService.get('EXPRIRESIN')}`
+        return `AuthenUser=${accesstoken};Domain=angular-bytesoft.vercel.app; HttpOnly; Path=/; Max-Age=${this.configService.get('EXPRIRESIN')}`
     }
 
     async logout(){
